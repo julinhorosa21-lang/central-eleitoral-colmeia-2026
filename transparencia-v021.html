@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#245b37">
+<title>Transparência Pública — Central Eleitoral Colméia 2026</title>
+<style>
+:root{--bg:#f4f6f0;--card:#fff;--ink:#17324a;--muted:#66727d;--line:#dbe2d4;--brand:#245b37;--blue:#2f5f9c;--gold:#d4a72c;--ok:#15803d;--warn:#b7791f;--bad:#b42318;--soft:#f8faf7;--shadow:0 14px 36px rgba(23,50,74,.10)}
+*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at top right,rgba(47,95,156,.08),transparent 30%),linear-gradient(180deg,#f7f8f3,#f1f4ed);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,select{font:inherit}.wrap{max-width:1120px;margin:auto;padding:18px 16px 64px}.hero{background:linear-gradient(135deg,var(--brand),var(--blue));color:#fff;border-radius:24px;padding:22px;box-shadow:0 18px 42px rgba(23,50,74,.18)}.hero-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.hero h1{margin:4px 0 6px;font-size:clamp(26px,5vw,42px);letter-spacing:-.04em}.hero p{margin:0;max-width:760px;color:rgba(255,255,255,.88);line-height:1.5}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;opacity:.86}.hero-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:850}.hero .btn{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.32)}.hero .btn.primary{background:#fff;color:var(--brand)}.live{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.13);font-size:12px;font-weight:850}.live:before{content:"";width:9px;height:9px;border-radius:50%;background:#fbbf24}.live.ok:before{background:#4ade80;box-shadow:0 0 0 4px rgba(74,222,128,.14)}.notice{margin:14px 0;padding:12px 14px;border:1px solid #eadca4;background:#fffbea;color:#6f5411;border-radius:16px;line-height:1.5;font-size:13px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.metric{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow);position:relative;overflow:hidden}.metric:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--gold),var(--brand))}.metric small{display:block;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:850;font-size:11px}.metric b{display:block;font-size:26px;margin-top:5px}.metric span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.pad{padding:16px}.section-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-end}.section-title h2{margin:2px 0}.muted{color:var(--muted)}.cargo-tabs{display:flex;gap:7px;overflow:auto;margin:12px 0 10px;padding-bottom:3px}.cargo-tabs button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 11px;cursor:pointer;font-weight:800}.cargo-tabs button.active{background:linear-gradient(135deg,var(--brand),var(--blue));color:#fff;border-color:transparent}.progress{height:10px;background:#e6ebE1;border-radius:999px;overflow:hidden;margin:10px 0 4px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--gold));transition:width .25s ease}.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:14px;margin-top:14px}.leaders{display:flex;flex-direction:column;gap:9px;margin-top:12px}.leader{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;padding:10px;border:1px solid #e8ece4;border-radius:14px;background:#fff}.num{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#eef5ea,#e8eef7);display:flex;align-items:center;justify-content:center;font-weight:950;color:var(--brand)}.who b{display:block}.who small{display:block;color:var(--muted);margin-top:2px}.votes{text-align:right}.votes b{display:block}.votes small{color:var(--muted)}.bar{grid-column:2/4;height:7px;border-radius:99px;background:#edf1eb;overflow:hidden}.bar i{display:block;height:100%;background:var(--brand)}.submetrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.mini{border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--soft)}.mini small{display:block;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase}.mini b{display:block;margin-top:3px}.status-list{display:grid;gap:8px;margin-top:12px}.status{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:#fff}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px;background:#94a3b8}.dot.ok{background:#16a34a}.dot.warn{background:#d4a72c}.dot.bad{background:#dc2626}.regions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.region{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fff}.region b{display:block}.region small{color:var(--muted)}.places{display:grid;gap:10px;margin-top:12px}.place{border:1px solid var(--line);border-radius:15px;padding:12px;background:#fff}.place-head{display:flex;justify-content:space-between;gap:10px}.place h3{font-size:14px;margin:0}.place p{font-size:12px;color:var(--muted);margin:4px 0}.secs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.sec{padding:5px 8px;border-radius:9px;border:1px solid #dbe2d4;background:#f8faf7;font-size:11px;font-weight:850;color:#64748b}.sec.done{background:#ecfdf3;border-color:#bbf7d0;color:#166534}.sec.official{box-shadow:inset 0 -3px 0 var(--blue)}.sec.divergent{background:#fff1f0;border-color:#fecaca;color:#991b1b}.tsebox{padding:12px;border:1px solid #bfd4e9;border-radius:15px;background:#f3f8ff;margin-top:12px}.tsebox b{display:block}.tsebox small{display:block;color:#52606d;line-height:1.45;margin-top:4px}.empty{text-align:center;padding:28px 12px;color:var(--muted)}.foot{margin-top:16px;text-align:center;color:var(--muted);font-size:12px;line-height:1.5}.error{padding:12px;border-radius:14px;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;margin-top:12px}.skeleton{height:16px;background:linear-gradient(90deg,#edf1eb,#f7f9f5,#edf1eb);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:8px}@keyframes sh{to{background-position:-200% 0}}@media(max-width:850px){.metrics{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.regions{grid-template-columns:1fr}.hero-top{flex-direction:column}.hero-actions{justify-content:flex-start}}@media(max-width:520px){.metrics{grid-template-columns:1fr 1fr}.metric b{font-size:22px}.leader{grid-template-columns:auto 1fr}.votes{grid-column:2;text-align:left}.bar{grid-column:2}.submetrics{grid-template-columns:1fr 1fr}.wrap{padding-left:12px;padding-right:12px}.hero{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <div><div class="eyebrow">Central Eleitoral · Colméia/TO</div><h1>Painel público de apuração</h1><p>Acompanhe o avanço das 29 seções, os totais por candidato e a situação de conferência dos dados publicados pela Central.</p><div id="liveState" class="live">Conectando à atualização em tempo real…</div></div>
+      <div class="hero-actions"><button class="btn" onclick="location.href='/'">Voltar à Central</button><button id="refreshBtn" class="btn primary">Atualizar agora</button></div>
+    </div>
+  </header>
+
+  <div class="notice"><b>Importante:</b> este painel é um acompanhamento local e não substitui a divulgação oficial da Justiça Eleitoral. Resultados marcados como “prévia local” ainda aguardam confirmação oficial; quando o BU oficial está disponível, a Central passa a usar os dados oficiais como publicação pública.</div>
+
+  <section class="metrics">
+    <div class="metric"><small>Seções com algum resultado</small><b id="mAny">—</b><span id="mAnySub">de 29</span></div>
+    <div class="metric"><small>Seções completas</small><b id="mComplete">—</b><span>5 cargos publicados</span></div>
+    <div class="metric"><small>Cargos publicados</small><b id="mEntries">—</b><span id="mEntriesSub">de 145 esperados</span></div>
+    <div class="metric"><small>Última atualização</small><b id="mUpdated">—</b><span id="mUpdatedDate">aguardando dados</span></div>
+  </section>
+
+  <section class="card pad">
+    <div class="section-title"><div><small class="muted">APURAÇÃO POR CARGO</small><h2 id="cargoTitle">Presidente</h2></div><b id="cargoProgressText">0 / 29</b></div>
+    <div id="cargoTabs" class="cargo-tabs"></div>
+    <div class="progress"><span id="cargoProgress"></span></div>
+    <small id="cargoProgressLabel" class="muted">0% das seções publicadas</small>
+  </section>
+
+  <div class="grid">
+    <section class="card pad">
+      <div class="section-title"><div><small class="muted">TOTALIZAÇÃO PÚBLICA</small><h2 style="margin:2px 0">Candidatos</h2></div><span id="validLabel" class="muted"></span></div>
+      <div id="leaders" class="leaders"><div class="empty">Aguardando resultados.</div></div>
+      <div class="submetrics">
+        <div class="mini"><small>Votos nominais</small><b id="mNominal">0</b></div>
+        <div class="mini"><small>Votos de legenda</small><b id="mLegenda">0</b></div>
+        <div class="mini"><small>Brancos</small><b id="mBrancos">0</b></div>
+        <div class="mini"><small>Nulos</small><b id="mNulos">0</b></div>
+      </div>
+    </section>
+
+    <aside class="card pad">
+      <div><small class="muted">CONFERÊNCIA</small><h2 style="margin:2px 0">Situação dos dados</h2></div>
+      <div class="status-list">
+        <div class="status"><span><i class="dot ok"></i>Oficial / conferido</span><b id="sOfficial">0</b></div>
+        <div class="status"><span><i class="dot warn"></i>Prévia local</span><b id="sPending">0</b></div>
+        <div class="status"><span><i class="dot bad"></i>Divergência detectada</span><b id="sDivergent">0</b></div>
+        <div class="status"><span><i class="dot"></i>Aguardando seção</span><b id="sWaiting">29</b></div>
+      </div>
+      <div class="tsebox"><b id="tseTitle">Integração com TSE</b><small id="tseText">Consultando o estado da integração oficial…</small></div>
+    </aside>
+  </div>
+
+  <section class="card pad" style="margin-top:14px">
+    <div class="section-title"><div><small class="muted">COBERTURA TERRITORIAL</small><h2 style="margin:2px 0">Andamento por região</h2></div></div>
+    <div id="regions" class="regions"></div>
+  </section>
+
+  <section class="card pad" style="margin-top:14px">
+    <div class="section-title"><div><small class="muted">29 SEÇÕES ATIVAS</small><h2 style="margin:2px 0">Situação por local de votação</h2></div><span id="sectionLegend" class="muted">Cargo selecionado</span></div>
+    <div id="places" class="places"><div class="empty">Carregando locais de votação…</div></div>
+  </section>
+
+  <div id="errorBox"></div>
+  <div class="foot">A página não exibe chaves de acesso, nomes de operadores, trilhas administrativas ou dados de autenticação. Atualização automática a cada 30 segundos e também quando a Central recebe novos dados.</div>
+</div>
+<script>
+const CARGOS=[['presidente','Presidente'],['governador','Governador'],['senador','Senador'],['depFederal','Deputado Federal'],['depEstadual','Deputado Estadual']];
+const EXPECTED_SECTIONS=29, EXPECTED_ENTRIES=EXPECTED_SECTIONS*CARGOS.length;
+let currentCargo='presidente', snapshot={results:{},updatedAt:null,total:0}, locations={locais:[]}, tseStatus=null, reloadTimer=null;
+const $=id=>document.getElementById(id); const fmt=n=>new Intl.NumberFormat('pt-BR').format(Number(n||0));
+const cargoLabel=c=>CARGOS.find(x=>x[0]===c)?.[1]||c;
+function parseKey(k){const i=k.indexOf(':');return {section:Number(k.slice(0,i)),cargo:k.slice(i+1)}}
+function statusClass(s){return s==='verified'||s==='tse_official'?'official':s==='divergent'?'divergent':s==='local_pending'?'pending':'waiting'}
+function timeParts(iso){if(!iso)return ['—','aguardando dados'];const d=new Date(iso);return [d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})]}
+function escapeHtml(v){return String(v??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function allSections(){return locations.locais.flatMap(p=>p.secoes.map(Number))}
+function selectedRows(){return Object.entries(snapshot.results||{}).flatMap(([k,p])=>{const x=parseKey(k);return x.cargo===currentCargo?[{...x,payload:p}]:[]})}
+function setupTabs(){ $('cargoTabs').innerHTML=CARGOS.map(([k,l])=>`<button data-cargo="${k}" class="${k===currentCargo?'active':''}">${l}</button>`).join('');$('cargoTabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{currentCargo=b.dataset.cargo;setupTabs();render();}); }
+function renderGlobal(){const sets=new Map();for(const k of Object.keys(snapshot.results||{})){const {section,cargo}=parseKey(k);if(!sets.has(section))sets.set(section,new Set());sets.get(section).add(cargo)}const any=[...sets.values()].filter(s=>s.size>0).length,complete=[...sets.values()].filter(s=>s.size===CARGOS.length).length;$('mAny').textContent=fmt(any);$('mComplete').textContent=fmt(complete);$('mEntries').textContent=fmt(snapshot.total||Object.keys(snapshot.results||{}).length);$('mEntriesSub').textContent=`de ${EXPECTED_ENTRIES} esperados`;const [t,d]=timeParts(snapshot.updatedAt);$('mUpdated').textContent=t;$('mUpdatedDate').textContent=d;}
+function aggregateCandidates(rows){const map=new Map();let nominal=0,legenda=0,brancos=0,nulos=0;for(const r of rows){const p=r.payload||{};for(const c of p.candidatos||[]){const key=String(c.numero||'').trim()||String(c.nome||'').trim();if(!key)continue;const old=map.get(key)||{numero:String(c.numero||''),nome:'',partido:'',votos:0};const name=String(c.nome||'');if(!old.nome||(/^Candidato\s/i.test(old.nome)&&name&&!/^Candidato\s/i.test(name)))old.nome=name; if(!old.partido&&c.partido)old.partido=String(c.partido);old.votos+=Number(c.votos||0);map.set(key,old);nominal+=Number(c.votos||0)}for(const l of p.legendas||[])legenda+=Number(l.votos||0);brancos+=Number(p.brancos||0);nulos+=Number(p.nulos||0)}return {items:[...map.values()].sort((a,b)=>b.votos-a.votos||String(a.numero).localeCompare(String(b.numero),'pt-BR',{numeric:true})),nominal,legenda,brancos,nulos}}
+function renderCargo(){const rows=selectedRows(),done=new Set(rows.map(r=>r.section)).size,pct=EXPECTED_SECTIONS?done/EXPECTED_SECTIONS*100:0;$('cargoTitle').textContent=cargoLabel(currentCargo);$('cargoProgressText').textContent=`${done} / ${EXPECTED_SECTIONS}`;$('cargoProgress').style.width=`${Math.min(100,pct)}%`;$('cargoProgressLabel').textContent=`${pct.toFixed(1).replace('.',',')}% das seções publicadas`;$('sectionLegend').textContent=cargoLabel(currentCargo);const a=aggregateCandidates(rows);$('mNominal').textContent=fmt(a.nominal);$('mLegenda').textContent=fmt(a.legenda);$('mBrancos').textContent=fmt(a.brancos);$('mNulos').textContent=fmt(a.nulos);$('validLabel').textContent=a.nominal?`${fmt(a.nominal)} votos nominais`:'';if(!a.items.length){$('leaders').innerHTML='<div class="empty"><b>Ainda não há votos publicados para este cargo.</b><br>Os totais aparecerão automaticamente quando as seções forem recebidas.</div>'}else{$('leaders').innerHTML=a.items.map((c,i)=>{const share=a.nominal?c.votos/a.nominal*100:0;const name=c.nome||`Candidato ${c.numero||''}`;return `<div class="leader"><div class="num">${escapeHtml(c.numero||'—')}</div><div class="who"><b>${escapeHtml(name)}</b><small>${escapeHtml(c.partido||'Partido não informado')}</small></div><div class="votes"><b>${fmt(c.votos)}</b><small>${share.toFixed(1).replace('.',',')}%</small></div><div class="bar"><i style="width:${Math.min(100,share)}%"></i></div></div>`}).join('')};let official=0,pending=0,div=0;for(const r of rows){const s=r.payload?.verificationStatus;if(s==='verified'||s==='tse_official')official++;else if(s==='divergent')div++;else pending++}$('sOfficial').textContent=official;$('sPending').textContent=pending;$('sDivergent').textContent=div;$('sWaiting').textContent=Math.max(0,EXPECTED_SECTIONS-done);}
+function renderRegions(){const rows=selectedRows(),done=new Set(rows.map(r=>r.section));const by=new Map();for(const p of locations.locais){const reg=p.regiao||'Outros';if(!by.has(reg))by.set(reg,{total:0,done:0});const x=by.get(reg);for(const s of p.secoes){x.total++;if(done.has(Number(s)))x.done++}}$('regions').innerHTML=[...by.entries()].map(([reg,x])=>`<div class="region"><b>${escapeHtml(reg)}</b><small>${x.done} de ${x.total} seções · ${x.total?Math.round(x.done/x.total*100):0}%</small></div>`).join('')||'<div class="empty">Sem regiões disponíveis.</div>';}
+function renderPlaces(){const rows=selectedRows(),bySec=new Map(rows.map(r=>[r.section,r.payload]));$('places').innerHTML=(locations.locais||[]).map(p=>{const chips=p.secoes.map(s=>{const pay=bySec.get(Number(s));if(!pay)return `<span class="sec">Seção ${s} · aguardando</span>`;const cl=statusClass(pay.verificationStatus);const label=cl==='official'?'oficial/conferida':cl==='divergent'?'oficial · divergência local':cl==='pending'?'prévia local':'publicada';return `<span class="sec done ${cl==='official'?'official':''} ${cl==='divergent'?'divergent':''}">Seção ${s} · ${label}</span>`}).join('');return `<div class="place"><div class="place-head"><div><h3>${escapeHtml(p.nome)}</h3><p>${escapeHtml(p.regiao||'')} · ${escapeHtml(p.endereco||'')}</p></div></div><div class="secs">${chips}</div></div>`}).join('')||'<div class="empty">Locais não disponíveis.</div>';}
+function renderTse(){if(!tseStatus){$('tseTitle').textContent='Integração com TSE';$('tseText').textContent='Ainda não foi possível consultar o estado da integração oficial.';return}const phase=String(tseStatus.phase||'').replace(/_/g,' ');$('tseTitle').textContent=`Integração com TSE · ${phase||'ativa'}`;$('tseText').textContent=tseStatus.message||'A Central consulta os arquivos oficiais e atualiza a publicação quando os dados oficiais ficam disponíveis.';}
+function render(){renderGlobal();renderCargo();renderRegions();renderPlaces();renderTse();}
+async function load(){try{const [s,l,t]=await Promise.all([fetch('/api/snapshot',{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(new Error('snapshot'))),fetch('/data/locais-colmeia.json',{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(new Error('locations'))),fetch('/api/tse/status',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)]);snapshot=s;locations=l;tseStatus=t;$('errorBox').innerHTML='';render();}catch(e){$('errorBox').innerHTML='<div class="error"><b>Não foi possível atualizar o painel agora.</b><br>Verifique a conexão e tente novamente.</div>';} }
+function scheduleLoad(){clearTimeout(reloadTimer);reloadTimer=setTimeout(load,450)}
+$('refreshBtn').onclick=load;setupTabs();load();setInterval(load,30000);
+try{const es=new EventSource('/api/stream');es.addEventListener('hello',()=>{$('liveState').classList.add('ok');$('liveState').textContent='Atualização em tempo real conectada'});es.addEventListener('update',scheduleLoad);es.addEventListener('delete',scheduleLoad);es.onerror=()=>{$('liveState').classList.remove('ok');$('liveState').textContent='Reconectando à atualização em tempo real…'};}catch{$('liveState').textContent='Atualização automática a cada 30 segundos';}
+</script>
+</body>
+</html>
