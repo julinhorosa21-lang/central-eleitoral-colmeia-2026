@@ -21,6 +21,13 @@ COPY contrast-audit-v0222.mjs /app/contrast-audit-v0222.mjs
 RUN node /app/contrast-audit-v0222.mjs && rm /app/contrast-audit-v0222.mjs
 COPY v0222-patch.mjs /app/v0222-patch.mjs
 RUN node /app/v0222-patch.mjs && rm /app/v0222-patch.mjs
+COPY seguranca-v023.html /app/public/seguranca.html
+COPY v023-main.js /app/public/v023-main.js
+COPY service-worker-v023.js /app/public/service-worker.js
+COPY v023-patch.mjs /app/v023-patch.mjs
+RUN node /app/v023-patch.mjs && rm /app/v023-patch.mjs
+COPY v023-preflight.mjs /app/v023-preflight.mjs
+RUN node --check /app/server.mjs && node /app/v023-preflight.mjs && rm /app/v023-preflight.mjs
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
