@@ -6,10 +6,16 @@
   --a11y-muted-strong:#475569;
   --a11y-blue:#07377c;
   --a11y-blue-dark:#06285d;
+  --a11y-blue-mid:#09499e;
   --a11y-green:#08732c;
   --a11y-warn:#754f00;
   --a11y-danger:#8f2118;
   --a11y-focus:#005fcc;
+  --a11y-surface:#ffffff;
+  --a11y-gold:#ffd21c;
+  --a11y-ok-bg:#edf9f0;
+  --a11y-warn-bg:#fff8d9;
+  --a11y-danger-bg:#fff1ef;
 }
 html{color-scheme:light}
 body.civic-v0221{color:var(--a11y-ink)!important}
@@ -101,11 +107,11 @@ body.civic-v0221{color:var(--a11y-ink)!important}
 }
 .civic-v0221 .civic-public-hero .hero-actions .primary{
   color:var(--a11y-blue-dark)!important;
-  background:#ffd21c!important;
+  background:var(--a11y-gold)!important;
 }
 .civic-v0221 .civic-badge{
   color:var(--a11y-blue)!important;
-  background:#fff!important;
+  background:var(--a11y-surface)!important;
 }
 
 /* Navegação inferior e links. */
