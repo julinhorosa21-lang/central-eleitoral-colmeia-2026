@@ -10,6 +10,11 @@ COPY v022-main.js /app/public/v022-main.js
 COPY service-worker-v022.js /app/public/service-worker.js
 COPY v022-patch.mjs /app/v022-patch.mjs
 RUN node /app/v022-patch.mjs && rm /app/v022-patch.mjs
+COPY v0221-civic.css /app/public/v0221-civic.css
+COPY v0221-civic.js /app/public/v0221-civic.js
+COPY service-worker-v0221.js /app/public/service-worker.js
+COPY v0221-patch.mjs /app/v0221-patch.mjs
+RUN node /app/v0221-patch.mjs && rm /app/v0221-patch.mjs
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
