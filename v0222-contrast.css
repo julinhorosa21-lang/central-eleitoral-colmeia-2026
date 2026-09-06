@@ -1,0 +1,164 @@
+/* V0.22.2 — reforço de contraste e legibilidade (WCAG AA) */
+:root{
+  --a11y-ink:#102f55;
+  --a11y-body:#263f59;
+  --a11y-muted:#52606d;
+  --a11y-muted-strong:#475569;
+  --a11y-blue:#07377c;
+  --a11y-blue-dark:#06285d;
+  --a11y-green:#08732c;
+  --a11y-warn:#754f00;
+  --a11y-danger:#8f2118;
+  --a11y-focus:#005fcc;
+}
+html{color-scheme:light}
+body.civic-v0221{color:var(--a11y-ink)!important}
+
+/* Fundos claros: nunca usar texto claro ou de baixo contraste. */
+.civic-v0221 .card,
+.civic-v0221 .metric,
+.civic-v0221 .place,
+.civic-v0221 .candidate-card,
+.civic-v0221 .leader,
+.civic-v0221 .leader-row,
+.civic-v0221 .mini,
+.civic-v0221 .region,
+.civic-v0221 .status,
+.civic-v0221 .coord-metric,
+.civic-v0221 .coord-table-wrap,
+.civic-v0221 .coord-detail,
+.civic-v0221 .sheet,
+.civic-v0221 .toolbar,
+.civic-v0221 .pwa-panel{
+  color:var(--a11y-ink)!important;
+}
+
+/* Texto secundário — contraste > 4.5:1 em branco e fundos muito claros. */
+.civic-v0221 .muted,
+.civic-v0221 small,
+.civic-v0221 .candidate-note,
+.civic-v0221 .photo-credit,
+.civic-v0221 .coord-filter-count,
+.civic-v0221 .mini small,
+.civic-v0221 .region small,
+.civic-v0221 .place p,
+.civic-v0221 .who small,
+.civic-v0221 .votes small,
+.civic-v0221 .foot,
+.civic-v0221 .cand-main small,
+.civic-v0221 .leader-copy small{
+  color:var(--a11y-muted)!important;
+}
+
+/* Cabeçalhos escuros: texto principal e secundário sempre claros. */
+.civic-v0221 .civic-header,
+.civic-v0221 .civic-public-hero,
+.civic-v0221 .coord-head{
+  color:#fff!important;
+}
+.civic-v0221 .civic-header h1,
+.civic-v0221 .civic-public-hero h1,
+.civic-v0221 .coord-head h2,
+.civic-v0221 .coord-head small{
+  color:#fff!important;
+}
+.civic-v0221 .civic-brand-copy .civic-kicker,
+.civic-v0221 .civic-public-hero .eyebrow{
+  color:rgba(255,255,255,.90)!important;
+}
+.civic-v0221 .civic-brand-copy p,
+.civic-v0221 .civic-public-hero p,
+.civic-v0221 .coord-head > div > div{
+  color:rgba(255,255,255,.96)!important;
+}
+
+/* Chips e avisos: cor de texto explícita de acordo com o fundo. */
+.civic-v0221 .sec.done,
+.civic-v0221 .verify-chip.verified,
+.civic-v0221 .verify-chip.tse_official,
+.civic-v0221 .status:has(.dot.ok){color:var(--a11y-green)!important}
+.civic-v0221 .sec.partial,
+.civic-v0221 .verify-chip.local_pending,
+.civic-v0221 .notice{color:var(--a11y-warn)!important}
+.civic-v0221 .sec.divergent,
+.civic-v0221 .verify-chip.divergent,
+.civic-v0221 .error{color:var(--a11y-danger)!important}
+
+/* Botões: combinações fixas, sem herança acidental de cores. */
+.civic-v0221 button,
+.civic-v0221 .btn,
+.civic-v0221 select,
+.civic-v0221 input,
+.civic-v0221 textarea{
+  color:var(--a11y-blue)!important;
+}
+.civic-v0221 .primary,
+.civic-v0221 button.primary,
+.civic-v0221 .cargo-tabs button.active,
+.civic-v0221 .region-tabs button.active{
+  color:#fff!important;
+  background-color:var(--a11y-blue)!important;
+}
+.civic-v0221 .civic-public-hero .hero-actions .primary{
+  color:var(--a11y-blue-dark)!important;
+  background:#ffd21c!important;
+}
+.civic-v0221 .civic-badge{
+  color:var(--a11y-blue)!important;
+  background:#fff!important;
+}
+
+/* Navegação inferior e links. */
+.civic-v0221 a{color:#0757b0}
+.civic-v0221 .footer-nav button{color:#526477!important}
+.civic-v0221 .footer-nav button.active{color:#0757b0!important}
+
+/* Barra e painel de transparência: títulos e valores principais. */
+.civic-v0221 .metric b,
+.civic-v0221 .results-head h2,
+.civic-v0221 .section-title h2,
+.civic-v0221 .cand-number,
+.civic-v0221 .coord-metric b,
+.civic-v0221 .status b,
+.civic-v0221 .mini b{
+  color:var(--a11y-blue-dark)!important;
+}
+
+/* Evita texto sobre decoração do cabeçalho e mantém área de leitura opaca. */
+.civic-brand-copy{max-width:min(650px,68%)}
+.civic-public-hero .hero-top>div:first-child{max-width:min(680px,72%)}
+
+/* Foco de teclado/touch acessível e perceptível. */
+.civic-v0221 button:focus-visible,
+.civic-v0221 a:focus-visible,
+.civic-v0221 select:focus-visible,
+.civic-v0221 input:focus-visible,
+.civic-v0221 textarea:focus-visible{
+  outline:3px solid var(--a11y-focus)!important;
+  outline-offset:3px!important;
+}
+
+/* Em telas pequenas, a decoração deixa de disputar espaço com o texto. */
+@media(max-width:760px){
+  .civic-brand-copy,
+  .civic-public-hero .hero-top>div:first-child{max-width:100%}
+  .civic-sun{opacity:.42!important}
+  .civic-ribbon{opacity:.52!important}
+  .civic-horizon{opacity:.10!important}
+  .civic-v0221 .civic-header:after,
+  .civic-v0221 .civic-public-hero:after{opacity:.25!important}
+}
+
+/* Usuários que pedem mais contraste recebem uma versão ainda mais forte. */
+@media(prefers-contrast:more){
+  .civic-v0221 .muted,
+  .civic-v0221 small,
+  .civic-v0221 .candidate-note,
+  .civic-v0221 .foot{color:#334155!important}
+  .civic-v0221 .card,
+  .civic-v0221 .metric,
+  .civic-v0221 .place,
+  .civic-v0221 .candidate-card{border-color:#9fb1c2!important}
+  .civic-v0221 button:focus-visible,
+  .civic-v0221 a:focus-visible{outline-width:4px!important}
+}
