@@ -28,6 +28,13 @@ COPY v023-patch.mjs /app/v023-patch.mjs
 RUN node /app/v023-patch.mjs && rm /app/v023-patch.mjs
 COPY v023-preflight.mjs /app/v023-preflight.mjs
 RUN node --check /app/server.mjs && node /app/v023-preflight.mjs && rm /app/v023-preflight.mjs
+COPY simulacao-v024.html /app/public/simulacao.html
+COPY v024-main.js /app/public/v024-main.js
+COPY service-worker-v024.js /app/public/service-worker.js
+COPY v024-patch.mjs /app/v024-patch.mjs
+RUN node /app/v024-patch.mjs && rm /app/v024-patch.mjs
+COPY v024-preflight.mjs /app/v024-preflight.mjs
+RUN node --check /app/server.mjs && node /app/v024-preflight.mjs && rm /app/v024-preflight.mjs
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
