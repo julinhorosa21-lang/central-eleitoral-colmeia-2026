@@ -15,6 +15,12 @@ COPY v0221-civic.js /app/public/v0221-civic.js
 COPY service-worker-v0221.js /app/public/service-worker.js
 COPY v0221-patch.mjs /app/v0221-patch.mjs
 RUN node /app/v0221-patch.mjs && rm /app/v0221-patch.mjs
+COPY v0222-contrast.css /app/public/v0222-contrast.css
+COPY service-worker-v0222.js /app/public/service-worker.js
+COPY contrast-audit-v0222.mjs /app/contrast-audit-v0222.mjs
+RUN node /app/contrast-audit-v0222.mjs && rm /app/contrast-audit-v0222.mjs
+COPY v0222-patch.mjs /app/v0222-patch.mjs
+RUN node /app/v0222-patch.mjs && rm /app/v0222-patch.mjs
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
