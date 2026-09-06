@@ -1,4 +1,4 @@
-FROM node:22-slim
+FROM # V0.20
 WORKDIR /app
 ADD central-colmeia-v020.tar.gz /app/
 ENV NODE_ENV=production
