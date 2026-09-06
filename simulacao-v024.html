@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7c2d12">
+<title>Modo de Simulação — Central Eleitoral Colméia 2026</title>
+<style>
+:root{--bg:#fff8f1;--card:#fff;--ink:#3f1d12;--muted:#7c6258;--line:#f0c8b5;--orange:#c2410c;--orange2:#ea580c;--gold:#facc15;--blue:#07377c;--green:#08732c;--red:#991b1b;--shadow:0 14px 38px rgba(124,45,18,.10)}
+*{box-sizing:border-box}html,body{margin:0;background:linear-gradient(180deg,#fff7ed,#fffaf6 48%,#f8fafc);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.wrap{max-width:1160px;margin:auto;padding:14px 14px 80px}.hero{position:relative;overflow:hidden;border-radius:24px;padding:24px;background:linear-gradient(135deg,#7c2d12,#c2410c 58%,#ea580c);color:#fff;box-shadow:0 20px 48px rgba(124,45,18,.24)}.hero:after{content:"SIMULAÇÃO";position:absolute;right:-20px;bottom:-16px;font-size:64px;font-weight:1000;letter-spacing:.04em;color:rgba(255,255,255,.08);transform:rotate(-7deg)}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:950;color:#fed7aa}.hero h1{margin:4px 0 8px;font-size:clamp(28px,6vw,48px);letter-spacing:-.04em;line-height:.98}.hero p{max-width:760px;margin:0;line-height:1.5;color:rgba(255,255,255,.92)}.hero-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;position:relative;z-index:2}.btn{border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:10px 13px;font-weight:900}.btn.primary{background:var(--blue);color:#fff;border-color:transparent}.btn.warn{background:#fff7ed;color:#9a3412;border-color:#fdba74}.btn.danger{background:#991b1b;color:#fff;border-color:#991b1b}.btn:disabled{opacity:.5;cursor:not-allowed}.warning{margin:14px 0;padding:14px 15px;border-radius:16px;border:2px solid #f97316;background:#fff7ed;color:#7c2d12;font-weight:800;line-height:1.45;box-shadow:var(--shadow)}.warning strong{display:block;font-size:15px}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}@media(max-width:900px){.grid{grid-template-columns:1fr}}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)}.card h2{margin:0 0 6px;font-size:19px}.sub{color:var(--muted);font-size:13px;line-height:1.45}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:12px;font-weight:900;color:#6b3b29}.field input,.field select{width:100%;min-height:44px;border:1px solid #e7bda9;border-radius:12px;padding:10px 11px;background:#fff;color:var(--ink)}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:560px){.row{grid-template-columns:1fr}}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}@media(max-width:720px){.metrics{grid-template-columns:1fr 1fr}}.metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:var(--shadow)}.metric small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900}.metric b{display:block;margin-top:5px;font-size:24px;color:#7c2d12}.login-ok{padding:10px 12px;border-radius:12px;background:#ecfdf3;border:1px solid #bbf7d0;color:#166534;font-weight:850;font-size:13px}.hidden{display:none!important}.candidate-list{display:grid;gap:8px}.candidate{display:grid;grid-template-columns:90px 1fr 120px auto;gap:7px;align-items:center;padding:9px;border:1px solid #f1d1c2;border-radius:14px;background:#fffaf7}@media(max-width:650px){.candidate{grid-template-columns:82px 1fr}.candidate .votes{grid-column:1/2}.candidate .remove{grid-column:2/3;justify-self:end}}.candidate input{min-width:0;width:100%;border:1px solid #e7bda9;border-radius:10px;padding:9px;background:#fff}.remove{border:0;background:#fee2e2;color:#991b1b;border-radius:10px;padding:8px 10px;font-weight:950}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.calc{margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;font-weight:850;font-size:13px}.status{margin-top:10px;font-size:13px;font-weight:800}.status.ok{color:#166534}.status.bad{color:#991b1b}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid #f3ded3;font-size:12px}.table th{background:#fff7ed;color:#7c2d12;text-transform:uppercase;letter-spacing:.04em;font-size:10px}.table tr:last-child td{border-bottom:0}.chip{display:inline-flex;padding:5px 8px;border-radius:999px;background:#ffedd5;color:#9a3412;font-weight:900;font-size:10px}.admin{margin-top:14px;border-top:1px dashed #efc6b2;padding-top:14px}.footer{margin-top:16px;text-align:center;color:#7b6a63;font-size:12px;line-height:1.5}.brandline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}.brandline span{padding:7px 9px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);font-size:11px;font-weight:900}.banner-fixed{position:sticky;top:0;z-index:50;margin:0 -14px 12px;padding:8px 14px;text-align:center;background:#7c2d12;color:#fff;font-size:11px;font-weight:1000;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 4px 16px rgba(124,45,18,.18)}
+</style>
+</head>
+<body>
+<div class="banner-fixed">⚠ Modo de simulação · dados fictícios · não usar como resultado real</div>
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Central Eleitoral Colméia 2026 · V0.24</div>
+    <h1>Modo de Simulação</h1>
+    <p>Ambiente de treinamento para testar chaves, lançamento de resultados e fluxo operacional sem contaminar a apuração real. Os dados ficam em um banco separado.</p>
+    <div class="brandline"><span>BASE SEPARADA</span><span>SEM TSE</span><span>DADOS FICTÍCIOS</span><span>RESET INDEPENDENTE</span></div>
+    <div class="hero-actions"><a class="btn" href="/">Voltar à Central real</a><a class="btn" href="/seguranca.html">Segurança</a></div>
+  </section>
+
+  <div class="warning"><strong>IMPORTANTE</strong>Nenhum dado desta tela é lido pela apuração pública, pelo painel oficial da coordenação ou pela comparação com o TSE. O treinamento usa exclusivamente <code>simulation.sqlite</code>.</div>
+
+  <div class="metrics">
+    <div class="metric"><small>Lançamentos simulados</small><b id="mEntries">0</b></div>
+    <div class="metric"><small>Seções treinadas</small><b id="mSections">0</b></div>
+    <div class="metric"><small>Operador</small><b id="mUser" style="font-size:15px">Não autenticado</b></div>
+    <div class="metric"><small>Última atualização</small><b id="mUpdated" style="font-size:14px">—</b></div>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <h2>1. Entrar no treinamento</h2>
+      <div class="sub">Use a mesma chave da sua seção. A chave fica apenas na memória desta página e não é salva.</div>
+      <div id="loginForm">
+        <div class="field"><label for="token">Chave de operador ou coordenação</label><input id="token" type="password" autocomplete="off" placeholder="Digite a chave"></div>
+        <button class="btn primary" id="loginBtn">Entrar no modo de treino</button>
+        <div id="loginStatus" class="status"></div>
+      </div>
+      <div id="whoBox" class="login-ok hidden"></div>
+
+      <div id="simForm" class="hidden">
+        <h2 style="margin-top:18px">2. Lançar resultado fictício</h2>
+        <div class="row">
+          <div class="field"><label>Seção</label><select id="section"></select></div>
+          <div class="field"><label>Cargo</label><select id="cargo"></select></div>
+        </div>
+        <div class="candidate-list" id="candidateList"></div>
+        <div class="actions"><button class="btn" id="addCandidate">+ Candidato</button><button class="btn warn" id="randomBtn">Gerar cenário fictício</button></div>
+        <div class="row">
+          <div class="field"><label>Brancos</label><input id="brancos" type="number" min="0" value="0"></div>
+          <div class="field"><label>Nulos</label><input id="nulos" type="number" min="0" value="0"></div>
+        </div>
+        <div class="field"><label>Comparecimento</label><input id="comparecimento" type="number" min="0" value="0"><div class="sub">Se ficar 0, o sistema calcula automaticamente pela soma dos votos.</div></div>
+        <div class="calc" id="calc">Total calculado: 0 votos</div>
+        <div class="actions"><button class="btn primary" id="submitBtn">Registrar no treinamento</button></div>
+        <div id="submitStatus" class="status"></div>
+
+        <div id="adminTools" class="admin hidden">
+          <h2>Controles da coordenação</h2>
+          <div class="sub">Essas ações afetam somente o banco de simulação.</div>
+          <div class="actions"><button class="btn" id="exportBtn">Exportar treinamento</button><button class="btn danger" id="resetBtn">Zerar todo o treinamento</button></div>
+          <div id="adminStatus" class="status"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Atividade simulada</h2>
+      <div class="sub">Últimos lançamentos do ambiente de treinamento. Esta lista nunca mostra dados da apuração real.</div>
+      <div class="actions"><button class="btn" id="refreshBtn">Atualizar</button></div>
+      <div class="table-wrap" style="margin-top:10px"><table class="table"><thead><tr><th>Seção</th><th>Cargo</th><th>Votos</th><th>Versão</th><th>Operador</th><th>Atualizado</th></tr></thead><tbody id="simRows"></tbody></table></div>
+    </section>
+  </div>
+
+  <div class="footer">Central Eleitoral Colméia 2026 · Ambiente de treinamento V0.24<br>Dados de simulação são descartáveis e independentes da apuração real.</div>
+</div>
+<script>
+const state={token:'',user:null,meta:null,snapshot:null};
+const cargoNames={presidente:'Presidente',governador:'Governador',senador:'Senador',depFederal:'Deputado Federal',depEstadual:'Deputado Estadual'};
+const $=s=>document.querySelector(s);
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function fmt(t){if(!t)return '—';try{return new Date(t).toLocaleString('pt-BR')}catch{return t}}
+async function api(url,opt={}){const headers={'content-type':'application/json',...(opt.headers||{})};if(state.token)headers.authorization='Bearer '+state.token;const r=await fetch(url,{...opt,headers});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||('HTTP '+r.status));return d}
+async function loadMeta(){state.meta=await api('/api/sim/meta');const cargo=$('#cargo');cargo.innerHTML=state.meta.cargos.map(c=>`<option value="${esc(c)}">${esc(cargoNames[c]||c)}</option>`).join('')}
+async function refresh(){try{state.snapshot=await api('/api/sim/snapshot');renderSnapshot()}catch(e){$('#simRows').innerHTML=`<tr><td colspan="6">Erro ao carregar: ${esc(e.message)}</td></tr>`}}
+function renderSnapshot(){const items=Object.values(state.snapshot?.results||{});const secs=new Set(items.map(x=>x.section));$('#mEntries').textContent=items.length;$('#mSections').textContent=secs.size;$('#mUpdated').textContent=state.snapshot?.updatedAt?fmt(state.snapshot.updatedAt):'—';items.sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||'')));$('#simRows').innerHTML=items.length?items.map(x=>`<tr><td><span class="chip">${esc(x.section)}</span></td><td>${esc(cargoNames[x.cargo]||x.cargo)}</td><td>${esc(totalPayload(x.payload))}</td><td>v${esc(x.version)}</td><td>${esc(x.updatedBy||'—')}</td><td>${esc(fmt(x.updatedAt))}</td></tr>`).join(''):'<tr><td colspan="6">Nenhum lançamento de treinamento ainda.</td></tr>'}
+function totalPayload(p){return (p?.candidatos||[]).reduce((a,c)=>a+Number(c.votos||0),0)+(p?.legendas||[]).reduce((a,l)=>a+Number(l.votos||0),0)+Number(p?.brancos||0)+Number(p?.nulos||0)}
+function addCandidate(data={}){const el=document.createElement('div');el.className='candidate';el.innerHTML=`<input class="num" maxlength="12" placeholder="Número" value="${esc(data.numero||'')}"><input class="name" maxlength="120" placeholder="Nome fictício" value="${esc(data.nome||'')}"><input class="votes" type="number" min="0" placeholder="Votos" value="${Number(data.votos||0)}"><button class="remove" type="button">×</button>`;el.querySelector('.remove').onclick=()=>{el.remove();recalc()};el.querySelectorAll('input').forEach(i=>i.addEventListener('input',recalc));$('#candidateList').appendChild(el);recalc()}
+function recalc(){const cand=[...document.querySelectorAll('.candidate .votes')].reduce((a,i)=>a+Number(i.value||0),0);const total=cand+Number($('#brancos').value||0)+Number($('#nulos').value||0);$('#calc').textContent='Total calculado: '+total+' votos';return total}
+function randomScenario(){const cargo=$('#cargo').value;const len={presidente:2,governador:2,senador:3,depFederal:4,depEstadual:5}[cargo]||2;$('#candidateList').innerHTML='';['A','B','C','D'].forEach((n,i)=>{const base=11+i*11;addCandidate({numero:String(base).padEnd(len,String((i+1)%10)),nome:'Candidato '+n,votos:Math.floor(30+Math.random()*220)})});$('#brancos').value=Math.floor(Math.random()*12);$('#nulos').value=Math.floor(Math.random()*18);$('#comparecimento').value=0;recalc()}
+function allowedSections(){if(!state.user||!state.meta)return[];if(state.user.role==='admin'||state.user.sections.includes('*'))return state.meta.sections;return state.meta.sections.filter(x=>state.user.sections.includes(x.section))}
+function populateSections(){const list=allowedSections();$('#section').innerHTML=list.map(x=>`<option value="${x.section}">Seção ${x.section} · ${esc(x.placeName)}</option>`).join('')}
+async function login(){const token=$('#token').value.trim();if(!token){$('#loginStatus').className='status bad';$('#loginStatus').textContent='Digite uma chave.';return}state.token=token;try{const d=await api('/api/whoami');state.user=d.user;$('#mUser').textContent=state.user.role==='admin'?'Coordenação':('Seção '+(state.user.sections[0]??''));$('#whoBox').classList.remove('hidden');$('#whoBox').textContent=`Autenticado: ${state.user.name}`;$('#simForm').classList.remove('hidden');$('#loginStatus').textContent='';populateSections();$('#adminTools').classList.toggle('hidden',state.user.role!=='admin');if(!$('#candidateList').children.length)randomScenario()}catch(e){state.token='';state.user=null;$('#loginStatus').className='status bad';$('#loginStatus').textContent=e.message==='unauthorized'?'Chave inválida.':('Erro: '+e.message)}}
+async function submit(){if(!state.user)return;const candidatos=[...document.querySelectorAll('.candidate')].map(el=>({numero:el.querySelector('.num').value.trim(),nome:el.querySelector('.name').value.trim()||'Candidato fictício',partido:'SIM',votos:Number(el.querySelector('.votes').value||0)})).filter(c=>c.numero||c.votos);if(!candidatos.length){$('#submitStatus').className='status bad';$('#submitStatus').textContent='Adicione ao menos um candidato.';return}const total=recalc();const body={section:Number($('#section').value),cargo:$('#cargo').value,candidatos,legendas:[],brancos:Number($('#brancos').value||0),nulos:Number($('#nulos').value||0),comparecimento:Number($('#comparecimento').value||0)||total,fonte:'SIMULAÇÃO · Dados fictícios'};$('#submitBtn').disabled=true;try{const d=await api('/api/sim/results',{method:'POST',body:JSON.stringify(body)});$('#submitStatus').className='status ok';$('#submitStatus').textContent=`Treinamento salvo. Seção ${body.section} · ${cargoNames[body.cargo]} · versão ${d.result.version}.`;await refresh()}catch(e){$('#submitStatus').className='status bad';$('#submitStatus').textContent='Erro: '+e.message}finally{$('#submitBtn').disabled=false}}
+async function resetAll(){if(!confirm('Zerar TODOS os dados de treinamento? Isso não afeta a apuração real.'))return;if(!confirm('Confirme novamente: apagar apenas o banco de SIMULAÇÃO?'))return;try{await api('/api/sim/reset',{method:'DELETE'});$('#adminStatus').className='status ok';$('#adminStatus').textContent='Treinamento zerado. A apuração real não foi alterada.';await refresh()}catch(e){$('#adminStatus').className='status bad';$('#adminStatus').textContent='Erro: '+e.message}}
+async function exportSim(){try{const d=await api('/api/sim/export');const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='central-eleitoral-simulacao-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}catch(e){$('#adminStatus').className='status bad';$('#adminStatus').textContent='Erro: '+e.message}}
+$('#loginBtn').onclick=login;$('#addCandidate').onclick=()=>addCandidate();$('#randomBtn').onclick=randomScenario;$('#submitBtn').onclick=submit;$('#refreshBtn').onclick=refresh;$('#resetBtn').onclick=resetAll;$('#exportBtn').onclick=exportSim;['#brancos','#nulos'].forEach(s=>$(s).addEventListener('input',recalc));$('#cargo').addEventListener('change',randomScenario);
+(async()=>{try{await loadMeta();await refresh()}catch(e){$('#simRows').innerHTML=`<tr><td colspan="6">Falha ao iniciar: ${esc(e.message)}</td></tr>`}})();
+</script>
+</body>
+</html>
