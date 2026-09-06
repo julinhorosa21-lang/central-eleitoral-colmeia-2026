@@ -1,6 +1,6 @@
 FROM node:22-slim
 WORKDIR /app
-ADD central-colmeia-v018.tar.gz /app/
+ADD central-colmeia-v019.tar.gz /app/
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
