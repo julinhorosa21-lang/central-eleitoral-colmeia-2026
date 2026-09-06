@@ -1,0 +1,10 @@
+/* V0.24.1 — fotos oficiais dos candidatos proporcionais */
+:root{--cand-photo-border:#cbd8e6;--cand-photo-bg:#edf3f8;--cand-photo-ink:#07377c}
+.candidate-photo-v0241{display:block;width:56px;height:78px;object-fit:cover;object-position:center top;border-radius:12px;border:1px solid var(--cand-photo-border);background:var(--cand-photo-bg);box-shadow:0 5px 14px rgba(7,55,124,.12)}
+.v0241-photo-card{position:relative!important;padding-right:78px!important;min-height:92px}
+.v0241-photo-card>.candidate-photo-v0241{position:absolute;right:10px;top:50%;transform:translateY(-50%)}
+.leader .num.v0241-photo-num{position:relative;width:56px;height:78px;padding:0;overflow:hidden;border-radius:12px;background:var(--cand-photo-bg);border:1px solid var(--cand-photo-border);box-shadow:0 5px 14px rgba(7,55,124,.10)}
+.leader .num.v0241-photo-num .candidate-photo-v0241{width:100%;height:100%;border:0;border-radius:0;box-shadow:none}
+.leader .num.v0241-photo-num .v0241-number-badge{position:absolute;left:4px;right:4px;bottom:4px;padding:2px 4px;border-radius:7px;background:rgba(5,35,78,.90);color:#fff;font-size:10px;font-weight:950;line-height:1.2;text-align:center;letter-spacing:.02em;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.v0241-photo-fallback{display:flex;align-items:center;justify-content:center;width:56px;height:78px;border-radius:12px;border:1px dashed var(--cand-photo-border);background:linear-gradient(145deg,#eef4fa,#f8fafc);color:var(--cand-photo-ink);font-weight:900;font-size:11px;text-align:center}
+@media(max-width:520px){.candidate-photo-v0241{width:50px;height:70px;border-radius:10px}.v0241-photo-card{padding-right:68px!important;min-height:84px}.v0241-photo-card>.candidate-photo-v0241{right:8px}.leader .num.v0241-photo-num{width:50px;height:70px;border-radius:10px}}

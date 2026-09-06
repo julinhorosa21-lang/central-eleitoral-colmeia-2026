@@ -35,6 +35,16 @@ COPY v024-patch.mjs /app/v024-patch.mjs
 RUN node /app/v024-patch.mjs && rm /app/v024-patch.mjs
 COPY v024-preflight.mjs /app/v024-preflight.mjs
 RUN node --check /app/server.mjs && node /app/v024-preflight.mjs && rm /app/v024-preflight.mjs
+RUN apt-get update && apt-get install -y --no-install-recommends unzip ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY v0241-assets.mjs /app/v0241-assets.mjs
+RUN node /app/v0241-assets.mjs && rm /app/v0241-assets.mjs
+COPY v0241-photos.css /app/public/v0241-photos.css
+COPY v0241-photos.js /app/public/v0241-photos.js
+COPY service-worker-v0241.js /app/public/service-worker.js
+COPY v0241-patch.mjs /app/v0241-patch.mjs
+RUN node /app/v0241-patch.mjs && rm /app/v0241-patch.mjs
+COPY v0241-preflight.mjs /app/v0241-preflight.mjs
+RUN node --check /app/server.mjs && node --check /app/public/v0241-photos.js && node /app/v0241-preflight.mjs && rm /app/v0241-preflight.mjs
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
