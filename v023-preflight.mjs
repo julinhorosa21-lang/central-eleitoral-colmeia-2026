@@ -9,7 +9,9 @@ const required=[
   "event:'auth_failure'",
   "event:'forbidden_section'",
   "event:'rate_limited'",
-  "event:'result_correction'",
+  "'result_correction'",
+  "'result_write'",
+  'auditAction',
   'verifySecurityChain()',
   'takeRateLimit('
 ];
@@ -18,4 +20,4 @@ for(const file of ['/app/public/seguranca.html','/app/public/v023-main.js','/app
 const sw=readFileSync('/app/public/service-worker.js','utf8');
 if(!sw.includes("VERSION='v0.23.0'")) throw new Error('V0.23 preflight: wrong service worker version');
 if(!sw.includes("'/seguranca.html'")) throw new Error('V0.23 preflight: security dashboard not precached');
-console.log('V0.23 preflight: security/audit endpoints, rate limiting, correction logging and PWA assets verified.');
+console.log('V0.23 preflight: security/audit endpoints, rate limiting, dynamic correction logging and PWA assets verified.');
