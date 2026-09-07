@@ -16,11 +16,16 @@ const pkg=JSON.parse(readFileSync('/app/package.json','utf8'));
 
 if(!server.includes("version:'1.1.1'"))throw new Error('V1.1.1 preflight: server version mismatch');
 if(!server.includes("p === '/api/sim' || p.startsWith('/api/sim/')"))throw new Error('V1.1.1 preflight: simulation API guard missing');
+if(!server.includes('cleanup-2026-09-07-sec10-senador-test'))throw new Error('V1.1.1 preflight: section 10 senator cleanup missing');
+if(!server.includes("all(10,'senador')")||!server.includes("DELETE FROM results WHERE section=? AND lower(cargo)=?"))throw new Error('V1.1.1 preflight: maintenance target mismatch');
+if(!server.includes('2026-10-01T00:00:00-03:00'))throw new Error('V1.1.1 preflight: maintenance safety deadline missing');
 for(const [name,html] of [['index',index],['transparencia',trans],['seguranca',sec]]){
   if(html.includes('/v024-main.js'))throw new Error(`V1.1.1 preflight: ${name} still loads simulation UI script`);
   if(html.includes('/v110-main.js'))throw new Error(`V1.1.1 preflight: ${name} still loads rehearsal UI script`);
   if(/href=["']\/(?:simulacao|ensaio)\.html["']/i.test(html))throw new Error(`V1.1.1 preflight: ${name} still links training pages`);
   if(!html.includes('/v111-main.js')||!html.includes('/v111-cleanup.css'))throw new Error(`V1.1.1 preflight: ${name} missing UI assets`);
+  if(!html.includes('id="v112-presentation-style"')||!html.includes('id="v112-presentation-script"'))throw new Error(`V1.1.1 preflight: ${name} missing vote/party presentation`);
+  if(!html.includes('party-mark-v112')||!html.includes("t+' votos'"))throw new Error(`V1.1.1 preflight: ${name} missing party mark/vote label logic`);
 }
 if(!main.includes('keepMapInPageFlow')||!main.includes('removeTrainingUi'))throw new Error('V1.1.1 preflight: runtime cleanup missing');
 if(!main.includes("document.body.classList.add('natural-v120')"))throw new Error('V1.1.1 preflight: natural UI class missing');
@@ -30,7 +35,7 @@ if(!css.includes('position:relative!important'))throw new Error('V1.1.1 prefligh
 if(!css.includes('--ui-shadow:0 1px 2px'))throw new Error('V1.1.1 preflight: restrained shadow system missing');
 if(sw.includes('/simulacao.html')||sw.includes('/ensaio.html'))throw new Error('V1.1.1 preflight: service worker still caches training pages');
 if(sw.includes('/v024-main.js')||sw.includes('/v110-main.js'))throw new Error('V1.1.1 preflight: service worker still caches training UI scripts');
-if(!sw.includes("const VERSION='v1.1.1-natural2'"))throw new Error('V1.1.1 preflight: refreshed UI cache version missing');
+if(!sw.includes("const VERSION='v1.1.1-natural3'"))throw new Error('V1.1.1 preflight: refreshed UI cache version missing');
 if(!sw.includes('/v111-main.js')||!sw.includes('/v111-cleanup.css'))throw new Error('V1.1.1 preflight: service worker UI assets missing');
 if(pkg.version!=='1.1.1')throw new Error('V1.1.1 preflight: package version mismatch');
-console.log('V1.1.1 preflight OK: restrained natural interface, mobile ergonomics, removed training UI and map page flow verified.');
+console.log('V1.1.1 preflight OK: natural UI, one-time section 10/Senador cleanup, vote labels, party marks and party-colored bars verified.');
