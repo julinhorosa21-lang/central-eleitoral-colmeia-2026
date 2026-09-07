@@ -1,30 +1,300 @@
-/* V1.1.1 — limpeza de simulação/ensaio e mapa sempre no fluxo da página */
-html body .mapbox,
-html body #map,
-html body .map-wrap,
-html body .map-card,
-html body [data-map-container]{
+/* V1.2.0 — interface mais natural, sóbria e operacional */
+:root{
+  --ui-bg:#f5f7f9;
+  --ui-surface:#ffffff;
+  --ui-surface-soft:#f8fafc;
+  --ui-ink:#17212b;
+  --ui-muted:#667585;
+  --ui-line:#dce3e9;
+  --ui-blue:#174f7a;
+  --ui-blue-dark:#123d60;
+  --ui-blue-soft:#edf4f8;
+  --ui-green:#237a4b;
+  --ui-yellow:#9a6b00;
+  --ui-red:#aa382f;
+  --ui-radius:12px;
+  --ui-shadow:0 1px 2px rgba(18,37,52,.06),0 5px 16px rgba(18,37,52,.04);
+}
+
+html{background:var(--ui-bg)}
+html body.natural-v120{
+  background:var(--ui-bg)!important;
+  color:var(--ui-ink)!important;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif!important;
+  letter-spacing:0!important;
+}
+
+/* Remove ornamentação que deixava a interface com aparência ilustrativa. */
+.natural-v120 .civic-sun,
+.natural-v120 .civic-ribbon,
+.natural-v120 .civic-horizon,
+.natural-v120 .civic-seal{display:none!important}
+
+/* Cabeçalho principal: institucional, compacto e sem efeitos decorativos. */
+.natural-v120 .top.civic-header{
+  min-height:0!important;
+  padding:20px 22px!important;
+  border:0!important;
+  border-radius:14px!important;
+  background:var(--ui-blue-dark)!important;
+  box-shadow:none!important;
+  isolation:auto!important;
+}
+.natural-v120 .civic-header .brand{gap:0!important;max-width:760px!important}
+.natural-v120 .civic-brand-copy .civic-kicker{
+  margin-bottom:5px!important;
+  color:rgba(255,255,255,.72)!important;
+  font-size:11px!important;
+  font-weight:650!important;
+  letter-spacing:.08em!important;
+}
+.natural-v120 .civic-brand-copy h1{
+  color:#fff!important;
+  font-size:clamp(26px,4vw,38px)!important;
+  font-weight:720!important;
+  line-height:1.08!important;
+  letter-spacing:-.025em!important;
+  text-shadow:none!important;
+}
+.natural-v120 .civic-brand-copy h1 span{display:inline!important;color:#fff!important}
+.natural-v120 .civic-brand-copy p{
+  margin-top:7px!important;
+  max-width:650px!important;
+  color:rgba(255,255,255,.78)!important;
+  font-size:13px!important;
+  line-height:1.45!important;
+}
+.natural-v120 .civic-badge{
+  align-self:flex-start!important;
+  padding:6px 9px!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  border-radius:8px!important;
+  background:transparent!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  font-size:10px!important;
+  font-weight:700!important;
+  letter-spacing:.04em!important;
+}
+.natural-v120 .civic-badge:before{display:none!important}
+
+/* Contexto abaixo do cabeçalho: texto simples, sem coleção de pills. */
+.natural-v120 .civic-context{
+  justify-content:flex-start!important;
+  gap:6px 16px!important;
+  margin:9px 4px 16px!important;
+  padding:0 2px!important;
+}
+.natural-v120 .civic-context span{
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:var(--ui-muted)!important;
+  font-size:11px!important;
+  font-weight:650!important;
+  letter-spacing:.01em!important;
+}
+.natural-v120 .civic-context i{width:5px!important;height:5px!important;background:#94a5b3!important}
+
+/* Cards e blocos: superfícies planas, bordas discretas e menos arredondamento. */
+.natural-v120 .card,
+.natural-v120 .metric,
+.natural-v120 .coord-metric,
+.natural-v120 .candidate-card,
+.natural-v120 .place,
+.natural-v120 .status,
+.natural-v120 .leader-row{
+  border-color:var(--ui-line)!important;
+  border-radius:var(--ui-radius)!important;
+  background:var(--ui-surface)!important;
+  box-shadow:var(--ui-shadow)!important;
+}
+.natural-v120 .card:hover,
+.natural-v120 .candidate-card:hover,
+.natural-v120 .place:hover{border-color:#ccd7df!important;transform:none!important}
+.natural-v120 .summary .metric,
+.natural-v120 .metrics .metric{
+  min-height:92px!important;
+  padding:13px!important;
+  background:#fff!important;
+  box-shadow:var(--ui-shadow)!important;
+}
+.natural-v120 .summary .metric:before,
+.natural-v120 .metrics .metric:before{display:none!important}
+.natural-v120 .civic-metric-icon{
+  width:32px!important;
+  height:32px!important;
+  border:0!important;
+  border-radius:8px!important;
+  background:var(--ui-blue-soft)!important;
+  color:var(--ui-blue)!important;
+}
+.natural-v120 .civic-metric-icon svg{width:17px!important;height:17px!important}
+.natural-v120 .metric small{
+  color:var(--ui-muted)!important;
+  font-size:10px!important;
+  font-weight:650!important;
+  letter-spacing:.04em!important;
+}
+.natural-v120 .metric b,
+.natural-v120 .coord-metric b{
+  color:var(--ui-ink)!important;
+  font-weight:720!important;
+  letter-spacing:-.02em!important;
+}
+
+/* Hierarquia tipográfica. */
+.natural-v120 h1,.natural-v120 h2,.natural-v120 h3{font-weight:720!important}
+.natural-v120 .results-head h2,
+.natural-v120 .section-title h2{color:var(--ui-ink)!important;letter-spacing:-.015em!important}
+.natural-v120 .sub,
+.natural-v120 .muted,
+.natural-v120 small{color:var(--ui-muted)}
+
+/* Esconde o changelog técnico da tela principal. A versão continua no marcador próprio. */
+.natural-v120 .central-note{display:none!important}
+
+/* Ações e navegação sem brilho, blur ou gradientes. */
+.natural-v120 button,
+.natural-v120 .btn,
+.natural-v120 input,
+.natural-v120 select,
+.natural-v120 textarea{border-radius:9px!important}
+.natural-v120 button,
+.natural-v120 .btn{font-weight:650!important}
+.natural-v120 .v022-quicknav{gap:8px!important;padding:2px 0 10px!important}
+.natural-v120 .v022-quicknav button,
+.natural-v120 .v022-quicknav a,
+.natural-v120 .toolbar button,
+.natural-v120 .toolbar select{
+  min-height:42px!important;
+  border:1px solid var(--ui-line)!important;
+  background:#fff!important;
+  color:var(--ui-ink)!important;
+  box-shadow:none!important;
+}
+.natural-v120 .v022-quicknav .primary,
+.natural-v120 .toolbar .primary,
+.natural-v120 .btn.primary{
+  border-color:var(--ui-blue)!important;
+  background:var(--ui-blue)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+}
+.natural-v120 .v022-quicknav .primary:hover,
+.natural-v120 .toolbar .primary:hover,
+.natural-v120 .btn.primary:hover{background:var(--ui-blue-dark)!important}
+.natural-v120 .toolbar{
+  padding:7px!important;
+  border:1px solid var(--ui-line)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+}
+.natural-v120 .civic-action-icon{margin-right:5px!important}
+.natural-v120 .civic-action-icon svg{width:16px!important;height:16px!important}
+
+/* Barra inferior segue padrão de app utilitário, sem efeito de vidro. */
+.natural-v120 .footer-nav{
+  border-top:1px solid var(--ui-line)!important;
+  background:#fff!important;
+  box-shadow:0 -2px 8px rgba(18,37,52,.05)!important;
+  backdrop-filter:none!important;
+}
+.natural-v120 .footer-nav button{
+  min-height:56px!important;
+  color:var(--ui-muted)!important;
+  font-size:11px!important;
+  font-weight:600!important;
+}
+.natural-v120 .footer-nav button.active{color:var(--ui-blue)!important}
+.natural-v120 .footer-nav button.active:after{height:2px!important;background:var(--ui-blue)!important}
+.natural-v120 .civic-nav-icon svg{width:18px!important;height:18px!important}
+
+/* Apuração e candidatos: cor usada apenas para informação. */
+.natural-v120 .progress{background:#e8edf1!important;border-radius:999px!important}
+.natural-v120 .progress span{background:var(--ui-blue)!important}
+.natural-v120 .leader-row{padding:9px 10px!important}
+.natural-v120 .leader-row .bar i{background:var(--ui-blue)!important}
+.natural-v120 .cand-number{color:var(--ui-blue-dark)!important;font-weight:720!important}
+.natural-v120 .party-tag{color:var(--ui-muted)!important;font-weight:650!important}
+.natural-v120 .place:before{display:none!important}
+.natural-v120 .sec.done{background:#eef7f1!important;border-color:#cae1d2!important;color:#286745!important}
+.natural-v120 .sec.partial{background:#fff8e8!important;border-color:#ecdca9!important;color:#795c16!important}
+.natural-v120 .sec.divergent{background:#fff0ef!important;border-color:#e8c5c1!important;color:#8e3932!important}
+
+/* Coordenação. */
+.natural-v120 .coord-head{
+  border-radius:14px!important;
+  background:var(--ui-blue-dark)!important;
+  box-shadow:none!important;
+}
+.natural-v120 .coord-head:after{display:none!important}
+
+/* Transparência pública: mesmo sistema visual, sem hero ilustrativo. */
+.natural-v120 .hero.civic-public-hero{
+  min-height:0!important;
+  padding:20px 22px!important;
+  border-radius:14px!important;
+  background:var(--ui-blue-dark)!important;
+  box-shadow:none!important;
+  isolation:auto!important;
+}
+.natural-v120 .civic-public-hero h1{font-size:clamp(26px,4vw,38px)!important;text-shadow:none!important}
+.natural-v120 .civic-public-hero .eyebrow{font-weight:650!important;letter-spacing:.08em!important}
+.natural-v120 .civic-public-hero .hero-actions .primary{
+  background:#fff!important;
+  color:var(--ui-blue-dark)!important;
+  border-color:#fff!important;
+}
+.natural-v120 .civic-public-hero .live{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.18)!important}
+.natural-v120 .tsebox{background:#f5f9fc!important;border-color:#d4e2ea!important}
+
+/* Mapa nunca flutua e visualmente integra-se ao restante da tela. */
+.natural-v120 #map,
+.natural-v120 .mapbox,
+.natural-v120 .map-wrap,
+.natural-v120 .map-card,
+.natural-v120 [data-map-container]{
   position:relative!important;
-  top:auto!important;
-  right:auto!important;
-  bottom:auto!important;
-  left:auto!important;
   inset:auto!important;
   transform:none!important;
   float:none!important;
   max-width:100%!important;
+  border-radius:12px!important;
+  box-shadow:none!important;
 }
-html body .mapbox,
-html body .map-wrap,
-html body .map-card{width:100%!important}
-html body .card:has(#map),
-html body .card:has(.mapbox),
-html body .grid:has(#map),
-html body .grid:has(.mapbox){
-  position:relative!important;
-  top:auto!important;
-  bottom:auto!important;
-  transform:none!important;
+.natural-v120 #map{z-index:0!important;overflow:hidden!important}
+
+/* Foco e interação. */
+.natural-v120 :focus-visible{outline:3px solid rgba(23,79,122,.28)!important;outline-offset:2px!important}
+@media (hover:hover){
+  .natural-v120 button:hover,.natural-v120 .btn:hover{transform:none!important}
 }
-html body #map,
-html body .mapbox{z-index:0!important}
+
+@media(max-width:760px){
+  .natural-v120 .top.civic-header,
+  .natural-v120 .hero.civic-public-hero{padding:17px 16px!important;border-radius:12px!important}
+  .natural-v120 .civic-header{display:flex!important;gap:12px!important}
+  .natural-v120 .civic-brand-copy h1{font-size:28px!important}
+  .natural-v120 .civic-brand-copy p{font-size:12px!important}
+  .natural-v120 .civic-badge{font-size:9px!important;padding:5px 7px!important}
+  .natural-v120 .civic-context{gap:5px 12px!important;margin:8px 2px 14px!important}
+  .natural-v120 .summary,.natural-v120 .metrics{gap:8px!important}
+  .natural-v120 .summary .metric,.natural-v120 .metrics .metric{min-height:82px!important;padding:11px!important}
+  .natural-v120 .toolbar{gap:6px!important}
+}
+
+@media(max-width:520px){
+  .natural-v120 .civic-header .brand{width:100%!important}
+  .natural-v120 .civic-brand-copy h1{font-size:25px!important}
+  .natural-v120 .civic-context span{font-size:10px!important}
+  .natural-v120 .v022-quicknav button,.natural-v120 .v022-quicknav a{min-height:40px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .natural-v120 *, .natural-v120 *:before, .natural-v120 *:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
