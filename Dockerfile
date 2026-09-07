@@ -171,8 +171,16 @@ RUN node --check /app/public/v151-team.js \
  && grep -q '/v151-operator-bridge.js' /app/public/operacao.html \
  && grep -q 'photoLoading' /app/public/v130-public.js \
  && grep -q "const VERSION='v1.5.1-unified'" /app/public/service-worker.js
+COPY v153-regional-theme.mjs /app/v153-regional-theme.mjs
+RUN node /app/v153-regional-theme.mjs && rm /app/v153-regional-theme.mjs
+RUN node --check /app/public/v153-regional-theme.js \
+ && grep -q '/v153-regional-theme.css' /app/public/index.html \
+ && grep -q '/v153-regional-theme.js' /app/public/index.html \
+ && grep -q '/v153-regional-theme.css' /app/public/transparencia.html \
+ && grep -q '/v153-regional-theme.js' /app/public/transparencia.html \
+ && ! grep -q '/v153-regional-theme.js' /app/public/operacao.html
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.5.1"
+      org.opencontainers.image.version="1.5.3"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
