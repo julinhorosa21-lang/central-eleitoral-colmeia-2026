@@ -156,7 +156,7 @@ RUN node --check /app/public/v150-unified.js \
  && grep -q 'v150-unified.js' /app/public/index.html \
  && grep -q 'manifest.webmanifest?v=150' /app/public/admin/index.html \
  && grep -q 'admin-v150.js' /app/public/admin/index.html \
- && ! grep -q '/admin/admin-sw.js' /app/public/admin/admin-v150.js \
+ && grep -q "serviceWorker.register('/service-worker.js?v=150'" /app/public/admin/admin-v150.js \
  && grep -q '"scope": "/"' /app/public/manifest.webmanifest
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
       org.opencontainers.image.version="1.5.0"
