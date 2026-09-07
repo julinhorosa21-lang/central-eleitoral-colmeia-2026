@@ -86,6 +86,8 @@ COPY v111-main.js /app/public/v111-main.js
 COPY service-worker-v111.js /app/public/service-worker.js
 COPY v111-patch.mjs /app/v111-patch.mjs
 RUN node /app/v111-patch.mjs && rm /app/v111-patch.mjs
+COPY v111-map-points.mjs /app/v111-map-points.mjs
+RUN node /app/v111-map-points.mjs && rm /app/v111-map-points.mjs
 COPY v111-preflight.mjs /app/v111-preflight.mjs
 RUN node --check /app/server.mjs \
  && node --check /app/public/v111-main.js \
