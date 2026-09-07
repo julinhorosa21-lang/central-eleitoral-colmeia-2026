@@ -1,4 +1,4 @@
-const VERSION='v1.3.4-tablet-fix';
+const VERSION='v1.3.5-install';
 const SHELL=`colmeia-shell-${VERSION}`;
 const RUNTIME=`colmeia-runtime-${VERSION}`;
 const TILES=`colmeia-tiles-${VERSION}`;
@@ -7,7 +7,7 @@ const CORE=[
   '/', '/index.html','/transparencia.html','/operacao.html','/seguranca.html','/manifest.webmanifest','/bu-parser.js',
   '/v021-main.js','/v022-main.js','/v022-visual.css','/v0221-civic.js','/v0221-civic.css','/v0222-contrast.css','/v023-main.js',
   '/v0241-photos.js','/v0241-photos.css','/v100-main.js','/v102-candidates.js','/v102-main.js','/v111-cleanup.css','/v111-main.js',
-  '/v121-polish.css','/v121-polish.js','/v130-public.css','/v130-public.js','/v131-refine-runtime.js',
+  '/v121-polish.css','/v121-polish.js','/v130-public.css','/v130-public.js','/v131-refine-runtime.js','/v135-install.js',
   '/data/candidate-photo-map.json','/data/candidate-catalog.json','/icons/icon-192.png','/icons/icon-512.png'
 ];
 const OPTIONAL=['https://unpkg.com/leaflet@1.9.4/dist/leaflet.css','https://unpkg.com/leaflet@1.9.4/dist/leaflet.js','https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js'];
