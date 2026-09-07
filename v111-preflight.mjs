@@ -27,6 +27,8 @@ for(const [name,html] of [['index',index],['transparencia',trans],['seguranca',s
   if(!html.includes('id="v112-presentation-style"')||!html.includes('id="v112-presentation-script"'))throw new Error(`V1.1.1 preflight: ${name} missing vote/party presentation`);
   if(!html.includes('party-mark-v112')||!html.includes("t+' votos'"))throw new Error(`V1.1.1 preflight: ${name} missing party mark/vote label logic`);
 }
+if(!index.includes('-8.730540')||!index.includes('-48.763852'))throw new Error('V1.1.1 preflight: Arte do Saber coordinates missing');
+if(!index.includes('-8.650779')||!index.includes('-48.852319'))throw new Error('V1.1.1 preflight: Juscelino coordinates missing');
 if(!main.includes('keepMapInPageFlow')||!main.includes('removeTrainingUi'))throw new Error('V1.1.1 preflight: runtime cleanup missing');
 if(!main.includes("document.body.classList.add('natural-v120')"))throw new Error('V1.1.1 preflight: natural UI class missing');
 if(main.includes('document.documentElement.textContent'))throw new Error('V1.1.1 preflight: root document wipe regression');
@@ -35,7 +37,7 @@ if(!css.includes('position:relative!important'))throw new Error('V1.1.1 prefligh
 if(!css.includes('--ui-shadow:0 1px 2px'))throw new Error('V1.1.1 preflight: restrained shadow system missing');
 if(sw.includes('/simulacao.html')||sw.includes('/ensaio.html'))throw new Error('V1.1.1 preflight: service worker still caches training pages');
 if(sw.includes('/v024-main.js')||sw.includes('/v110-main.js'))throw new Error('V1.1.1 preflight: service worker still caches training UI scripts');
-if(!sw.includes("const VERSION='v1.1.1-natural3'"))throw new Error('V1.1.1 preflight: refreshed UI cache version missing');
+if(!sw.includes("const VERSION='v1.1.1-natural4'"))throw new Error('V1.1.1 preflight: refreshed UI cache version missing');
 if(!sw.includes('/v111-main.js')||!sw.includes('/v111-cleanup.css'))throw new Error('V1.1.1 preflight: service worker UI assets missing');
 if(pkg.version!=='1.1.1')throw new Error('V1.1.1 preflight: package version mismatch');
-console.log('V1.1.1 preflight OK: natural UI, one-time section 10/Senador cleanup, vote labels, party marks and party-colored bars verified.');
+console.log('V1.1.1 preflight OK: natural UI, map V0.10 points, one-time section 10/Senador cleanup, vote labels, party marks and party-colored bars verified.');
