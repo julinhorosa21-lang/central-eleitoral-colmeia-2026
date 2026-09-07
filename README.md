@@ -16,3 +16,5 @@ Principais módulos consolidados na V1.0:
 - preflight integral de release antes de cada build.
 
 Produção: https://central-eleitoral-production.up.railway.app/
+
+Status da release: V1.0 pronta para deploy de produção.
