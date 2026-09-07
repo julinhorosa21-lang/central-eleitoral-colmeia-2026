@@ -1,0 +1,16 @@
+import {readFileSync,existsSync} from 'node:fs';
+const server=readFileSync('/app/server.mjs','utf8'),pub='/app/public';
+function need(h,t,l=t){if(!h.includes(t))throw new Error(`V1.0.2 preflight: missing ${l}`)}
+function file(p){if(!existsSync(p))throw new Error(`V1.0.2 preflight: missing file ${p}`)}
+need(server,"version:'1.0.2'",'server 1.0.2');
+for(const r of ['/api/candidates','/api/admin/candidates/refresh','/api/snapshot','/api/results','/api/sim/results'])need(server,r,r);
+for(const t of ['CREATE TABLE IF NOT EXISTS candidate_catalog_snapshot','candidateSnapshotGet','candidateSnapshotUpsert','refreshCandidateCatalogFromTse','Portal de Dados Abertos do TSE',"event:'candidate_catalog_refresh'"])need(server,t);
+const routeStart=server.indexOf("if (p === '/api/admin/candidates/refresh' && req.method === 'POST')"),routeEnd=server.indexOf("if (p === '/api/snapshot')",routeStart);if(routeStart<0||routeEnd<0)throw new Error('V1.0.2 preflight: candidate refresh route boundaries missing');const route=server.slice(routeStart,routeEnd);need(route,"user.role!=='admin'",'admin guard');need(route,'candidateSnapshotUpsert','snapshot persistence');for(const bad of ['insertRow.run(','updateRow.run(','deleteRow.run(','simInsertRow.run(','simUpdateRow.run('])if(route.includes(bad))throw new Error(`V1.0.2 preflight: candidate refresh touches election result storage via ${bad}`);
+for(const f of ['index.html','v102-candidates.js','v102-main.js','service-worker.js','data/candidate-catalog.json','data/candidate-photo-map.json'])file(`${pub}/${f}`);
+const index=readFileSync(`${pub}/index.html`,'utf8');need(index,'/v102-candidates.js','candidate client');need(index,'/v102-main.js','1.0.2 client');
+const client=readFileSync(`${pub}/v102-candidates.js`,'utf8');for(const t of ['/api/candidates','/api/admin/candidates/refresh','ensureAdmin','CANDIDATOS'])need(client,t);
+const main=readFileSync(`${pub}/v102-main.js`,'utf8');need(main,"const VERSION='1.0.2'",'client version');if(/querySelectorAll\([^\n]*\[data-app-version\]/.test(main))throw new Error('V1.0.2 preflight: root version selector regression');if(/document\.documentElement\.(?:textContent|innerHTML)\s*=/.test(main))throw new Error('V1.0.2 preflight: document root content write regression');
+const sw=readFileSync(`${pub}/service-worker.js`,'utf8');need(sw,"VERSION='v1.0.2'",'PWA 1.0.2');for(const a of ["'/v102-candidates.js'","'/v102-main.js'","'/data/candidate-catalog.json'"])need(sw,a,`PWA core ${a}`);
+const cat=JSON.parse(readFileSync(`${pub}/data/candidate-catalog.json`,'utf8'));const c=cat.counts||{};if((c.presidente||0)<5||(c.governador||0)<4||(c.senador||0)<6||(c.depFederal||0)<80||(c.depEstadual||0)<170)throw new Error('V1.0.2 preflight: suspicious local candidate snapshot '+JSON.stringify(c));
+const pkg=JSON.parse(readFileSync('/app/package.json','utf8'));if(pkg.version!=='1.0.2')throw new Error('V1.0.2 preflight: package '+pkg.version);
+console.log(`V1.0.2 preflight OK: admin-only TSE candidate refresh, persistent snapshot, local fallback catalog and PWA ${pkg.version} verified.`);

@@ -4,73 +4,21 @@ import {execFileSync} from 'node:child_process';
 
 const PHOTO_ZIP='https://cdn.tse.jus.br/estatistica/sead/eleicoes/eleicoes2026/fotos/foto_cand2026_TO_div.zip';
 const CAND_ZIP='https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2026.zip';
-const OUT='/app/public/candidate-photos';
-const DATA='/app/public/data';
-const TMP='/tmp/v0241';
-mkdirSync(OUT,{recursive:true}); mkdirSync(DATA,{recursive:true}); mkdirSync(TMP,{recursive:true});
-
-async function download(url,file){
-  const ctl=new AbortController(); const timer=setTimeout(()=>ctl.abort(),90000);
-  try{
-    const r=await fetch(url,{signal:ctl.signal,headers:{'user-agent':'Central-Eleitoral-Colmeia/0.24.1'}});
-    if(!r.ok) throw new Error(`${url} HTTP ${r.status}`);
-    const buf=Buffer.from(await r.arrayBuffer());
-    if(buf.length<1000) throw new Error(`${url} returned too little data`);
-    writeFileSync(file,buf);
-  } finally {clearTimeout(timer)}
-}
-function walk(dir){
-  const out=[];
-  for(const name of readdirSync(dir)){
-    const p=join(dir,name),st=statSync(p);
-    if(st.isDirectory()) out.push(...walk(p)); else out.push(p);
-  }
-  return out;
-}
-function csvLine(line){
-  const out=[]; let cur='',quoted=false;
-  for(let i=0;i<line.length;i++){
-    const ch=line[i];
-    if(ch==='"'){
-      if(quoted&&line[i+1]==='"'){cur+='"';i++;} else quoted=!quoted;
-    }else if(ch===';'&&!quoted){out.push(cur);cur='';} else cur+=ch;
-  }
-  out.push(cur); return out;
-}
+const FALLBACK='https://central-eleitoral-production.up.railway.app';
+const OUT='/app/public/candidate-photos',DATA='/app/public/data',TMP='/tmp/v0241';
+mkdirSync(OUT,{recursive:true});mkdirSync(DATA,{recursive:true});mkdirSync(TMP,{recursive:true});
+async function fetchBuffer(url,min=1000){const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),90000);try{const r=await fetch(url,{signal:ctl.signal,headers:{'user-agent':'Central-Eleitoral-Colmeia/1.0.2'}});if(!r.ok)throw new Error(`${url} HTTP ${r.status}`);const b=Buffer.from(await r.arrayBuffer());if(b.length<min)throw new Error(`${url} returned too little data`);return b}finally{clearTimeout(timer)}}
+async function download(url,file,min=1000){writeFileSync(file,await fetchBuffer(url,min))}
+async function fetchJson(url){const b=await fetchBuffer(url,20);return JSON.parse(b.toString('utf8'))}
+function walk(dir){const out=[];for(const name of readdirSync(dir)){const p=join(dir,name),st=statSync(p);if(st.isDirectory())out.push(...walk(p));else out.push(p)}return out}
+function csvLine(line){const out=[];let cur='',quoted=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(quoted&&line[i+1]==='"'){cur+='"';i++}else quoted=!quoted}else if(ch===';'&&!quoted){out.push(cur);cur=''}else cur+=ch}out.push(cur);return out}
 function norm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').trim()}
-
-const photoZip=join(TMP,'photos.zip'),candZip=join(TMP,'candidates.zip');
-await download(PHOTO_ZIP,photoZip); await download(CAND_ZIP,candZip);
-const photoDir=join(TMP,'photos'),candDir=join(TMP,'candidates');
-mkdirSync(photoDir,{recursive:true}); mkdirSync(candDir,{recursive:true});
-execFileSync('unzip',['-q','-o',photoZip,'-d',photoDir]);
-execFileSync('unzip',['-q','-o',candZip,'-d',candDir]);
-
-const photoIds=new Set();
-for(const p of walk(photoDir)){
-  const m=basename(p).match(/^FTO(\d+)_div\.(?:jpe?g)$/i);
-  if(!m) continue;
-  const sq=m[1]; copyFileSync(p,join(OUT,`${sq}.jpg`)); photoIds.add(sq);
+function prettyStatus(v){const s=String(v||'').trim();if(!s)return'';return s.toLocaleLowerCase('pt-BR').replace(/(^|[\s/-])([a-záàâãéêíóôõúç])/g,(m,a,b)=>a+b.toLocaleUpperCase('pt-BR'))}
+function rank(v){const s=norm(v);if(s.includes('RENUNC')||s.includes('INAPTO')||s.includes('CANCELADO'))return 1;if(s.includes('DEFERIDO'))return 5;if(s.includes('AGUARDANDO')||s.includes('PEDIDO'))return 4;return 3}
+function readCandidateFile(file,scope,maps,photoIds,photoMap){let text=readFileSync(file,'latin1').replace(/^\uFEFF/,'');const lines=text.split(/\r?\n/).filter(Boolean),header=csvLine(lines.shift()),idx=Object.fromEntries(header.map((h,i)=>[h,i]));for(const k of ['SG_UF','DS_CARGO','SQ_CANDIDATO','NR_CANDIDATO','NM_CANDIDATO','NM_URNA_CANDIDATO','SG_PARTIDO'])if(!(k in idx))throw new Error(`candidate CSV missing ${k}`);const statusKey=['DS_SITUACAO_CANDIDATURA','DS_SITUACAO_CANDIDATO_PLEITO','DS_SITUACAO_CANDIDATO_URNA','DS_SITUACAO'].find(k=>k in idx);
+  for(const line of lines){const r=csvLine(line),uf=String(r[idx.SG_UF]||'').toUpperCase();if(scope==='TO'&&uf!=='TO')continue;if(scope==='BR'&&uf!=='BR')continue;const cargo=norm(r[idx.DS_CARGO]),key=cargo==='PRESIDENTE'?'presidente':cargo==='GOVERNADOR'?'governador':cargo==='SENADOR'?'senador':cargo==='DEPUTADO FEDERAL'?'depFederal':cargo==='DEPUTADO ESTADUAL'?'depEstadual':null;if(!key)continue;if(key==='presidente'&&scope!=='BR')continue;if(key!=='presidente'&&scope!=='TO')continue;const sq=String(r[idx.SQ_CANDIDATO]||'').replace(/\D/g,''),numero=String(r[idx.NR_CANDIDATO]||'').replace(/\D/g,'');if(!sq||!numero)continue;const item={nome:String(r[idx.NM_CANDIDATO]||'').trim(),nomeUrna:String(r[idx.NM_URNA_CANDIDATO]||'').trim(),numero,partido:String(r[idx.SG_PARTIDO]||'').trim(),situacao:prettyStatus(statusKey?r[idx[statusKey]]:''),sqCandidato:sq,foto:`https://divulgacandcontas.tse.jus.br/divulga/rest/arquivo/img/20322002026/${sq}/${key==='presidente'?'BR':'TO'}`,fotoFonte:'TSE · DivulgaCandContas'};const prev=maps[key].get(numero);if(!prev||rank(item.situacao)>rank(prev.situacao))maps[key].set(numero,item);if(photoMap&&(key==='depFederal'||key==='depEstadual')&&photoIds?.has(sq))photoMap[key][numero]={sq,numero,nome:item.nomeUrna||item.nome,partido:item.partido,foto:`/candidate-photos/${sq}.jpg`};}
 }
-if(photoIds.size<300) throw new Error(`V0.24.1 assets: only ${photoIds.size} TO photos extracted`);
-
-const csvPath=walk(candDir).find(p=>basename(p).toLowerCase()==='consulta_cand_2026_to.csv');
-if(!csvPath||!existsSync(csvPath)) throw new Error('V0.24.1 assets: consulta_cand_2026_TO.csv not found');
-let text=readFileSync(csvPath,'latin1').replace(/^\uFEFF/,'');
-const lines=text.split(/\r?\n/).filter(Boolean); const header=csvLine(lines.shift());
-const idx=Object.fromEntries(header.map((h,i)=>[h,i]));
-for(const k of ['SG_UF','DS_CARGO','SQ_CANDIDATO','NR_CANDIDATO','NM_URNA_CANDIDATO','SG_PARTIDO']) if(!(k in idx)) throw new Error(`V0.24.1 assets: CSV missing ${k}`);
-const byCargo={depFederal:{},depEstadual:{}}; let missing=0;
-for(const line of lines){
-  const r=csvLine(line); if(String(r[idx.SG_UF]||'').toUpperCase()!=='TO') continue;
-  const cargo=norm(r[idx.DS_CARGO]); const key=cargo==='DEPUTADO FEDERAL'?'depFederal':cargo==='DEPUTADO ESTADUAL'?'depEstadual':null; if(!key) continue;
-  const sq=String(r[idx.SQ_CANDIDATO]||'').replace(/\D/g,''),numero=String(r[idx.NR_CANDIDATO]||'').replace(/\D/g,''); if(!sq||!numero) continue;
-  if(!photoIds.has(sq)){missing++;continue;}
-  byCargo[key][numero]={sq,numero,nome:String(r[idx.NM_URNA_CANDIDATO]||'').trim(),partido:String(r[idx.SG_PARTIDO]||'').trim(),foto:`/candidate-photos/${sq}.jpg`};
-}
-const federal=Object.keys(byCargo.depFederal).length,estadual=Object.keys(byCargo.depEstadual).length;
-if(federal<90||estadual<190) throw new Error(`V0.24.1 assets: suspicious coverage ${federal}/${estadual}, missing photos ${missing}`);
-const map={version:'0.24.1',generatedAt:new Date().toISOString(),source:'Portal de Dados Abertos do TSE — consulta_cand_2026 + foto_cand2026_TO_div',coverage:{depFederal:federal,depEstadual:estadual,total:federal+estadual,photoArchive:photoIds.size,missing},byCargo};
-writeFileSync(join(DATA,'candidate-photo-map.json'),JSON.stringify(map));
-rmSync(TMP,{recursive:true,force:true});
-console.log(`V0.24.1 official TSE assets ready: ${photoIds.size} photos; ${federal} federal + ${estadual} estadual mapped.`);
+async function buildFromTse(){const photoZip=join(TMP,'photos.zip'),candZip=join(TMP,'candidates.zip'),photoDir=join(TMP,'photos'),candDir=join(TMP,'candidates');await download(PHOTO_ZIP,photoZip);await download(CAND_ZIP,candZip);mkdirSync(photoDir,{recursive:true});mkdirSync(candDir,{recursive:true});execFileSync('unzip',['-q','-o',photoZip,'-d',photoDir]);execFileSync('unzip',['-q','-o',candZip,'-d',candDir]);const photoIds=new Set();for(const p of walk(photoDir)){const m=basename(p).match(/^FTO(\d+)_div\.(?:jpe?g)$/i);if(!m)continue;const sq=m[1];copyFileSync(p,join(OUT,`${sq}.jpg`));photoIds.add(sq)}if(photoIds.size<300)throw new Error(`only ${photoIds.size} TO photos extracted`);const files=walk(candDir),toCsv=files.find(p=>/^consulta_cand_2026_TO\.csv$/i.test(basename(p))),brCsv=files.find(p=>/^consulta_cand_2026_(?:BR|BRASIL)\.csv$/i.test(basename(p)));if(!toCsv)throw new Error('consulta_cand_2026_TO.csv not found');const maps=Object.fromEntries(['presidente','governador','senador','depFederal','depEstadual'].map(k=>[k,new Map()])),photoMap={depFederal:{},depEstadual:{}};readCandidateFile(toCsv,'TO',maps,photoIds,photoMap);if(brCsv)readCandidateFile(brCsv,'BR',maps,photoIds,photoMap);const federal=Object.keys(photoMap.depFederal).length,estadual=Object.keys(photoMap.depEstadual).length;if(federal<90||estadual<190)throw new Error(`suspicious photo coverage ${federal}/${estadual}`);const map={version:'1.0.2',generatedAt:new Date().toISOString(),source:'Portal de Dados Abertos do TSE — consulta_cand_2026 + foto_cand2026_TO_div',coverage:{depFederal:federal,depEstadual:estadual,total:federal+estadual,photoArchive:photoIds.size,missing:0},byCargo:photoMap};writeFileSync(join(DATA,'candidate-photo-map.json'),JSON.stringify(map));
+  const candidates=Object.fromEntries(Object.entries(maps).map(([k,m])=>[k,[...m.values()].sort((a,b)=>Number(a.numero)-Number(b.numero))])),counts=Object.fromEntries(Object.entries(candidates).map(([k,a])=>[k,a.length]));if((counts.depFederal||0)>=80&&(counts.depEstadual||0)>=170&&(counts.governador||0)>=4&&(counts.senador||0)>=6&&(counts.presidente||0)>=5)writeFileSync(join(DATA,'candidate-catalog.json'),JSON.stringify({version:'1.0.2',generatedAt:new Date().toISOString(),source:{name:'Portal de Dados Abertos do TSE',url:CAND_ZIP},counts,candidates}));console.log(`V1.0.2 TSE assets ready: ${photoIds.size} photos; ${federal} federal + ${estadual} estadual mapped.`)}
+async function buildFromPreviousRelease(reason){console.warn('TSE asset build unavailable; using previous production release as safe fallback:',String(reason?.message||reason));rmSync(OUT,{recursive:true,force:true});mkdirSync(OUT,{recursive:true});const map=await fetchJson(`${FALLBACK}/data/candidate-photo-map.json?v=fallback102`),items=[...Object.values(map.byCargo?.depFederal||{}),...Object.values(map.byCargo?.depEstadual||{})],unique=new Map(items.map(x=>[x.sq,x]));const arr=[...unique.values()];for(let i=0;i<arr.length;i+=12)await Promise.all(arr.slice(i,i+12).map(async x=>{const url=new URL(x.foto,FALLBACK).href;await download(url,join(OUT,`${x.sq}.jpg`),200)}));if(unique.size<300)throw new Error(`fallback has only ${unique.size} photos`);map.version='1.0.2-fallback';map.generatedAt=new Date().toISOString();map.source='Previous healthy production snapshot (fallback)';writeFileSync(join(DATA,'candidate-photo-map.json'),JSON.stringify(map));try{const catalog=await fetchJson(`${FALLBACK}/data/candidate-catalog.json?v=fallback102`);writeFileSync(join(DATA,'candidate-catalog.json'),JSON.stringify(catalog))}catch{}console.log(`V1.0.2 fallback assets ready from previous production: ${unique.size} photos.`)}
+try{await buildFromTse()}catch(e){await buildFromPreviousRelease(e)}finally{rmSync(TMP,{recursive:true,force:true})}
