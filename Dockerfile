@@ -123,6 +123,13 @@ RUN node --check /app/public/v131-refine-runtime.js \
  && grep -q '/v131-refine-runtime.js' /app/public/index.html \
  && grep -q '/v131-refine-runtime.js' /app/public/transparencia.html \
  && ! grep -q '/v131-refine-runtime.js' /app/public/operacao.html
+COPY v135-install.js /app/public/v135-install.js
+COPY v135-patch.mjs /app/v135-patch.mjs
+RUN node /app/v135-patch.mjs && rm /app/v135-patch.mjs
+RUN node --check /app/public/v135-install.js \
+ && grep -q '/v135-install.js' /app/public/index.html \
+ && grep -q '/v135-install.js' /app/public/transparencia.html \
+ && ! grep -q '/v135-install.js' /app/public/operacao.html
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
       org.opencontainers.image.version="1.1.1"
 ENV NODE_ENV=production
