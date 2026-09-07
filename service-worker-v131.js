@@ -1,4 +1,4 @@
-const VERSION='v1.3.2-public3';
+const VERSION='v1.3.3-public-polish';
 const SHELL=`colmeia-shell-${VERSION}`;
 const RUNTIME=`colmeia-runtime-${VERSION}`;
 const TILES=`colmeia-tiles-${VERSION}`;
