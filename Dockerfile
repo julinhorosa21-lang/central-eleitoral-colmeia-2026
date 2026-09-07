@@ -130,8 +130,18 @@ RUN node --check /app/public/v135-install.js \
  && grep -q '/v135-install.js' /app/public/index.html \
  && grep -q '/v135-install.js' /app/public/transparencia.html \
  && ! grep -q '/v135-install.js' /app/public/operacao.html
+COPY admin-v140.html /app/public/admin.html
+COPY admin-v140.css /app/public/admin.css
+COPY admin-v140.js /app/public/admin.js
+COPY admin-v140.webmanifest /app/public/admin.webmanifest
+RUN node --check /app/public/admin.js \
+ && grep -q '/admin.webmanifest' /app/public/admin.html \
+ && grep -q '/admin.js' /app/public/admin.html \
+ && grep -q '/operacao.html' /app/public/admin.html \
+ && grep -q '/api/snapshot' /app/public/admin.js \
+ && grep -q '/api/whoami' /app/public/admin.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.1.1"
+      org.opencontainers.image.version="1.4.0"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
