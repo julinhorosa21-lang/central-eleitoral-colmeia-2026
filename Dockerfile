@@ -148,8 +148,18 @@ RUN node --check /app/public/admin/admin.js \
  && grep -q '/admin/admin-sw.js' /app/public/admin/admin.js \
  && grep -q 'sectionSearch' /app/public/admin/index.html \
  && grep -q 'location.replace' /app/public/admin.html
+COPY v150-unified-app.mjs /app/v150-unified-app.mjs
+RUN node /app/v150-unified-app.mjs && rm /app/v150-unified-app.mjs
+RUN node --check /app/public/v150-unified.js \
+ && node --check /app/public/admin/admin-v150.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q 'v150-unified.js' /app/public/index.html \
+ && grep -q 'manifest.webmanifest?v=150' /app/public/admin/index.html \
+ && grep -q 'admin-v150.js' /app/public/admin/index.html \
+ && ! grep -q '/admin/admin-sw.js' /app/public/admin/admin-v150.js \
+ && grep -q '"scope": "/"' /app/public/manifest.webmanifest
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.4.2"
+      org.opencontainers.image.version="1.5.0"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
