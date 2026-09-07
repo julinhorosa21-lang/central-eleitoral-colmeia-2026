@@ -1,4 +1,4 @@
-const VERSION='v1.3.5-install';
+const VERSION='v1.3.6-install-visible';
 const SHELL=`colmeia-shell-${VERSION}`;
 const RUNTIME=`colmeia-runtime-${VERSION}`;
 const TILES=`colmeia-tiles-${VERSION}`;
