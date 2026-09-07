@@ -101,3 +101,51 @@ async function boot(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
+
+/* V1.5.2 — refinamento da experiência pública em celular */
+(()=>{
+'use strict';
+const PATHS=new Set(['/','/index.html','/transparencia.html']);
+if(!PATHS.has(location.pathname))return;
+const POLISH=`
+.public-v131 #cargoTabs{scroll-padding-inline:12px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.public-v131 #cargoTabs button{scroll-snap-align:center;touch-action:manipulation;transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.public-v131 #cargoTabs button.active{box-shadow:0 3px 9px rgba(20,72,108,.16)!important}
+.public-v131 #cargoTabs button:active{transform:scale(.985)}
+.public-v131 .leader.public-candidate-row{transition:border-color .16s ease,background-color .16s ease,box-shadow .16s ease}
+.public-v131 .leader.public-candidate-row:hover{border-color:#c8d8e2!important;background:#fcfdfe!important}
+.public-v131 .leader .who{min-width:0}.public-v131 .leader .who b{overflow:hidden;text-overflow:ellipsis}.public-v131 .leader .votes b{font-variant-numeric:tabular-nums}.public-v131 .leader .votes small{font-variant-numeric:tabular-nums}
+.public-v131 .public-bottom-nav{padding-bottom:max(env(safe-area-inset-bottom),2px);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.public-v131 .public-bottom-nav button{touch-action:manipulation}
+.public-v131 .public-bottom-nav button:active{background:#eef4f7}
+.public-v131 .hero .unified-team-entry{touch-action:manipulation}
+.public-v131 #cargoProgressText,.public-v131 #cargoProgressLabel{font-variant-numeric:tabular-nums}
+@media(max-width:620px){
+  .public-v131 #cargoTabs{position:sticky;top:0;z-index:65;margin-left:-11px!important;margin-right:-11px!important;padding:8px 11px 9px!important;background:rgba(255,255,255,.96);border-bottom:1px solid #e0e7ec;box-shadow:0 5px 12px rgba(24,54,75,.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .public-v131 #cargoTabs button{min-width:118px!important;min-height:42px!important;padding:8px 10px!important;font-size:11px!important}
+  .public-v131 .leader.public-candidate-row{grid-template-columns:46px minmax(0,1fr) 78px!important;gap:9px!important;padding:9px!important;border-radius:12px!important}
+  .public-v131 .leader .num{width:44px!important;height:50px!important;border-radius:10px!important}
+  .public-v131 .leader .who b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal;font-size:12.5px!important;line-height:1.18!important}
+  .public-v131 .leader .who small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;display:block}
+  .public-v131 .leader .votes{min-width:0!important;width:78px}.public-v131 .leader .votes b{font-size:12.5px!important}.public-v131 .leader .votes small{font-size:9.5px!important}
+  .public-v131 .leader .bar{grid-column:2/4!important;margin-top:0!important}
+  .public-v131 .hero .unified-team-entry{min-height:39px!important;padding:8px 11px!important}
+  .pwa-install-card{margin:9px 0!important;border-radius:12px!important;padding:10px 11px!important}.pwa-install-title{font-size:12.5px!important}.pwa-install-text{font-size:10.5px!important}.pwa-install-state{font-size:9.5px!important}
+}
+@media(max-width:390px){
+  .public-v131 #cargoTabs button{min-width:110px!important}
+  .public-v131 .leader.public-candidate-row{grid-template-columns:42px minmax(0,1fr) 70px!important;gap:8px!important;padding:8px!important}
+  .public-v131 .leader .num{width:40px!important;height:47px!important}.public-v131 .leader .votes{width:70px}.public-v131 .leader .votes b{font-size:11.5px!important}
+  .public-v131 .public-bottom-nav button b{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.public-v131 #cargoTabs button,.public-v131 .leader.public-candidate-row{transition:none!important;scroll-behavior:auto!important}}
+`;
+function style(){let s=document.getElementById('v152-public-polish');if(!s){s=document.createElement('style');s.id='v152-public-polish';document.head.appendChild(s)}if(s.textContent!==POLISH)s.textContent=POLISH}
+function tabs(){const box=document.getElementById('cargoTabs');if(!box)return;box.setAttribute('role','tablist');box.setAttribute('aria-label','Escolher cargo da apuração');const list=[...box.querySelectorAll('button')];for(const b of list){const active=b.classList.contains('active');b.setAttribute('role','tab');b.setAttribute('aria-selected',active?'true':'false');b.tabIndex=active?0:-1;if(!b.dataset.v152){b.dataset.v152='1';b.addEventListener('click',()=>setTimeout(()=>{b.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});sync()},20))}}if(!box.dataset.v152Keys){box.dataset.v152Keys='1';box.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;const items=[...box.querySelectorAll('button')];if(!items.length)return;let i=Math.max(0,items.indexOf(document.activeElement));if(e.key==='ArrowLeft')i=(i-1+items.length)%items.length;if(e.key==='ArrowRight')i=(i+1)%items.length;if(e.key==='Home')i=0;if(e.key==='End')i=items.length-1;e.preventDefault();items[i].focus();items[i].click()})}const active=list.find(b=>b.classList.contains('active'));if(active&&box.dataset.v152Centered!==active.textContent){box.dataset.v152Centered=active.textContent||'';setTimeout(()=>active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}),30)}}
+function candidates(){document.querySelectorAll('#leaders .leader').forEach((row,i)=>{row.classList.add('public-candidate-row');row.dataset.rank=String(i+1);const name=row.querySelector('.who b')?.textContent?.trim();const votes=row.querySelector('.votes b')?.textContent?.trim();const pct=row.querySelector('.votes small')?.textContent?.trim();if(name)row.setAttribute('aria-label',[name,votes&&`${votes} votos`,pct].filter(Boolean).join(', '))})}
+function progress(){const t=document.getElementById('cargoProgressText');if(t){t.setAttribute('aria-live','polite');t.setAttribute('aria-atomic','true')}const leaders=document.getElementById('leaders');if(leaders){leaders.setAttribute('aria-live','polite');leaders.setAttribute('aria-relevant','additions text')}}
+function access(){const b=document.querySelector('.unified-team-entry');if(b){b.setAttribute('aria-label','Acesso da equipe por chave');b.setAttribute('title','Entrar com chave de operador ou coordenação')}}
+function sync(){style();tabs();candidates();progress();access()}
+function boot(){sync();setTimeout(sync,200);setTimeout(sync,800);let queued=false;const mo=new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync()})});mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});window.addEventListener('resize',sync,{passive:true})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
