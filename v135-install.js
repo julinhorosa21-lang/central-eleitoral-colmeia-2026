@@ -3,22 +3,101 @@
 const PATHS=new Set(['/','/index.html','/transparencia.html']);
 if(!PATHS.has(location.pathname))return;
 let deferredPrompt=null;
+let installing=false;
+
 const STYLE=`
-.public-install-card{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:9px 0;padding:11px 13px;border:1px solid #cfe0eb;border-radius:12px;background:#f5fafe;box-shadow:0 1px 3px rgba(15,42,61,.05)}
-.public-install-copy{display:flex;align-items:center;gap:10px;min-width:0}.public-install-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:#e5f1f8;color:#174f7a}.public-install-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.public-install-text{min-width:0}.public-install-text b{display:block;color:#173f5b;font-size:12px;line-height:1.2}.public-install-text span{display:block;margin-top:2px;color:#607483;font-size:10px;line-height:1.35}
-.public-install-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:0 0 auto;min-height:38px;border:0;border-radius:9px;background:#175c88;color:#fff;padding:8px 13px;font:inherit;font-size:10.5px;font-weight:800;line-height:1;cursor:pointer;box-shadow:0 1px 2px rgba(15,42,61,.12)}.public-install-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.public-install-btn:focus-visible{outline:3px solid #f2c94c;outline-offset:2px}.public-install-card[hidden]{display:none!important}
-.public-install-toast{position:fixed;left:50%;bottom:76px;z-index:1400;transform:translateX(-50%);width:min(92vw,520px);padding:10px 12px;border-radius:10px;background:#173f5b;color:#fff;font-size:11px;line-height:1.4;text-align:center;box-shadow:0 8px 28px rgba(0,0,0,.2)}
-@media(max-width:520px){.public-install-card{align-items:stretch;flex-direction:column;gap:9px}.public-install-btn{width:100%}.public-install-toast{bottom:72px}}
+.pwa-install-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;margin:12px 0;padding:12px 14px;border:1px solid #d9e4ea;border-radius:14px;background:#f8fbfc;color:#17324a;box-shadow:0 1px 2px rgba(15,42,61,.05)}
+.pwa-install-icon{width:48px;height:48px;border-radius:12px;display:block;object-fit:cover;box-shadow:0 2px 8px rgba(15,42,61,.14)}
+.pwa-install-copy{min-width:0}.pwa-install-title{display:flex;align-items:center;gap:7px;margin:0;font-size:14px;font-weight:850;color:#245b42}.pwa-install-text{margin:3px 0 0;color:#66727d;font-size:11.5px;line-height:1.35}.pwa-install-state{display:flex;align-items:center;gap:6px;margin-top:5px;color:#52606d;font-size:10.5px;font-weight:700}.pwa-install-state:before{content:"";width:7px;height:7px;border-radius:50%;background:#16a34a}
+.pwa-install-btn{border:0;border-radius:10px;background:#1d638f;color:#fff;padding:10px 13px;font:inherit;font-size:11.5px;font-weight:850;line-height:1;white-space:nowrap;cursor:pointer;box-shadow:0 2px 6px rgba(29,99,143,.18)}
+.pwa-install-btn:active{transform:translateY(1px)}.pwa-install-btn:focus-visible{outline:3px solid #f2c94c;outline-offset:2px}.pwa-install-btn[disabled]{opacity:.6;cursor:wait}
+.pwa-install-help{grid-column:2/4;margin-top:-3px;padding-top:7px;border-top:1px solid #e5ecef;color:#52606d;font-size:10.5px;line-height:1.4}.pwa-install-help[hidden]{display:none!important}
+@media(max-width:560px){.pwa-install-card{grid-template-columns:auto 1fr;gap:10px}.pwa-install-btn{grid-column:1/3;width:100%;padding:11px 12px}.pwa-install-help{grid-column:1/3}.pwa-install-icon{width:44px;height:44px}}
 `;
+
 const isStandalone=()=>window.matchMedia?.('(display-mode: standalone)').matches===true||window.navigator.standalone===true;
-function ensureStyle(){if(document.getElementById('v135-install-style'))return;const s=document.createElement('style');s.id='v135-install-style';s.textContent=STYLE;document.head.appendChild(s)}
-let toastTimer=null;
-function toast(message){let el=document.getElementById('v135InstallToast');if(!el){el=document.createElement('div');el.id='v135InstallToast';el.className='public-install-toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.appendChild(el)}el.textContent=message;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.hidden=true},4200)}
-function installCard(){const hero=document.querySelector('.hero.public-main-hero')||document.querySelector('.hero');if(!hero)return null;document.getElementById('v135InstallWrap')?.remove();let card=document.getElementById('v136InstallCard');if(!card){card=document.createElement('section');card.id='v136InstallCard';card.className='public-install-card';card.setAttribute('aria-label','Instalar Central Eleitoral');card.innerHTML='<div class="public-install-copy"><span class="public-install-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14"/></svg></span><div class="public-install-text"><b>Instalar Central Eleitoral</b><span>Adicione à tela inicial e abra como aplicativo.</span></div></div><button type="button" class="public-install-btn" id="v135InstallBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 19h14"/></svg><span>Instalar app</span></button>';hero.after(card);card.querySelector('button').addEventListener('click',requestInstall)}else if(card.previousElementSibling!==hero){hero.after(card)}card.hidden=isStandalone();return card.querySelector('#v135InstallBtn')}
-async function requestInstall(){if(isStandalone()){toast('O aplicativo já está instalado neste dispositivo.');installCard();return}if(deferredPrompt){const p=deferredPrompt;deferredPrompt=null;try{await p.prompt();const choice=await p.userChoice;if(choice?.outcome==='accepted')toast('Instalação iniciada.');else toast('Instalação cancelada. Você pode tentar novamente quando quiser.')}catch{toast('O navegador não conseguiu abrir a instalação agora. Tente novamente em alguns segundos.')}installCard();return}toast('A instalação direta ainda não foi liberada pelo navegador. Aguarde alguns segundos e toque novamente em “Instalar app”.')}
-function refresh(){ensureStyle();installCard()}
-window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredPrompt=event;refresh()});
-window.addEventListener('appinstalled',()=>{deferredPrompt=null;refresh();toast('Central Eleitoral instalada com sucesso.')});
-function boot(){refresh();navigator.serviceWorker?.ready?.then(()=>setTimeout(refresh,250)).catch(()=>{});setTimeout(refresh,300);setTimeout(refresh,1200);let queued=false;new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;refresh()})}).observe(document.body,{childList:true,subtree:true});window.matchMedia?.('(display-mode: standalone)').addEventListener?.('change',refresh);window.addEventListener('pageshow',refresh)}
+function ensureStyle(){if(document.getElementById('pwa-install-style'))return;const s=document.createElement('style');s.id='pwa-install-style';s.textContent=STYLE;document.head.appendChild(s)}
+
+function card(){
+  if(isStandalone()){document.getElementById('pwaInstallCard')?.remove();return null}
+  let el=document.getElementById('pwaInstallCard');
+  if(el)return el;
+  const hero=document.querySelector('.hero.public-main-hero')||document.querySelector('.hero');
+  if(!hero)return null;
+  el=document.createElement('section');
+  el.id='pwaInstallCard';
+  el.className='pwa-install-card';
+  el.setAttribute('aria-label','Instalar Central Eleitoral');
+  el.innerHTML=`
+    <img class="pwa-install-icon" src="/icons/icon-192.png" alt="" width="48" height="48">
+    <div class="pwa-install-copy">
+      <p class="pwa-install-title">Central pronta para celular</p>
+      <p class="pwa-install-text">Instale a Central Eleitoral e abra direto pela tela inicial, com o ícone do aplicativo.</p>
+      <div class="pwa-install-state" id="pwaInstallState">Aplicativo disponível para instalação</div>
+    </div>
+    <button type="button" class="pwa-install-btn" id="pwaInstallBtn">Instalar app</button>
+    <div class="pwa-install-help" id="pwaInstallHelp" hidden></div>`;
+  hero.insertAdjacentElement('afterend',el);
+  el.querySelector('#pwaInstallBtn').addEventListener('click',requestInstall);
+  return el;
+}
+
+function setHelp(message){const el=card();if(!el)return;const help=el.querySelector('#pwaInstallHelp');help.textContent=message;help.hidden=!message}
+function setState(message){const el=card();if(!el)return;const state=el.querySelector('#pwaInstallState');if(state)state.textContent=message}
+
+async function ensurePwa(){
+  if(!('serviceWorker' in navigator))return false;
+  try{
+    await navigator.serviceWorker.register('/service-worker.js',{scope:'/'});
+    await navigator.serviceWorker.ready;
+    return true;
+  }catch{return false}
+}
+
+async function requestInstall(){
+  if(isStandalone()){card();return}
+  const el=card();if(!el)return;
+  const btn=el.querySelector('#pwaInstallBtn');
+  if(installing)return;
+  installing=true;btn.disabled=true;btn.textContent='Preparando…';setHelp('');
+  await ensurePwa();
+  // Em alguns navegadores o evento chega logo após o service worker ficar pronto.
+  if(!deferredPrompt)await new Promise(r=>setTimeout(r,700));
+  if(deferredPrompt){
+    const p=deferredPrompt;deferredPrompt=null;
+    try{
+      await p.prompt();
+      const choice=await p.userChoice;
+      if(choice?.outcome==='accepted'){
+        setState('Instalação iniciada');
+        setHelp('Quando concluir, a Central aparecerá na sua tela inicial com o ícone do aplicativo.');
+      }else{
+        setState('Aplicativo disponível para instalação');
+        setHelp('Instalação cancelada. Você pode tocar em “Instalar app” novamente quando quiser.');
+      }
+    }catch{
+      setHelp('O navegador não abriu a janela de instalação desta vez. Aguarde alguns segundos e tente novamente.');
+    }
+  }else{
+    const ua=navigator.userAgent||'';
+    if(/iPhone|iPad|iPod/i.test(ua))setHelp('Neste navegador a instalação não pode ser aberta automaticamente. No Safari, use Compartilhar → Adicionar à Tela de Início.');
+    else setHelp('A Central está configurada como aplicativo. Se a janela não abrir automaticamente, atualize a página uma vez e toque novamente em “Instalar app”.');
+  }
+  installing=false;btn.disabled=false;btn.textContent='Instalar app';
+}
+
+function refresh(){ensureStyle();card()}
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredPrompt=event;setState('Pronto para instalar neste dispositivo');setHelp('');refresh()});
+window.addEventListener('appinstalled',()=>{deferredPrompt=null;document.getElementById('pwaInstallCard')?.remove()});
+
+async function boot(){
+  ensureStyle();
+  card();
+  await ensurePwa();
+  setTimeout(refresh,250);
+  setTimeout(refresh,1200);
+  window.matchMedia?.('(display-mode: standalone)').addEventListener?.('change',refresh);
+  window.addEventListener('pageshow',refresh);
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
