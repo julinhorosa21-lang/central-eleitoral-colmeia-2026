@@ -104,6 +104,16 @@ RUN node --check /app/public/v121-polish.js \
  && node --check /app/public/service-worker.js \
  && node /app/v121-preflight.mjs \
  && rm /app/v121-preflight.mjs
+COPY v130-public.css /app/public/v130-public.css
+COPY v130-public.js /app/public/v130-public.js
+COPY service-worker-v130.js /app/public/service-worker.js
+COPY v130-patch.mjs /app/v130-patch.mjs
+RUN node /app/v130-patch.mjs && rm /app/v130-patch.mjs
+COPY v130-preflight.mjs /app/v130-preflight.mjs
+RUN node --check /app/public/v130-public.js \
+ && node --check /app/public/service-worker.js \
+ && node /app/v130-preflight.mjs \
+ && rm /app/v130-preflight.mjs
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
       org.opencontainers.image.version="1.1.1"
 ENV NODE_ENV=production
