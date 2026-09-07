@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
-  const VERSION='1.0.0';
-  const LABEL='V1.0';
+  const VERSION='1.0.1';
+  const LABEL='V1.0.1';
   const RELEASE={
     version:VERSION,
     label:LABEL,
@@ -11,15 +11,15 @@
   try{window.CENTRAL_ELEITORAL_RELEASE=Object.freeze(RELEASE)}catch{}
 
   function applyVersion(){
+    // O atributo no <html> serve apenas como metadado para diagnóstico/CSS.
+    // Nunca selecionar [data-app-version] para alterar textContent: isso apagaria o documento inteiro.
     document.documentElement.dataset.appVersion=VERSION;
-    document.querySelectorAll('.v022-version,[data-app-version]').forEach(el=>{
-      if(el.hasAttribute('data-app-version')) el.textContent=VERSION;
-      else el.textContent=LABEL;
-    });
+    document.querySelectorAll('.v022-version').forEach(el=>{el.textContent=LABEL});
+    document.querySelectorAll('[data-release-version]').forEach(el=>{el.textContent=VERSION});
     const path=location.pathname.replace(/\/+$/,'')||'/';
     if(path==='/'||path==='/index.html'){
       const note=document.querySelector('.central-note');
-      if(note) note.innerHTML='<b>V1.0 · Versão estável:</b> apuração local, comparação com dados oficiais do TSE, transparência pública, auditoria, modo de simulação e fotos dos candidatos consolidados para operação. Os dados oficiais da Justiça Eleitoral continuam sendo a referência definitiva.';
+      if(note) note.innerHTML='<b>V1.0.1 · Versão estável:</b> correção de abertura da interface após a V1.0, mantendo apuração local, comparação com dados oficiais do TSE, transparência pública, auditoria, simulação e fotos dos candidatos.';
     }
   }
 
