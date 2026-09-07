@@ -3,10 +3,10 @@ const serverPath='/app/server.mjs';
 const publicDir='/app/public';
 const server=readFileSync(serverPath,'utf8');
 
-function need(haystack,token,label=token){if(!haystack.includes(token)) throw new Error(`V1.0 preflight: missing ${label}`)}
-function needFile(file){if(!existsSync(file)) throw new Error(`V1.0 preflight: missing file ${file}`)}
+function need(haystack,token,label=token){if(!haystack.includes(token)) throw new Error(`V1.0.1 preflight: missing ${label}`)}
+function needFile(file){if(!existsSync(file)) throw new Error(`V1.0.1 preflight: missing file ${file}`)}
 
-need(server,"version:'1.0.0'",'server version 1.0.0');
+need(server,"version:'1.0.1'",'server version 1.0.1');
 const routes=[
   '/api/health','/api/snapshot','/api/whoami','/api/stream',
   '/api/tse/status','/api/tse/section','/api/tse/comparison','/api/tse/refresh',
@@ -26,18 +26,18 @@ for(const token of [
 
 const simStart=server.indexOf("if (p === '/api/sim/results' && req.method === 'POST')");
 const simEnd=server.indexOf("if (p === '/api/sim/reset'",simStart);
-if(simStart<0||simEnd<0) throw new Error('V1.0 preflight: simulation route boundaries missing');
+if(simStart<0||simEnd<0) throw new Error('V1.0.1 preflight: simulation route boundaries missing');
 const simRoute=server.slice(simStart,simEnd);
-for(const forbidden of ['insertRow.run(','updateRow.run(','deleteRow.run(']) if(simRoute.includes(forbidden)) throw new Error(`V1.0 preflight: simulation route touches real results via ${forbidden}`);
+for(const forbidden of ['insertRow.run(','updateRow.run(','deleteRow.run(']) if(simRoute.includes(forbidden)) throw new Error(`V1.0.1 preflight: simulation route touches real results via ${forbidden}`);
 need(simRoute,'simInsertRow.run','isolated simulation insert');
 need(simRoute,'simUpdateRow.run','isolated simulation update');
 
 const snapStart=server.indexOf('function snapshot()');
 const snapEnd=server.indexOf('function simulationSnapshot()',snapStart);
-if(snapStart<0||snapEnd<0) throw new Error('V1.0 preflight: real snapshot boundary missing');
+if(snapStart<0||snapEnd<0) throw new Error('V1.0.1 preflight: real snapshot boundary missing');
 const realSnapshot=server.slice(snapStart,snapEnd);
 need(realSnapshot,'listRows.all()','real snapshot result source');
-if(realSnapshot.includes('simListRows')) throw new Error('V1.0 preflight: real snapshot contaminated by simulation data');
+if(realSnapshot.includes('simListRows')) throw new Error('V1.0.1 preflight: real snapshot contaminated by simulation data');
 
 const requiredFiles=[
   'index.html','transparencia.html','seguranca.html','simulacao.html','manifest.webmanifest','bu-parser.js',
@@ -50,27 +50,30 @@ for(const rel of requiredFiles) needFile(`${publicDir}/${rel}`);
 for(const page of ['index.html','transparencia.html','seguranca.html','simulacao.html']){
   const html=readFileSync(`${publicDir}/${page}`,'utf8');
   need(html,'/v100-main.js',`${page} stable release script`);
-  if(!html.includes('</html>')&&!html.includes('</body>')) throw new Error(`V1.0 preflight: malformed ${page}`);
-  for(const forbidden of ['ADMIN_TOKEN','OPERATOR_TOKENS']) if(html.includes(forbidden)) throw new Error(`V1.0 preflight: environment token name leaked into ${page}`);
+  if(!html.includes('</html>')&&!html.includes('</body>')) throw new Error(`V1.0.1 preflight: malformed ${page}`);
+  for(const forbidden of ['ADMIN_TOKEN','OPERATOR_TOKENS']) if(html.includes(forbidden)) throw new Error(`V1.0.1 preflight: environment token name leaked into ${page}`);
 }
 
 const sw=readFileSync(`${publicDir}/service-worker.js`,'utf8');
-need(sw,"VERSION='v1.0.0'",'service worker 1.0.0');
+need(sw,"VERSION='v1.0.1'",'service worker 1.0.1');
 for(const asset of ["'/index.html'","'/transparencia.html'","'/seguranca.html'","'/simulacao.html'","'/v100-main.js'","'/data/candidate-photo-map.json'"]) need(sw,asset,`PWA core ${asset}`);
 need(sw,"'/candidate-photos/'",'progressive candidate photo cache');
 
 const map=JSON.parse(readFileSync(`${publicDir}/data/candidate-photo-map.json`,'utf8'));
 const federal=Object.values(map.byCargo?.depFederal||{}),estadual=Object.values(map.byCargo?.depEstadual||{});
-if(federal.length<90||estadual.length<190) throw new Error(`V1.0 preflight: candidate photo coverage too low ${federal.length}/${estadual.length}`);
+if(federal.length<90||estadual.length<190) throw new Error(`V1.0.1 preflight: candidate photo coverage too low ${federal.length}/${estadual.length}`);
 for(const item of [...federal,...estadual]) needFile(`${publicDir}${item.foto}`);
 const photoCount=readdirSync(`${publicDir}/candidate-photos`).filter(n=>/^\d+\.jpg$/.test(n)).length;
-if(photoCount<300) throw new Error(`V1.0 preflight: only ${photoCount} candidate photos packaged`);
+if(photoCount<300) throw new Error(`V1.0.1 preflight: only ${photoCount} candidate photos packaged`);
 
 const pkg=JSON.parse(readFileSync('/app/package.json','utf8'));
-if(pkg.version!=='1.0.0') throw new Error(`V1.0 preflight: package version ${pkg.version}`);
+if(pkg.version!=='1.0.1') throw new Error(`V1.0.1 preflight: package version ${pkg.version}`);
 const v100=readFileSync(`${publicDir}/v100-main.js`,'utf8');
-need(v100,"const VERSION='1.0.0'",'client release version');
+need(v100,"const VERSION='1.0.1'",'client release version');
+need(v100,"document.documentElement.dataset.appVersion=VERSION",'diagnostic version dataset');
+if(/querySelectorAll\([^\n]*\[data-app-version\]/.test(v100)) throw new Error('V1.0.1 preflight: client may select the root html via [data-app-version] and wipe the document');
+if(/document\.documentElement\.(?:textContent|innerHTML)\s*=/.test(v100)) throw new Error('V1.0.1 preflight: client writes document root content');
 const photoUi=readFileSync(`${publicDir}/v0241-photos.js`,'utf8');
-if(photoUi.includes('decorateGenericResults();updateVersion()')) throw new Error('V1.0 preflight: legacy photo UI still overrides stable version label');
+if(photoUi.includes('decorateGenericResults();updateVersion()')) throw new Error('V1.0.1 preflight: legacy photo UI still overrides stable version label');
 
-console.log(`V1.0 preflight OK: core routes, auth/audit guards, TSE integration, isolated simulation, PWA shell and ${photoCount} candidate photos verified (${federal.length} federal + ${estadual.length} estadual).`);
+console.log(`V1.0.1 preflight OK: interface hotfix regression guard, core routes, auth/audit, TSE, isolated simulation, PWA and ${photoCount} candidate photos verified (${federal.length} federal + ${estadual.length} estadual).`);
