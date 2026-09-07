@@ -158,8 +158,21 @@ RUN node --check /app/public/v150-unified.js \
  && grep -q 'admin-v150.js' /app/public/admin/index.html \
  && grep -q "serviceWorker.register('/service-worker.js?v=150'" /app/public/admin/admin-v150.js \
  && grep -q '"scope": "/"' /app/public/manifest.webmanifest
+COPY v151-access-photo.mjs /app/v151-access-photo.mjs
+RUN node /app/v151-access-photo.mjs && rm /app/v151-access-photo.mjs
+RUN node --check /app/public/v151-team.js \
+ && node --check /app/public/v151-operator-bridge.js \
+ && node --check /app/public/v130-public.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q '/v151-team.css' /app/public/index.html \
+ && grep -q '/v151-team.js' /app/public/index.html \
+ && grep -q 'leadersSig' /app/public/index.html \
+ && grep -q 'leadersSig' /app/public/transparencia.html \
+ && grep -q '/v151-operator-bridge.js' /app/public/operacao.html \
+ && grep -q 'photoLoading' /app/public/v130-public.js \
+ && grep -q "const VERSION='v1.5.1-unified'" /app/public/service-worker.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.5.0"
+      org.opencontainers.image.version="1.5.1"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
