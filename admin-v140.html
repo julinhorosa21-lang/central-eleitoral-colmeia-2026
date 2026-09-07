@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123f62">
+<title>Central Administrativa — Colméia 2026</title>
+<link rel="manifest" href="/admin.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Central Admin">
+<link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+<div id="loginGate" class="login-gate">
+  <section class="login-card">
+    <img src="/icons/icon-192.png" alt="" class="login-icon">
+    <div class="eyebrow">ACESSO RESTRITO · COORDENAÇÃO</div>
+    <h1>Central Administrativa</h1>
+    <p>Use a chave administrativa da Central Eleitoral. A chave fica somente nesta sessão e não é exibida no painel.</p>
+    <form id="loginForm">
+      <label for="adminKey">Chave administrativa</label>
+      <div class="key-row"><input id="adminKey" type="password" autocomplete="current-password" placeholder="Digite a chave"><button class="btn primary" type="submit">Entrar</button></div>
+      <div id="loginMsg" class="form-msg" role="status"></div>
+    </form>
+    <a class="text-link" href="/">Voltar para a apuração pública</a>
+  </section>
+</div>
+
+<div id="app" class="app-shell" hidden>
+  <header class="admin-hero">
+    <div class="hero-main">
+      <div class="brand-line"><img src="/icons/icon-192.png" alt="" class="app-icon"><div><div class="eyebrow">CENTRAL DE COORDENAÇÃO · COLMÉIA/TO</div><h1>Central Administrativa</h1><p>Recebimento, conferência e acompanhamento das 29 seções em tempo real.</p></div></div>
+      <div class="hero-status"><span id="liveDot" class="live-dot"></span><span id="liveText">Conectando…</span><span id="sessionUser" class="session-user"></span></div>
+    </div>
+    <div class="hero-actions">
+      <button id="installBtn" class="btn light" type="button">Instalar app</button>
+      <a class="btn ghost" href="/operacao.html">Área operacional</a>
+      <a class="btn ghost" href="/">Ver público</a>
+      <button id="logoutBtn" class="btn ghost" type="button">Sair</button>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+    <section id="painel" class="panel-section">
+      <div class="section-heading"><div><span class="kicker">VISÃO GERAL</span><h2>Apuração agora</h2></div><button id="refreshBtn" class="btn small" type="button">Atualizar</button></div>
+      <div class="overview-card">
+        <div class="progress-copy"><strong id="progressPct">0%</strong><div><b id="progressMain">0 de 29 seções recebidas</b><span id="progressSub">Aguardando o início da apuração</span></div></div>
+        <div class="progress-track"><span id="progressBar"></span></div>
+        <div class="overview-meta"><span>Última atualização <b id="updatedAt">—</b></span><span id="systemPhase">Aguardando dados</span></div>
+      </div>
+
+      <div class="metric-grid">
+        <article class="metric"><span class="metric-icon">▣</span><small>Recebidas</small><b id="mReceived">0</b><em>de 29</em></article>
+        <article class="metric"><span class="metric-icon">✓</span><small>Completas</small><b id="mComplete">0</b><em>5 cargos</em></article>
+        <article class="metric"><span class="metric-icon">●</span><small>Conferidas</small><b id="mVerified">0</b><em>seções completas</em></article>
+        <article class="metric warn"><span class="metric-icon">!</span><small>Em conferência</small><b id="mPending">0</b><em>exigem acompanhamento</em></article>
+        <article class="metric bad"><span class="metric-icon">!</span><small>Divergências</small><b id="mDivergent">0</b><em>prioridade</em></article>
+        <article class="metric"><span class="metric-icon">○</span><small>Aguardando</small><b id="mWaiting">29</b><em>sem BU recebido</em></article>
+      </div>
+
+      <div class="two-col">
+        <article class="card pad">
+          <div class="card-head"><div><span class="kicker">ATENÇÃO</span><h3>Pendências prioritárias</h3></div><span id="attentionCount" class="count-pill">0</span></div>
+          <div id="attentionList" class="attention-list"><div class="empty">Nenhuma pendência no momento.</div></div>
+        </article>
+        <article class="card pad">
+          <div class="card-head"><div><span class="kicker">INTEGRAÇÃO</span><h3>Justiça Eleitoral / TSE</h3></div></div>
+          <div id="tseSummary" class="system-box">Consultando integração oficial…</div>
+          <div class="action-row"><button id="tseRefreshBtn" class="btn small" type="button">Atualizar TSE</button><a href="/" class="btn small ghost-dark">Ver publicação</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="secoes" class="panel-section">
+      <div class="section-heading"><div><span class="kicker">29 SEÇÕES ATIVAS</span><h2>Controle das seções</h2><p>Toque em uma seção para ver os cinco cargos e a situação da conferência.</p></div><select id="sectionFilter" class="select"><option value="all">Todas</option><option value="waiting">Aguardando</option><option value="partial">Parciais</option><option value="pending">Em conferência</option><option value="verified">Conferidas</option><option value="divergent">Divergentes</option></select></div>
+      <div id="sectionsGrid" class="sections-grid"><div class="empty">Carregando seções…</div></div>
+    </section>
+
+    <section id="apuracao" class="panel-section">
+      <div class="section-heading"><div><span class="kicker">TOTALIZAÇÃO LOCAL</span><h2>Apuração por cargo</h2><p>Mesmos dados que alimentam automaticamente a versão pública.</p></div><span id="cargoCoverage" class="count-pill">0/29</span></div>
+      <div id="cargoTabs" class="cargo-tabs"></div>
+      <div class="card pad">
+        <div class="result-head"><div><h3 id="cargoTitle">Presidente</h3><span id="cargoStatus" class="muted">Aguardando resultados</span></div><div class="result-total"><b id="cargoNominal">0</b><small>votos nominais</small></div></div>
+        <div id="leaders" class="leaders"><div class="empty">Aguardando os primeiros boletins.</div></div>
+        <details class="vote-details"><summary>Detalhes dos votos</summary><div class="mini-grid"><div><small>Legenda</small><b id="vLegenda">0</b></div><div><small>Brancos</small><b id="vBrancos">0</b></div><div><small>Nulos</small><b id="vNulos">0</b></div></div></details>
+      </div>
+    </section>
+
+    <section id="pendencias" class="panel-section">
+      <div class="section-heading"><div><span class="kicker">FILA DE TRABALHO</span><h2>Pendências e divergências</h2><p>Prioriza o que precisa de ação da coordenação.</p></div></div>
+      <div id="pendingBoard" class="pending-board"><div class="empty">Nenhuma pendência identificada.</div></div>
+    </section>
+
+    <section id="mais" class="panel-section">
+      <div class="section-heading"><div><span class="kicker">ADMINISTRAÇÃO</span><h2>Sistema e ferramentas</h2></div></div>
+      <div class="tool-grid">
+        <article class="card pad"><h3>Segurança e auditoria</h3><div id="securitySummary" class="mini-grid security-grid"><div><small>Eventos 24h</small><b id="secEvents">—</b></div><div><small>Negados</small><b id="secDenied">—</b></div><div><small>Correções</small><b id="secCorrections">—</b></div><div><small>Integridade</small><b id="secChain">—</b></div></div><a href="/seguranca.html" class="btn full ghost-dark">Abrir painel de segurança</a></article>
+        <article class="card pad"><h3>Candidaturas</h3><p class="muted">Atualiza o catálogo oficial usado nas telas da Central.</p><div id="candidateStatus" class="system-box compact">Consultando catálogo…</div><button id="candidateRefreshBtn" class="btn full" type="button">Atualizar candidaturas TSE</button></article>
+        <article class="card pad"><h3>Exportação</h3><p class="muted">Baixe um snapshot administrativo para conferência e arquivo.</p><button id="exportBtn" class="btn full" type="button">Exportar dados JSON</button></article>
+        <article class="card pad"><h3>Operação de contingência</h3><p class="muted">Lançamento ou correção de BU continua na área operacional, separado do painel de acompanhamento.</p><a href="/operacao.html" class="btn full">Abrir área operacional</a></article>
+      </div>
+
+      <article class="card pad recent-card"><div class="card-head"><div><span class="kicker">AUDITORIA RECENTE</span><h3>Últimos eventos</h3></div></div><div id="recentEvents" class="event-list"><div class="empty">Carregando eventos…</div></div></article>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navegação administrativa">
+    <button data-target="painel" class="active"><span>▥</span>Painel</button>
+    <button data-target="secoes"><span>▦</span>Seções</button>
+    <button data-target="apuracao"><span>▤</span>Apuração</button>
+    <button data-target="pendencias"><span>!</span>Pendências</button>
+    <button data-target="mais"><span>•••</span>Mais</button>
+  </nav>
+</div>
+
+<div id="toast" class="toast" role="status"></div>
+<div id="sectionModal" class="modal" hidden><div class="modal-backdrop" data-close-modal></div><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" data-close-modal aria-label="Fechar">×</button><div id="modalBody"></div></section></div>
+<script src="/admin.js"></script>
+</body>
+</html>
