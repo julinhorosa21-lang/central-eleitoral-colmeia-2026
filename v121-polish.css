@@ -1,0 +1,169 @@
+/* V1.2.1 — refinamento visual: mais compacto, elegante e consistente */
+.natural-v120{
+  --ui-page-max:1180px;
+  --ui-card-gap:10px;
+  --ui-soft-blue:#f1f6f9;
+}
+
+/* Largura e ritmo geral */
+.natural-v120 .app,
+.natural-v120 .wrap{
+  width:min(100%,var(--ui-page-max))!important;
+  margin-inline:auto!important;
+  padding-inline:18px!important;
+}
+.natural-v120 .top.civic-header{margin-top:14px!important;padding:17px 20px!important}
+.natural-v120 .civic-brand-copy h1{font-size:clamp(28px,3.4vw,35px)!important}
+.natural-v120 .civic-brand-copy p{max-width:690px!important;font-size:12.5px!important}
+.natural-v120 .v022-version{display:none!important}
+.natural-v120 .civic-badge{opacity:.78!important;font-size:9px!important;padding:5px 7px!important}
+.natural-v120 .civic-context{margin:7px 4px 13px!important}
+
+/* Métricas: melhor uso do tablet/desktop */
+.natural-v120 .summary,
+.natural-v120 .metrics{display:grid!important;gap:var(--ui-card-gap)!important}
+@media(min-width:800px){
+  .natural-v120 .summary,
+  .natural-v120 .metrics{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+.natural-v120 .summary .metric,
+.natural-v120 .metrics .metric{min-height:78px!important;padding:11px 12px!important}
+.natural-v120 .civic-metric-icon{width:30px!important;height:30px!important;border-radius:7px!important}
+.natural-v120 .civic-metric-icon svg{width:16px!important;height:16px!important}
+.natural-v120 .metric b{font-size:24px!important}
+
+/* Blocos informativos mais discretos */
+.natural-v120 .ui-intro-card{
+  min-height:0!important;
+  padding:14px 17px!important;
+  border-left:3px solid var(--ui-blue)!important;
+  box-shadow:0 1px 2px rgba(18,37,52,.04)!important;
+}
+.natural-v120 .ui-intro-card h1,
+.natural-v120 .ui-intro-card h2,
+.natural-v120 .ui-intro-card h3{margin:0 0 3px!important;font-size:18px!important;line-height:1.2!important}
+.natural-v120 .ui-intro-card p{margin:0!important;font-size:12px!important;line-height:1.4!important;color:var(--ui-muted)!important}
+.natural-v120 .ui-palette-note{display:none!important}
+.natural-v120 .tse-status.ui-compact-panel,
+.natural-v120 .pwa-panel.ui-compact-panel{
+  min-height:0!important;
+  padding:12px 15px!important;
+  border-radius:11px!important;
+  box-shadow:none!important;
+}
+.natural-v120 .tse-status.ui-compact-panel p,
+.natural-v120 .pwa-panel.ui-compact-panel p{margin-top:3px!important;font-size:11.5px!important;line-height:1.35!important}
+.natural-v120 .pwa-panel.ui-compact-panel .btn,
+.natural-v120 .pwa-panel.ui-compact-panel button{min-height:38px!important;padding:8px 13px!important}
+
+/* Navegação rápida em formato de abas utilitárias */
+.natural-v120 .v022-quicknav{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr))!important;
+  gap:7px!important;
+  overflow:visible!important;
+  margin-bottom:10px!important;
+  padding:0!important;
+}
+.natural-v120 .v022-quicknav button,
+.natural-v120 .v022-quicknav a{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:0!important;
+  min-height:40px!important;
+  padding:8px 10px!important;
+  border-radius:9px!important;
+  font-size:11.5px!important;
+  box-shadow:none!important;
+}
+
+/* Toolbar sem corte horizontal */
+.natural-v120 .toolbar{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:stretch!important;
+  gap:7px!important;
+  overflow:visible!important;
+  padding:7px!important;
+}
+.natural-v120 .toolbar>*{min-width:0!important;white-space:normal!important}
+.natural-v120 .toolbar select{flex:1 1 180px!important;max-width:none!important}
+.natural-v120 .toolbar button,
+.natural-v120 .toolbar .btn{flex:1 1 135px!important;min-height:40px!important;padding:8px 10px!important}
+
+/* Mapa mais proporcional no tablet */
+@media(min-width:760px) and (max-width:1100px){
+  .natural-v120 .mapbox,
+  .natural-v120 #map,
+  .natural-v120 .map-placeholder{height:380px!important;min-height:380px!important}
+}
+
+/* Catálogo de candidatos: densidade melhor e duas colunas no tablet */
+.natural-v120 .candidate-grid{gap:9px!important}
+@media(min-width:760px){
+  .natural-v120 .candidate-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+.natural-v120 .candidate-card{
+  min-height:82px!important;
+  padding:10px 12px!important;
+  border-radius:11px!important;
+  box-shadow:0 1px 2px rgba(18,37,52,.045)!important;
+}
+.natural-v120 .candidate-card strong,
+.natural-v120 .candidate-card b{line-height:1.2!important}
+.natural-v120 .candidate-card small{line-height:1.25!important}
+.natural-v120 .cand-avatar{width:46px!important;height:54px!important;border-radius:9px!important}
+.natural-v120 .cand-number{font-size:19px!important}
+.natural-v120 .candidate-photo-v0241{width:48px!important;height:68px!important;border-radius:9px!important;box-shadow:none!important}
+.natural-v120 .v0241-photo-card{min-height:82px!important;padding-right:68px!important}
+.natural-v120 .v0241-photo-card>.candidate-photo-v0241{right:10px!important}
+
+/* Apuração com menos altura e mais leitura */
+.natural-v120 .leader-row{padding:8px 10px!important;border-radius:10px!important;box-shadow:none!important}
+.natural-v120 .leader-row+.leader-row{margin-top:6px!important}
+.natural-v120 .progress{height:8px!important}
+.natural-v120 .results-head{margin-bottom:9px!important}
+
+/* Cards de locais e seções */
+.natural-v120 .place{padding:13px!important}
+.natural-v120 .sec{border-radius:8px!important}
+
+/* Barra inferior e botão ao topo menos chamativos */
+.natural-v120 .footer-nav div{max-width:700px!important}
+.natural-v120 .footer-nav button{min-height:54px!important}
+.natural-v120 .v022-top{
+  width:36px!important;
+  height:36px!important;
+  right:14px!important;
+  bottom:78px!important;
+  border-radius:10px!important;
+  font-size:15px!important;
+  background:rgba(18,61,96,.92)!important;
+  box-shadow:0 3px 10px rgba(18,37,52,.18)!important;
+}
+
+/* Botões com feedback discreto */
+.natural-v120 button,
+.natural-v120 .btn,
+.natural-v120 .v022-quicknav a{transition:background-color .14s ease,border-color .14s ease,box-shadow .14s ease!important}
+
+@media(max-width:759px){
+  .natural-v120 .app,
+  .natural-v120 .wrap{padding-inline:12px!important}
+  .natural-v120 .top.civic-header{margin-top:10px!important;padding:15px 14px!important}
+  .natural-v120 .civic-brand-copy h1{font-size:24px!important}
+  .natural-v120 .summary,
+  .natural-v120 .metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .natural-v120 .v022-quicknav{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .natural-v120 .toolbar select{flex-basis:100%!important}
+  .natural-v120 .toolbar button,
+  .natural-v120 .toolbar .btn{flex:1 1 calc(50% - 4px)!important}
+  .natural-v120 .candidate-grid{grid-template-columns:1fr!important}
+}
+
+@media(max-width:430px){
+  .natural-v120 .toolbar button,
+  .natural-v120 .toolbar .btn{flex-basis:100%!important}
+  .natural-v120 .civic-context span{font-size:9.5px!important}
+}
