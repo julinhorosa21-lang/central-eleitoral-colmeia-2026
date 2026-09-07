@@ -1,0 +1,30 @@
+/* V1.1.1 — limpeza de simulação/ensaio e mapa sempre no fluxo da página */
+html body .mapbox,
+html body #map,
+html body .map-wrap,
+html body .map-card,
+html body [data-map-container]{
+  position:relative!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  inset:auto!important;
+  transform:none!important;
+  float:none!important;
+  max-width:100%!important;
+}
+html body .mapbox,
+html body .map-wrap,
+html body .map-card{width:100%!important}
+html body .card:has(#map),
+html body .card:has(.mapbox),
+html body .grid:has(#map),
+html body .grid:has(.mapbox){
+  position:relative!important;
+  top:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+}
+html body #map,
+html body .mapbox{z-index:0!important}
