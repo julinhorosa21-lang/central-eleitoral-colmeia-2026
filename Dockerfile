@@ -45,6 +45,21 @@ COPY v0241-patch.mjs /app/v0241-patch.mjs
 RUN node /app/v0241-patch.mjs && rm /app/v0241-patch.mjs
 COPY v0241-preflight.mjs /app/v0241-preflight.mjs
 RUN node --check /app/server.mjs && node --check /app/public/v0241-photos.js && node /app/v0241-preflight.mjs && rm /app/v0241-preflight.mjs
+COPY v100-main.js /app/public/v100-main.js
+COPY service-worker-v100.js /app/public/service-worker.js
+COPY v100-patch.mjs /app/v100-patch.mjs
+RUN node /app/v100-patch.mjs && rm /app/v100-patch.mjs
+COPY v100-preflight.mjs /app/v100-preflight.mjs
+COPY contrast-audit-v0222.mjs /app/contrast-audit-v100.mjs
+RUN node --check /app/server.mjs \
+ && node --check /app/public/v0241-photos.js \
+ && node --check /app/public/v100-main.js \
+ && node --check /app/public/service-worker.js \
+ && node /app/v100-preflight.mjs \
+ && node /app/contrast-audit-v100.mjs \
+ && rm /app/v100-preflight.mjs /app/contrast-audit-v100.mjs
+LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
+      org.opencontainers.image.version="1.0.0"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
