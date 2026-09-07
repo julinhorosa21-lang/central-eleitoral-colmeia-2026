@@ -81,8 +81,19 @@ RUN node --check /app/server.mjs \
  && node --check /app/public/service-worker.js \
  && node /app/v110-preflight.mjs \
  && rm /app/v110-preflight.mjs
+COPY v111-cleanup.css /app/public/v111-cleanup.css
+COPY v111-main.js /app/public/v111-main.js
+COPY service-worker-v111.js /app/public/service-worker.js
+COPY v111-patch.mjs /app/v111-patch.mjs
+RUN node /app/v111-patch.mjs && rm /app/v111-patch.mjs
+COPY v111-preflight.mjs /app/v111-preflight.mjs
+RUN node --check /app/server.mjs \
+ && node --check /app/public/v111-main.js \
+ && node --check /app/public/service-worker.js \
+ && node /app/v111-preflight.mjs \
+ && rm /app/v111-preflight.mjs
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.1.0"
+      org.opencontainers.image.version="1.1.1"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
