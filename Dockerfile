@@ -187,8 +187,19 @@ RUN node --check /app/public/v157-polish.js \
  && grep -q '/v157-polish.css' /app/public/operacao.html \
  && grep -q '/v157-polish.js' /app/public/operacao.html \
  && grep -q "const VERSION='v1.5.7-unified'" /app/public/service-worker.js
+COPY v160-flow.mjs /app/v160-flow.mjs
+RUN node /app/v160-flow.mjs && rm /app/v160-flow.mjs
+RUN node --check /app/public/v160-flow.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q '/v160-flow.css' /app/public/index.html \
+ && grep -q '/v160-flow.js' /app/public/index.html \
+ && grep -q '/v160-flow.css' /app/public/transparencia.html \
+ && grep -q '/v160-flow.js' /app/public/transparencia.html \
+ && grep -q '/v160-flow.css' /app/public/operacao.html \
+ && grep -q '/v160-flow.js' /app/public/operacao.html \
+ && grep -q "const VERSION='v1.6.0-unified'" /app/public/service-worker.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.5.7"
+      org.opencontainers.image.version="1.6.0"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
