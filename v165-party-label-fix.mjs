@@ -59,6 +59,6 @@ for(const file of [`${pub}/index.html`,`${pub}/transparencia.html`]){
   write(file,html);
 }
 let sw=read(`${pub}/service-worker.js`);
-sw=sw.replace(/const VERSION='[^']+';/,"const VERSION='v1.6.6-unified';");
+sw=sw.replace(/const VERSION='[^']+';/,"const VERSION='v1.6.5-unified';");
 write(`${pub}/service-worker.js`,sw);
 console.log('V1.6.6 applied: party labels corrected and positional yellow highlight removed.');
