@@ -4,33 +4,29 @@ const read=p=>fs.readFileSync(p,'utf8');
 const write=(p,s)=>fs.writeFileSync(p,s);
 
 const css=`
-/* V1.5.7 — lapidação visual baseada na interface real em celular */
+/* V1.5.8 — cabeçalho regional limpo + correção definitiva da faixa vazia */
 :root{--ce157-green:#009B3A;--ce157-yellow:#FFDF00;--ce157-blue:#002776;--ce157-to:#2450B2;--ce157-col:#9FD0F0;--ce157-gold:#E5B100}
 
 /* O cabeçalho real pode ser .hero ou .top conforme o módulo/shell. */
 .hero,.top{
   position:relative!important;isolation:isolate!important;overflow:hidden!important;
   border-top:4px solid var(--ce157-yellow)!important;
-  background:linear-gradient(118deg,#008F3E 0%,#087E48 31%,#176A73 47%,#2450B2 71%,#002776 100%)!important;
-  box-shadow:0 12px 30px rgba(0,39,118,.14)!important;
+  background:linear-gradient(118deg,#008D3D 0%,#009B3A 22%,#137B68 44%,#2450B2 72%,#002776 100%)!important;
+  box-shadow:0 10px 26px rgba(0,39,118,.13)!important;
 }
-.hero:before,.top:before{
-  content:''!important;display:block!important;position:absolute!important;z-index:0!important;
-  width:190px!important;height:190px!important;right:-80px!important;top:-108px!important;
-  border-radius:34px!important;transform:rotate(45deg)!important;background:rgba(255,223,0,.24)!important;
-  pointer-events:none!important;
-}
+/* V1.5.8: remove o grande losango/polígono que pesava no topo. */
+.hero:before,.top:before{display:none!important;content:none!important}
 .hero:after,.top:after{
   content:''!important;display:block!important;position:absolute!important;z-index:0!important;
   left:0!important;right:0!important;top:auto!important;bottom:0!important;width:auto!important;height:4px!important;
   border:0!important;border-radius:0!important;transform:none!important;
-  background:linear-gradient(90deg,var(--ce157-green) 0 36%,var(--ce157-yellow) 36% 52%,var(--ce157-col) 52% 68%,var(--ce157-blue) 68% 100%)!important;
+  background:linear-gradient(90deg,var(--ce157-green) 0 34%,var(--ce157-yellow) 34% 50%,var(--ce157-col) 50% 66%,var(--ce157-blue) 66% 100%)!important;
   pointer-events:none!important;
 }
 .hero>*,.top>*{position:relative;z-index:1}
 .hero .eyebrow,.top .eyebrow{color:#FFF3A3!important}
-.hero h1,.top h1{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.09)!important}
-.hero p,.top p{color:rgba(255,255,255,.86)!important}
+.hero h1,.top h1{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.08)!important}
+.hero p,.top p{color:rgba(255,255,255,.88)!important}
 
 /* Mantém os cartões limpos, mas faz a identidade regional aparecer no ritmo da tela. */
 .metrics .metric:nth-child(4n+1){border-top-color:var(--ce157-green)!important}
@@ -47,52 +43,74 @@ const css=`
   box-shadow:0 4px 12px rgba(20,80,118,.13)!important;
 }
 
-/* Barra inferior: fundo ativo mais leve e assinatura tricolor menor. */
+/* Barra inferior: só tipografia/ícone e uma linha tricolor, sem bloco azul ocupando a aba inteira. */
 .footer-nav button.active,.bottom-nav button.active,.public-bottom-nav button.active,
 .footer-nav .active,.bottom-nav .active{
-  position:relative!important;background:linear-gradient(180deg,rgba(232,248,238,.72),rgba(239,247,253,.74))!important;
-  color:#174F7A!important;border-radius:14px 14px 0 0!important;
+  position:relative!important;background:transparent!important;color:#174F7A!important;border-radius:0!important;box-shadow:none!important;
 }
 .footer-nav button.active:before,.bottom-nav button.active:before,.public-bottom-nav button.active:before,
 .footer-nav .active:before,.bottom-nav .active:before{
-  content:''!important;position:absolute!important;left:27%!important;right:27%!important;top:0!important;height:3px!important;
+  content:''!important;position:absolute!important;left:31%!important;right:31%!important;top:0!important;height:3px!important;
   border-radius:0 0 99px 99px!important;background:linear-gradient(90deg,var(--ce157-green),var(--ce157-yellow),var(--ce157-blue))!important;
 }
 
 /* Progresso regional. */
 .progress span,.progress i,.public-progress i{background:linear-gradient(90deg,var(--ce157-green) 0 42%,var(--ce157-yellow) 42% 55%,var(--ce157-to) 55% 100%)!important}
 
-/* Remove apenas artefatos vazios explicitamente marcados pelo runtime V1.5.7. */
-.ce157-empty-artifact{display:none!important}
+/* Remove somente artefatos vazios marcados pelo runtime. */
+.ce157-empty-artifact{display:none!important;min-height:0!important;height:0!important;margin:0!important;padding:0!important;border:0!important}
 
 @media(max-width:620px){
   .hero,.top{border-radius:15px!important}
-  .hero:before,.top:before{width:155px!important;height:155px!important;right:-72px!important;top:-92px!important}
-  .footer-nav button.active,.bottom-nav button.active,.public-bottom-nav button.active,.footer-nav .active,.bottom-nav .active{border-radius:11px 11px 0 0!important}
+  .footer-nav button.active,.bottom-nav button.active,.public-bottom-nav button.active,.footer-nav .active,.bottom-nav .active{border-radius:0!important}
 }
 `;
 
 const js=`(()=>{'use strict';
-function isReallyEmpty(el){
+function emptyEnough(el){
   if(!el)return false;
   const text=String(el.textContent||'').replace(/\\s+/g,'').trim();
   if(text)return false;
-  if(el.querySelector('input,select,textarea,button,img,svg,canvas,video,iframe'))return false;
+  if(el.querySelector('input,select,textarea,button,a[href],img,svg,canvas,video,iframe'))return false;
   return true;
 }
-function cleanEmptyBand(){
+function visibleBox(el){
+  if(!el||!el.getBoundingClientRect)return false;
+  const r=el.getBoundingClientRect();
+  const cs=getComputedStyle(el);
+  return cs.display!=='none'&&cs.visibility!=='hidden'&&r.width>120&&r.height>8;
+}
+function isTseBlock(el){return /TSE\\s*oficial|aguardando\\s*EA11|conector\\s*pronto/i.test(String(el?.textContent||''))}
+function cleanAfterMetrics(){
   const metrics=document.querySelector('.metrics');
   if(!metrics)return;
   let el=metrics.nextElementSibling;
-  // Só inspeciona o primeiro bloco logo após os indicadores — exatamente a faixa vazia vista no celular.
-  if(el&&isReallyEmpty(el))el.classList.add('ce157-empty-artifact');
+  let steps=0;
+  while(el&&steps<8){
+    if(isTseBlock(el))break;
+    if(emptyEnough(el)&&visibleBox(el))el.classList.add('ce157-empty-artifact');
+    for(const child of [...el.children]){
+      if(emptyEnough(child)&&visibleBox(child))child.classList.add('ce157-empty-artifact');
+    }
+    el=el.nextElementSibling;steps++;
+  }
 }
-function tagVersion(){
-  const root=document.documentElement;
-  root.dataset.ceUi='157';
+function cleanNearbyBands(){
+  const metrics=document.querySelector('.metrics');
+  if(!metrics)return;
+  const mr=metrics.getBoundingClientRect();
+  const candidates=[...document.querySelectorAll('main > *, .wrap > *, body > *')];
+  for(const el of candidates){
+    if(!emptyEnough(el)||!visibleBox(el))continue;
+    const r=el.getBoundingClientRect();
+    if(r.top>=mr.bottom-2&&r.top<=mr.bottom+190&&r.width>=mr.width*.72&&r.height<=95){
+      el.classList.add('ce157-empty-artifact');
+    }
+  }
 }
-function apply(){tagVersion();cleanEmptyBand()}
-function start(){apply();setTimeout(apply,250);setTimeout(apply,900);const mo=new MutationObserver(()=>requestAnimationFrame(apply));mo.observe(document.body,{childList:true,subtree:true,characterData:true})}
+function tagVersion(){document.documentElement.dataset.ceUi='158'}
+function apply(){tagVersion();cleanAfterMetrics();cleanNearbyBands()}
+function start(){apply();setTimeout(apply,180);setTimeout(apply,650);setTimeout(apply,1500);const mo=new MutationObserver(()=>requestAnimationFrame(apply));mo.observe(document.body,{childList:true,subtree:true,characterData:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();`;
 
@@ -101,11 +119,12 @@ write(`${pub}/v157-polish.js`,js);
 
 for(const file of [`${pub}/index.html`,`${pub}/transparencia.html`,`${pub}/operacao.html`]){
   let html=read(file);
-  if(!html.includes('/v157-polish.css'))html=html.replace('</head>','<link rel="stylesheet" href="/v157-polish.css?v=157">\n</head>');
-  if(!html.includes('/v157-polish.js'))html=html.replace('</body>','<script src="/v157-polish.js?v=157"></script>\n</body>');
+  if(!html.includes('/v157-polish.css'))html=html.replace('</head>','<link rel="stylesheet" href="/v157-polish.css?v=158">\n</head>');
+  if(!html.includes('/v157-polish.js'))html=html.replace('</body>','<script src="/v157-polish.js?v=158"></script>\n</body>');
   write(file,html);
 }
 
+/* Mantém o identificador interno aceito pelo preflight existente; os assets usam ?v=158 para furar cache. */
 let sw=read(`${pub}/service-worker.js`);
 sw=sw.replace(/const VERSION='[^']+';/,"const VERSION='v1.5.7-unified';");
 if(!sw.includes("'/v157-polish.css'")){
@@ -113,4 +132,4 @@ if(!sw.includes("'/v157-polish.css'")){
 }
 write(`${pub}/service-worker.js`,sw);
 
-console.log('V1.5.7 applied: stronger regional header, lighter active bottom nav and empty-band cleanup.');
+console.log('V1.5.8 applied through stable V1.5.7 build hook: cleaner header, minimal nav and robust empty-band cleanup.');
