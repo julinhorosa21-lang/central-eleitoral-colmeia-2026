@@ -4,6 +4,20 @@ const pub='/app/public';
 const read=p=>fs.readFileSync(p,'utf8');
 const write=(p,s)=>fs.writeFileSync(p,s);
 
+/* Neutraliza na origem o destaque legado que marcava os primeiros cards por posição. */
+const legacyJs=`${pub}/v153-regional-theme.js`;
+if(fs.existsSync(legacyJs)){
+  let s=read(legacyJs);
+  s=s.replace("if(i<3)r.setAttribute('data-rank',String(i+1))","r.removeAttribute('data-rank')");
+  write(legacyJs,s);
+}
+const legacyCss=`${pub}/v153-regional-theme.css`;
+if(fs.existsSync(legacyCss)){
+  let s=read(legacyCss);
+  s += `\n/* V1.6.6 — neutralidade dos cards */\nbody.ce-regional-public #leaders .leader,body.ce-regional-public #leaders .leader:first-child,body.ce-regional-public #leaders .leader[data-rank=\"1\"],body.ce-regional-public #leaders .leader[data-ce161-rank=\"1\"],body.ce-regional-public #leaders .leader[data-ce164-rank=\"1\"]{border-top-color:#D9E5EB!important;border-right-color:#D9E5EB!important;border-bottom-color:#D9E5EB!important;outline:none!important;box-shadow:0 3px 10px rgba(22,65,93,.045)!important}\n`;
+  write(legacyCss,s);
+}
+
 const js=`(()=>{
 'use strict';
 const PUBLIC=new Set(['/','/index.html','/transparencia.html']);
@@ -20,12 +34,14 @@ function candidate(cargo,n){const rows=catalog?.candidates?.[cargo];if(!Array.is
 function fix(){
  const cargo=activeCargo();
  document.querySelectorAll('#leaders .leader').forEach(row=>{
+  row.removeAttribute('data-rank');row.removeAttribute('data-ce161-rank');
   const n=numberFor(row);const c=candidate(cargo,n);const chip=row.querySelector('.ce164-party-chip,.party-mark-v112,.party-badge');if(!chip)return;
   const source=c?.partido||chip.getAttribute('data-party')||row.getAttribute('data-party')||chip.textContent;
   const text=label(source);const t=token(source);const p=color(t);
   if(chip.textContent!==text)chip.textContent=text;
   chip.classList.add('ce164-party-chip');chip.setAttribute('data-party',text);chip.setAttribute('title','Partido '+text);chip.setAttribute('aria-label','Partido '+text);chip.style.setProperty('--party',p);
   row.style.setProperty('--party',p);row.style.setProperty('border-left-color',p,'important');
+  row.style.setProperty('border-top-color','#D9E5EB','important');row.style.setProperty('border-right-color','#D9E5EB','important');row.style.setProperty('border-bottom-color','#D9E5EB','important');row.style.setProperty('box-shadow','0 3px 10px rgba(22,65,93,.045)','important');
   const bar=row.querySelector('.bar i,.leader-bar span');if(bar)bar.style.setProperty('background',p,'important');
  });
 }
@@ -38,10 +54,11 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 write(`${pub}/v165-party-label-fix.js`,js);
 for(const file of [`${pub}/index.html`,`${pub}/transparencia.html`]){
   let html=read(file);
-  if(!html.includes('/v165-party-label-fix.js'))html=html.replace('</body>','<script src="/v165-party-label-fix.js?v=165"></script>\n</body>');
+  html=html.replace(/\/v165-party-label-fix\.js\?v=\d+/g,'/v165-party-label-fix.js?v=166');
+  if(!html.includes('/v165-party-label-fix.js'))html=html.replace('</body>','<script src="/v165-party-label-fix.js?v=166"></script>\n</body>');
   write(file,html);
 }
 let sw=read(`${pub}/service-worker.js`);
-sw=sw.replace(/const VERSION='[^']+';/,"const VERSION='v1.6.5-unified';");
+sw=sw.replace(/const VERSION='[^']+';/,"const VERSION='v1.6.6-unified';");
 write(`${pub}/service-worker.js`,sw);
-console.log('V1.6.5 applied: party labels restored from candidate catalog.');
+console.log('V1.6.6 applied: party labels corrected and positional yellow highlight removed.');
