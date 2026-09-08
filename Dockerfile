@@ -209,8 +209,15 @@ RUN node --check /app/public/v162-clean-photo.js \
  && grep -q '/v162-clean-photo.css' /app/public/operacao.html \
  && grep -q '/v162-clean-photo.js' /app/public/operacao.html \
  && grep -q "const VERSION='v1.6.2-unified'" /app/public/service-worker.js
+COPY v165-party-label-fix.mjs /app/v165-party-label-fix.mjs
+RUN node /app/v165-party-label-fix.mjs && rm /app/v165-party-label-fix.mjs
+RUN node --check /app/public/v165-party-label-fix.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q '/v165-party-label-fix.js' /app/public/index.html \
+ && grep -q '/v165-party-label-fix.js' /app/public/transparencia.html \
+ && grep -q "const VERSION='v1.6.5-unified'" /app/public/service-worker.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.6.2"
+      org.opencontainers.image.version="1.6.5"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
