@@ -10,10 +10,10 @@ for(const file of pages){
   }
   if(!html.includes('/v121-polish.js')){
     if(!html.includes('</body>'))throw new Error(`V1.2.1 polish: ${file} sem </body>`);
-    html=html.replace('</body>','<script src="/v121-polish.js?v=171"></script>\n</body>');
+    html=html.replace('</body>','<script src="/v121-polish.js?v=172"></script>\n</body>');
   }else{
-    html=html.replace(/\/v121-polish\.js(?:\?v=\d+)?/g,'/v121-polish.js?v=171');
+    html=html.replace(/\/v121-polish\.js(?:\?v=\d+)?/g,'/v121-polish.js?v=172');
   }
   writeFileSync(file,html);
 }
-console.log('Public hotfix cache version 171 applied.');
+console.log('Public hotfix cache version 172 applied.');
