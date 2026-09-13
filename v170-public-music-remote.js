@@ -1,0 +1,1 @@
+(()=>{const a=new Audio('https://raw.githubusercontent.com/julinhorosa21-lang/central-eleitoral-colmeia-2026/v170-music/central-eleitoral-bg.mp3');a.loop=true;a.volume=.22;window.__ceMusic=a;})();
