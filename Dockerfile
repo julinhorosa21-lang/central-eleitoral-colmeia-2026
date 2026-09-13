@@ -251,8 +251,17 @@ RUN node --check /app/server.mjs \
  && test -f /app/public/apuracao.html \
  && grep -q "V1.7.7 friendly routes" /app/server.mjs \
  && grep -q "const VERSION='v1.7.7-unified'" /app/public/service-worker.js
+ COPY v178-backup.mjs /app/v178-backup.mjs
+RUN node /app/v178-backup.mjs && rm /app/v178-backup.mjs
+RUN node --check /app/server.mjs \
+ && node --check /app/public/v178-backup.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q '/v178-backup.css' /app/public/admin/index.html \
+ && grep -q '/v178-backup.js' /app/public/admin/index.html \
+ && grep -q "p === '/api/admin/backups'" /app/server.mjs \
+ && grep -q "const VERSION='v1.7.8-unified'" /app/public/service-worker.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.7.7"
+      org.opencontainers.image.version="1.7.8"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
