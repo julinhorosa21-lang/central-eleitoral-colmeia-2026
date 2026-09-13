@@ -216,8 +216,17 @@ RUN node --check /app/public/v165-party-label-fix.js \
  && grep -q '/v165-party-label-fix.js' /app/public/index.html \
  && grep -q '/v165-party-label-fix.js' /app/public/transparencia.html \
  && grep -q "const VERSION='v1.6.5-unified'" /app/public/service-worker.js
+COPY v174-bu-validation.mjs /app/v174-bu-validation.mjs
+RUN node /app/v174-bu-validation.mjs && rm /app/v174-bu-validation.mjs
+RUN node --check /app/server.mjs \
+ && node --check /app/public/v174-bu-validation.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q '/v174-bu-validation.css' /app/public/operacao.html \
+ && grep -q '/v174-bu-validation.js' /app/public/operacao.html \
+ && grep -q "event:'bu_validation_failed'" /app/server.mjs \
+ && grep -q "const VERSION='v1.7.4-unified'" /app/public/service-worker.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.6.5"
+      org.opencontainers.image.version="1.7.4"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
