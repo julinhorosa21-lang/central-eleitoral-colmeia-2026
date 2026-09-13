@@ -26,3 +26,15 @@
   function mount(){if(document.getElementById('ceMusic'))return;const s=document.createElement('style');s.textContent='#ceMusic{position:fixed;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:1200;width:44px;height:44px;border:0;border-radius:50%;background:#145f98;color:#fff;font-size:18px;box-shadow:0 6px 18px #0003}';document.head.appendChild(s);const b=document.createElement('button');b.id='ceMusic';b.type='button';b.setAttribute('aria-label','Música de fundo');b.onclick=toggle;document.body.appendChild(b);update();if(!muted)play()}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
+
+(()=>{
+  'use strict';
+  if(!new Set(['/','/index.html','/transparencia.html']).has(location.pathname))return;
+  let prompt=null,busy=false;
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e});
+  window.addEventListener('appinstalled',()=>{prompt=null;document.getElementById('pwaInstallCard')?.remove()});
+  async function ready(){if(!('serviceWorker' in navigator))return false;try{const r=await navigator.serviceWorker.register('/service-worker.js?v=171',{scope:'/',updateViaCache:'none'});try{await r.update()}catch{}await navigator.serviceWorker.ready;return true}catch{return false}}
+  function help(html){const h=document.getElementById('pwaInstallHelp');if(h){h.innerHTML=html;h.hidden=false}}
+  async function install(btn){if(busy)return;busy=true;btn.disabled=true;btn.textContent='Preparando…';await ready();if(!prompt)await new Promise(r=>setTimeout(r,800));if(prompt){const p=prompt;prompt=null;try{await p.prompt();await p.userChoice}catch{help('O navegador não abriu a instalação.')}}else if(/Android/i.test(navigator.userAgent||'')){const dest='intent://'+location.host+location.pathname+'#Intent;scheme=https;package=com.android.chrome;end';help('<b>Abra no Chrome para concluir.</b><br><a href="'+dest+'" style="display:inline-block;margin-top:8px;padding:9px 12px;border-radius:9px;background:#1d638f;color:white;text-decoration:none;font-weight:800">Abrir no Chrome</a><br><span style="display:block;margin-top:7px">Depois use ⋮ → Adicionar à tela inicial ou Instalar app.</span>')}else help('Use o menu do navegador e escolha Adicionar à tela inicial ou Instalar app.');busy=false;btn.disabled=false;btn.textContent='Instalar app'}
+  document.addEventListener('click',e=>{const b=e.target.closest?.('#pwaInstallBtn');if(!b)return;e.preventDefault();e.stopImmediatePropagation();install(b)},true);
+})();
