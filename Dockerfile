@@ -225,18 +225,17 @@ RUN node --check /app/server.mjs \
  && grep -q '/v174-bu-validation.js' /app/public/operacao.html \
  && grep -q "event:'bu_validation_failed'" /app/server.mjs \
  && grep -q "const VERSION='v1.7.4-unified'" /app/public/service-worker.js
- COPY v175-section-lock.mjs /app/v175-section-lock.mjs
-RUN node /app/v175-section-lock.mjs && rm /app/v175-section-lock.mjs
+ COPY v176-integrity.mjs /app/v176-integrity.mjs
+RUN node /app/v176-integrity.mjs && rm /app/v176-integrity.mjs
 RUN node --check /app/server.mjs \
- && node --check /app/public/v175-section-lock.js \
+ && node --check /app/public/v176-integrity.js \
  && node --check /app/public/service-worker.js \
- && grep -q '/v175-section-lock.css' /app/public/operacao.html \
- && grep -q '/v175-section-lock.js' /app/public/operacao.html \
- && grep -q "event:'section_locked_write_denied'" /app/server.mjs \
- && grep -q "event:'section_reopened'" /app/server.mjs \
- && grep -q "const VERSION='v1.7.5-unified'" /app/public/service-worker.js
+ && grep -q '/v176-integrity.css' /app/public/admin/index.html \
+ && grep -q '/v176-integrity.js' /app/public/admin/index.html \
+ && grep -q "p === '/api/admin/integrity'" /app/server.mjs \
+ && grep -q "const VERSION='v1.7.6-unified'" /app/public/service-worker.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.7.5"
+      org.opencontainers.image.version="1.7.6"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
