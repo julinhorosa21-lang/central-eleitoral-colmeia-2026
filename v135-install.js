@@ -11,11 +11,15 @@ const STYLE=`
 .pwa-install-copy{min-width:0}.pwa-install-title{display:flex;align-items:center;gap:7px;margin:0;font-size:14px;font-weight:850;color:#245b42}.pwa-install-text{margin:3px 0 0;color:#66727d;font-size:11.5px;line-height:1.35}.pwa-install-state{display:flex;align-items:center;gap:6px;margin-top:5px;color:#52606d;font-size:10.5px;font-weight:700}.pwa-install-state:before{content:"";width:7px;height:7px;border-radius:50%;background:#16a34a}
 .pwa-install-btn{border:0;border-radius:10px;background:#1d638f;color:#fff;padding:10px 13px;font:inherit;font-size:11.5px;font-weight:850;line-height:1;white-space:nowrap;cursor:pointer;box-shadow:0 2px 6px rgba(29,99,143,.18)}
 .pwa-install-btn:active{transform:translateY(1px)}.pwa-install-btn:focus-visible{outline:3px solid #f2c94c;outline-offset:2px}.pwa-install-btn[disabled]{opacity:.6;cursor:wait}
-.pwa-install-help{grid-column:2/4;margin-top:-3px;padding-top:7px;border-top:1px solid #e5ecef;color:#52606d;font-size:10.5px;line-height:1.4}.pwa-install-help[hidden]{display:none!important}
+.pwa-install-help{grid-column:2/4;margin-top:-3px;padding-top:7px;border-top:1px solid #e5ecef;color:#52606d;font-size:10.5px;line-height:1.4}.pwa-install-help[hidden]{display:none!important}.pwa-install-help a{display:inline-block;margin-top:7px;padding:9px 12px;border-radius:9px;background:#1d638f;color:#fff;text-decoration:none;font-weight:850}
 @media(max-width:560px){.pwa-install-card{grid-template-columns:auto 1fr;gap:10px}.pwa-install-btn{grid-column:1/3;width:100%;padding:11px 12px}.pwa-install-help{grid-column:1/3}.pwa-install-icon{width:44px;height:44px}}
 `;
 
 const isStandalone=()=>window.matchMedia?.('(display-mode: standalone)').matches===true||window.navigator.standalone===true;
+const ua=()=>navigator.userAgent||'';
+const isAndroid=()=>/Android/i.test(ua());
+const isIOS=()=>/iPhone|iPad|iPod/i.test(ua());
+const isInApp=()=>/; wv\)|FBAN|FBAV|Instagram|WhatsApp|Line\//i.test(ua());
 function ensureStyle(){if(document.getElementById('pwa-install-style'))return;const s=document.createElement('style');s.id='pwa-install-style';s.textContent=STYLE;document.head.appendChild(s)}
 
 function card(){
@@ -31,9 +35,9 @@ function card(){
   el.innerHTML=`
     <img class="pwa-install-icon" src="/icons/icon-192.png" alt="" width="48" height="48">
     <div class="pwa-install-copy">
-      <p class="pwa-install-title">Central pronta para celular</p>
-      <p class="pwa-install-text">Instale a Central Eleitoral e abra direto pela tela inicial, com o ícone do aplicativo.</p>
-      <div class="pwa-install-state" id="pwaInstallState">Aplicativo disponível para instalação</div>
+      <p class="pwa-install-title">Instalar Central Eleitoral</p>
+      <p class="pwa-install-text">Instale como aplicativo e abra direto pela tela inicial do celular.</p>
+      <div class="pwa-install-state" id="pwaInstallState">Preparando instalação</div>
     </div>
     <button type="button" class="pwa-install-btn" id="pwaInstallBtn">Instalar app</button>
     <div class="pwa-install-help" id="pwaInstallHelp" hidden></div>`;
@@ -42,16 +46,22 @@ function card(){
   return el;
 }
 
-function setHelp(message){const el=card();if(!el)return;const help=el.querySelector('#pwaInstallHelp');help.textContent=message;help.hidden=!message}
+function setHelp(message,html=false){const el=card();if(!el)return;const help=el.querySelector('#pwaInstallHelp');if(html)help.innerHTML=message;else help.textContent=message;help.hidden=!message}
 function setState(message){const el=card();if(!el)return;const state=el.querySelector('#pwaInstallState');if(state)state.textContent=message}
 
 async function ensurePwa(){
   if(!('serviceWorker' in navigator))return false;
   try{
-    await navigator.serviceWorker.register('/service-worker.js',{scope:'/'});
+    const reg=await navigator.serviceWorker.register('/service-worker.js?v=173',{scope:'/',updateViaCache:'none'});
+    try{await reg.update()}catch{}
     await navigator.serviceWorker.ready;
     return true;
-  }catch{return false}
+  }catch(err){console.error('PWA registration failed',err);return false}
+}
+
+function chromeIntent(){
+  const path=location.pathname+(location.search||'');
+  return 'intent://'+location.host+path+'#Intent;scheme=https;package=com.android.chrome;end';
 }
 
 async function requestInstall(){
@@ -60,9 +70,9 @@ async function requestInstall(){
   const btn=el.querySelector('#pwaInstallBtn');
   if(installing)return;
   installing=true;btn.disabled=true;btn.textContent='Preparando…';setHelp('');
-  await ensurePwa();
-  // Em alguns navegadores o evento chega logo após o service worker ficar pronto.
-  if(!deferredPrompt)await new Promise(r=>setTimeout(r,700));
+  const ok=await ensurePwa();
+  if(!ok){setState('Instalação indisponível neste navegador');setHelp('Não foi possível ativar o modo aplicativo neste navegador.');installing=false;btn.disabled=false;btn.textContent='Instalar app';return}
+  if(!deferredPrompt)await new Promise(r=>setTimeout(r,1200));
   if(deferredPrompt){
     const p=deferredPrompt;deferredPrompt=null;
     try{
@@ -70,18 +80,25 @@ async function requestInstall(){
       const choice=await p.userChoice;
       if(choice?.outcome==='accepted'){
         setState('Instalação iniciada');
-        setHelp('Quando concluir, a Central aparecerá na sua tela inicial com o ícone do aplicativo.');
+        setHelp('A Central será adicionada à tela inicial quando a instalação terminar.');
       }else{
-        setState('Aplicativo disponível para instalação');
-        setHelp('Instalação cancelada. Você pode tocar em “Instalar app” novamente quando quiser.');
+        setState('Pronto para instalar');
+        setHelp('Instalação cancelada. Toque em “Instalar app” quando quiser tentar novamente.');
       }
     }catch{
-      setHelp('O navegador não abriu a janela de instalação desta vez. Aguarde alguns segundos e tente novamente.');
+      setState('Pronto para instalar');
+      setHelp('O navegador não abriu a janela de instalação. Tente novamente pelo menu do navegador.');
     }
+  }else if(isIOS()){
+    setState('Instalação pelo Safari');
+    setHelp('No Safari, use Compartilhar → Adicionar à Tela de Início.');
+  }else if(isAndroid()){
+    setState('Aplicativo pronto para instalação');
+    const extra=isInApp()?'<br>Este navegador interno não permite instalar diretamente.':'';
+    setHelp('<b>Abra a Central no Chrome.</b>'+extra+'<br><a href="'+chromeIntent()+'">Abrir no Chrome</a><br><span style="display:block;margin-top:7px">No Chrome, toque em ⋮ → Instalar app ou Adicionar à tela inicial.</span>',true);
   }else{
-    const ua=navigator.userAgent||'';
-    if(/iPhone|iPad|iPod/i.test(ua))setHelp('Neste navegador a instalação não pode ser aberta automaticamente. No Safari, use Compartilhar → Adicionar à Tela de Início.');
-    else setHelp('A Central está configurada como aplicativo. Se a janela não abrir automaticamente, atualize a página uma vez e toque novamente em “Instalar app”.');
+    setState('Aplicativo pronto para instalação');
+    setHelp('Use o menu do navegador e escolha “Instalar app” ou “Adicionar à tela inicial”.');
   }
   installing=false;btn.disabled=false;btn.textContent='Instalar app';
 }
@@ -93,7 +110,8 @@ window.addEventListener('appinstalled',()=>{deferredPrompt=null;document.getElem
 async function boot(){
   ensureStyle();
   card();
-  await ensurePwa();
+  const ok=await ensurePwa();
+  if(ok&&!deferredPrompt)setState('Aplicativo pronto para instalação');
   setTimeout(refresh,250);
   setTimeout(refresh,1200);
   window.matchMedia?.('(display-mode: standalone)').addEventListener?.('change',refresh);
