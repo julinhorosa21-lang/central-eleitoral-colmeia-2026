@@ -16,6 +16,14 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
+# Auditoria isolada: apenas imprime onde está o leitor de BU/QR no artefato final.
+RUN echo '=== BU_QR_IMPLEMENTATION ===' \
+ && (grep -RniE 'BarcodeDetector|getUserMedia|jsQR|qrcode|qrCode|QR Code|scanner|scan|camera|câmera|boletim|Boletim|\\bBU\\b' /app/public /app/server.mjs 2>/dev/null | head -n 500 || true) \
+ && echo '=== BU_QR_MULTIPART_DEDUP ===' \
+ && (grep -RniE 'fragment|multipart|parte|parts|duplicad|duplicate|dedup|assinatura|signature|hash|Set\\(|Map\\(' /app/public /app/server.mjs 2>/dev/null | head -n 500 || true) \
+ && echo '=== OPERACAO_SCRIPTS ===' \
+ && (grep -nE '<script|<input|camera|qr|QR|BU|boletim' /app/public/operacao.html 2>/dev/null | head -n 300 || true)
+
 FROM node:22-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app /app
@@ -23,6 +31,6 @@ COPY --from=builder /app /app
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.8.2"
+      org.opencontainers.image.version="1.8.2-audit"
 EXPOSE 8787
 CMD ["node","server.mjs"]
