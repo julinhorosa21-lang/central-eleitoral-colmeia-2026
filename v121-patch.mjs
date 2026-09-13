@@ -10,8 +10,10 @@ for(const file of pages){
   }
   if(!html.includes('/v121-polish.js')){
     if(!html.includes('</body>'))throw new Error(`V1.2.1 polish: ${file} sem </body>`);
-    html=html.replace('</body>','<script src="/v121-polish.js"></script>\n</body>');
+    html=html.replace('</body>','<script src="/v121-polish.js?v=170"></script>\n</body>');
+  }else{
+    html=html.replace(/\/v121-polish\.js(?:\?v=\d+)?/g,'/v121-polish.js?v=170');
   }
   writeFileSync(file,html);
 }
-console.log('V1.2.1 visual polish applied: tablet density, responsive toolbar, candidate grid and compact information panels.');
+console.log('V1.2.1/V1.7.0 visual polish applied: public music cache-busted, tablet density and compact panels.');
