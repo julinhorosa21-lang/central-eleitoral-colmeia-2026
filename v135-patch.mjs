@@ -1,7 +1,7 @@
 import {readFileSync,writeFileSync,existsSync} from 'node:fs';
 
 const pages=['/app/public/index.html','/app/public/transparencia.html'];
-const scriptTag='<script src="/v135-install.js"></script>';
+const scriptTag='<script src="/v135-install.js?v=173"></script>';
 const pwaHead=`<link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
@@ -20,7 +20,9 @@ for(const file of pages){
   if(!html.includes('/v135-install.js')){
     if(!html.includes('</body>'))throw new Error(`V1.3.7: ${file} sem </body>`);
     html=html.replace('</body>',`${scriptTag}\n</body>`);
+  }else{
+    html=html.replace('/v135-install.js','/v135-install.js?v=173');
   }
   writeFileSync(file,html);
 }
-console.log('V1.3.7 PWA restored on public pages: manifest, app icons and install UI; operational page untouched.');
+console.log('V1.7.3 PWA installer refreshed on public pages.');
