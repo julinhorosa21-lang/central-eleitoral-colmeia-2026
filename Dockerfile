@@ -270,8 +270,17 @@ RUN node --check /app/server.mjs \
  && grep -q "p === '/api/admin/backups/restore'" /app/server.mjs \
  && grep -q "CE179 startup restore preflight" /app/server.mjs \
  && grep -q "const VERSION='v1.7.9-unified'" /app/public/service-worker.js
+ COPY v180-performance.mjs /app/v180-performance.mjs
+RUN node /app/v180-performance.mjs && rm /app/v180-performance.mjs
+RUN node --check /app/public/v130-public.js \
+ && node --check /app/public/v0241-photos.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q 'CE180_MAX_PHOTO_LOADS' /app/public/v130-public.js \
+ && grep -q 'CE180_PUBLIC_PATH' /app/public/v0241-photos.js \
+ && grep -q '/v180-performance.css' /app/public/index.html \
+ && grep -q "const VERSION='v1.8.0-unified'" /app/public/service-worker.js
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.7.9"
+      org.opencontainers.image.version="1.8.0"
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 EXPOSE 8787
