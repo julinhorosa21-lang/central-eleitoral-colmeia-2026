@@ -14,10 +14,6 @@ for(const file of pages){
   }else{
     html=html.replace(/\/v121-polish\.js(?:\?v=\d+)?/g,'/v121-polish.js?v=173');
   }
-  if(!file.endsWith('/seguranca.html')){
-    if(!html.includes('/v135-install.js'))html=html.replace('</body>','<script src="/v135-install.js?v=173"></script>\n</body>');
-    else html=html.replace(/\/v135-install\.js(?:\?v=\d+)?/g,'/v135-install.js?v=173');
-  }
   writeFileSync(file,html);
 }
-console.log('Public cache version 173 applied; music removed and installer refreshed.');
+console.log('Public cache version 173 applied; music layer removed.');
