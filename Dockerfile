@@ -225,6 +225,16 @@ RUN node --check /app/server.mjs \
  && grep -q '/v174-bu-validation.js' /app/public/operacao.html \
  && grep -q "event:'bu_validation_failed'" /app/server.mjs \
  && grep -q "const VERSION='v1.7.4-unified'" /app/public/service-worker.js
+COPY v175-section-lock.mjs /app/v175-section-lock.mjs
+RUN node /app/v175-section-lock.mjs && rm /app/v175-section-lock.mjs
+RUN node --check /app/server.mjs \
+ && node --check /app/public/v175-section-lock.js \
+ && node --check /app/public/service-worker.js \
+ && grep -q '/v175-section-lock.css' /app/public/operacao.html \
+ && grep -q '/v175-section-lock.js' /app/public/operacao.html \
+ && grep -q "event:'section_locked_write_denied'" /app/server.mjs \
+ && grep -q "event:'section_reopened'" /app/server.mjs \
+ && grep -q "const VERSION='v1.7.5-unified'" /app/public/service-worker.js
  COPY v176-integrity.mjs /app/v176-integrity.mjs
 RUN node /app/v176-integrity.mjs && rm /app/v176-integrity.mjs
 RUN node --check /app/server.mjs \
