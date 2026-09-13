@@ -16,6 +16,14 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
+# Diagnóstico temporário de build: somente imprime referências a BU/QR.
+RUN echo '=== BU_QR_IMPLEMENTATION ===' \
+ && (grep -RniE 'BarcodeDetector|getUserMedia|jsQR|qrcode|qrCode|QR Code|scanner|scan|camera|câmera|boletim|Boletim|BU' /app/public /app/server.mjs 2>/dev/null | head -n 500 || true) \
+ && echo '=== BU_QR_MULTIPART_DEDUP ===' \
+ && (grep -RniE 'fragment|multipart|parte|parts|duplicad|duplicate|dedup|assinatura|signature|hash|Set\\(|Map\\(' /app/public /app/server.mjs 2>/dev/null | head -n 500 || true) \
+ && echo '=== OPERACAO_SCRIPTS ===' \
+ && (grep -nE '<script|<input|camera|qr|QR|BU|boletim' /app/public/operacao.html 2>/dev/null | head -n 300 || true)
+
 FROM node:22-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app /app
