@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.2: consolidando histórico de patches..."
+echo "V1.8.3: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -114,12 +114,14 @@ run_patch v179-emergency-restore.mjs
 run_patch v180-performance.mjs
 run_patch v181-smart-refresh.mjs
 
-# V1.8.2 não altera regras eleitorais nem dados: apenas identifica o novo shell/cache.
+# O shell consolidado parte da identificação V1.8.2; a V1.8.3 endurece o leitor de BU.
 sed -i "s/const VERSION='v1.8.1-unified';/const VERSION='v1.8.2-unified';/" "$PUB/service-worker.js"
+run_patch v183-bu-scanner.mjs
 
 # Preflight final consolidado substitui dezenas de checks intermediários.
 node --check "$APP/server.mjs"
 node --check "$PUB/service-worker.js"
+node --check "$PUB/bu-parser.js"
 node --check "$PUB/v130-public.js"
 node --check "$PUB/v0241-photos.js"
 node --check "$PUB/v174-bu-validation.js"
@@ -139,8 +141,11 @@ test -f "$PUB/data/candidate-photo-map.json"
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
 grep -q 'CE181 snapshot request' "$PUB/transparencia.html"
+grep -q 'CE183 — leitor robusto' "$PUB/bu-parser.js"
+grep -q 'BUParser.verifyHashChain(qrSession.parts)' "$PUB/operacao.html"
+grep -q 'hashChainVerified' "$PUB/operacao.html"
 grep -q "event:'section_locked_write_denied'" "$APP/server.mjs"
 grep -q "p === '/api/admin/backups/restore'" "$APP/server.mjs"
-grep -q "const VERSION='v1.8.2-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.3-unified'" "$PUB/service-worker.js"
 
-echo "V1.8.2: build consolidado concluído e validado."
+echo "V1.8.3: leitor de BU e build consolidados concluídos e validados."
