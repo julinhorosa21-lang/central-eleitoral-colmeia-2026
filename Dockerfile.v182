@@ -16,11 +16,9 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
-# Diagnóstico temporário e focalizado do leitor QR legado.
-RUN echo '=== CE183_BU_PARSER ===' \
- && cat /app/public/bu-parser.js \
- && echo '\n=== CE183_QR_REFERENCES ===' \
- && (grep -nE 'QRBU|Html5Qrcode|html5Qr|qrReader|qrStart|qrPaste|parseBU|parseBu|parseQr|processQr|handleQr|scan' /app/public/operacao.html | head -n 320 || true)
+# Diagnóstico temporário da integração do QR ao fluxo operacional.
+RUN echo '=== CE183_QR_FLOW ===' \
+ && sed -n '320,410p' /app/public/operacao.html
 
 FROM node:22-slim AS runtime
 WORKDIR /app
