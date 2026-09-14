@@ -16,10 +16,6 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
-# Diagnóstico temporário da integração do QR ao fluxo operacional.
-RUN echo '=== CE183_QR_FLOW ===' \
- && sed -n '320,410p' /app/public/operacao.html
-
 FROM node:22-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app /app
@@ -27,6 +23,6 @@ COPY --from=builder /app /app
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.8.2"
+      org.opencontainers.image.version="1.8.3"
 EXPOSE 8787
 CMD ["node","server.mjs"]
