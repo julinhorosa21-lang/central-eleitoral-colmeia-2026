@@ -12,12 +12,6 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
-# Diagnóstico temporário: helpers e API pública do sincronizador TSE.
-RUN echo '=== CE184_TSE_HELPERS ===' \
- && sed -n '286,338p' /app/tse-sync.mjs \
- && echo '=== CE184_TSE_RETURN ===' \
- && tail -n 70 /app/tse-sync.mjs
-
 FROM node:22-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app /app
@@ -25,6 +19,6 @@ COPY --from=builder /app /app
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.8.3"
+      org.opencontainers.image.version="1.8.4"
 EXPOSE 8787
 CMD ["node","server.mjs"]
