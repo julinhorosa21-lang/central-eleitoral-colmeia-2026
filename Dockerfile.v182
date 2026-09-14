@@ -16,11 +16,11 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
-# Diagnóstico temporário e focalizado para integrar o leitor de BU ao formulário existente.
-RUN echo '=== CE183_COLLECT_FORM_PAYLOAD ===' \
- && (grep -n -B30 -A130 'function collectFormPayload' /app/public/operacao.html || true) \
- && echo '=== CE183_OPERATION_FIELDS ===' \
- && (grep -nE 'id="[^"]+"|name="[^"]+"|data-[a-zA-Z0-9_-]+=' /app/public/operacao.html | grep -Ei 'section|secao|cargo|turnout|compare|abst|falt|blank|branco|null|nulo|candidate|candidato|vote|voto' | head -n 220 || true)
+# Diagnóstico temporário e focalizado para integrar o leitor de BU à sessão operacional.
+RUN echo '=== CE183_OPERATION_WIRING ===' \
+ && (grep -nE 'api/results|api/whoami|sessionStorage|localStorage|Authorization|Bearer|<script[^>]+src=|<form|operator|operador' /app/public/operacao.html | head -n 260 || true) \
+ && echo '=== CE183_RESULTS_CLIENTS ===' \
+ && (grep -RniE "fetch\\(['\"]?/api/results|/api/results.*POST|Authorization.*Bearer|sessionStorage.*token" /app/public/*.js 2>/dev/null | head -n 260 || true)
 
 FROM node:22-slim AS runtime
 WORKDIR /app
