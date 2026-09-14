@@ -7,7 +7,7 @@ ADD central-colmeia-v020.tar.gz /app/
 # Dependências necessárias apenas durante a montagem dos ativos.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends unzip ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/lists/* /var/lib/apt/lists/*
 
 # Uma única cópia de contexto + um único replay consolidado substituem
 # a longa sequência histórica de COPY/RUN do Dockerfile legado.
@@ -15,6 +15,10 @@ COPY . /src
 RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
+
+# Diagnóstico temporário: infraestrutura já existente para consultas TSE.
+RUN echo '=== CE184_TSE_SERVER ===' \
+ && grep -nE 'https?://|fetch\(|download|tse' /app/server.mjs | head -n 260 || true
 
 FROM node:22-slim AS runtime
 WORKDIR /app
