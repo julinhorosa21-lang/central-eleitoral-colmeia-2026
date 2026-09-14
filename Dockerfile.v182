@@ -16,13 +16,11 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
-# Diagnóstico temporário: tamanho, início do HTML e referências de scripts da operação.
-RUN echo '=== CE183_OPERATION_SIZE ===' \
- && wc -c /app/public/operacao.html \
- && echo '=== CE183_OPERATION_HEAD ===' \
- && head -c 18000 /app/public/operacao.html \
- && echo '\n=== CE183_OPERATION_SCRIPTS ===' \
- && (grep -oE '<script[^>]*>' /app/public/operacao.html | head -n 120 || true)
+# Diagnóstico temporário e focalizado do leitor QR legado.
+RUN echo '=== CE183_BU_PARSER ===' \
+ && cat /app/public/bu-parser.js \
+ && echo '\n=== CE183_QR_REFERENCES ===' \
+ && (grep -nE 'QRBU|Html5Qrcode|html5Qr|qrReader|qrStart|qrPaste|parseBU|parseBu|parseQr|processQr|handleQr|scan' /app/public/operacao.html | head -n 320 || true)
 
 FROM node:22-slim AS runtime
 WORKDIR /app
