@@ -12,6 +12,9 @@ RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
 
+# Diagnóstico temporário: amostra do catálogo atual para gerar BU sintético de teste.
+RUN node -e "const c=require('/app/public/data/candidate-catalog.json').candidates; for (const k of ['presidente','governador','senador','depFederal','depEstadual']) console.log('CE_TEST_CAND',k,JSON.stringify((c[k]||[]).slice(0,3).map(x=>({numero:x.numero,nomeUrna:x.nomeUrna,partido:x.partido,situacao:x.situacao}))))"
+
 FROM node:22-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app /app
