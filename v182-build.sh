@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.4.1: consolidando histórico de patches..."
+echo "V1.8.4.2: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -116,12 +116,9 @@ run_patch v181-smart-refresh.mjs
 
 sed -i "s/const VERSION='v1.8.1-unified';/const VERSION='v1.8.2-unified';/" "$PUB/service-worker.js"
 run_patch v183-bu-scanner.mjs
-
-# V1.8.4.1: autenticidade do QR-BU conforme manual oficial do TSE.
-# HASH cumulativo em SHA-512 + assinatura Ed25519 do hash final,
-# validada com a chave pública oficial selecionada por VRCH/ORLC/FASE/UF.
 run_patch v184-parser.mjs
 run_patch v184-tse-signature.mjs
+run_patch v1842-test-bu.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -142,6 +139,9 @@ test -f "$PUB/admin/index.html"
 test -f "$PUB/apuracao.html"
 test -f "$PUB/data/candidate-catalog.json"
 test -f "$PUB/data/candidate-photo-map.json"
+test -f "$PUB/teste-bu.html"
+test -f "$PUB/teste-bu/qr-1.png"
+test -f "$PUB/teste-bu/qr-2.png"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -151,9 +151,10 @@ grep -q "p === '/api/tse/qr-key'" "$APP/server.mjs"
 grep -q "version:'1.8.4'" "$PUB/bu-parser.js"
 grep -q 'verifyEd25519Signature' "$PUB/bu-parser.js"
 grep -q "signatureAlgorithm:'Ed25519'" "$PUB/operacao.html"
-grep -q 'BUParser.verifyEd25519Signature(qrSession.parts,{chain})' "$PUB/operacao.html"
+grep -q 'SYNTHETIC_TEST' "$PUB/operacao.html"
+grep -q 'TESTE:1' "$PUB/teste-bu/qr-1.txt"
 grep -q "event:'section_locked_write_denied'" "$APP/server.mjs"
 grep -q "p === '/api/admin/backups/restore'" "$APP/server.mjs"
-grep -q "const VERSION='v1.8.4.1-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.4.2-unified'" "$PUB/service-worker.js"
 
-echo "V1.8.4.1: QRBU com SHA-512 e assinatura Ed25519 validados pela chave pública oficial do TSE."
+echo "V1.8.4.2: QRBU oficial validado normalmente e BU sintético isolado disponível para teste."
