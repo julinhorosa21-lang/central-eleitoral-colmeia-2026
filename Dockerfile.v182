@@ -4,16 +4,13 @@ WORKDIR /app
 ADD central-colmeia-v020.tar.gz /app/
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends unzip ca-certificates \
+ && apt-get install -y --no-install-recommends unzip ca-certificates qrencode \
  && rm -rf /var/lib/apt/lists/*
 
 COPY . /src
 RUN chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
  && rm -rf /src
-
-# Diagnóstico temporário: amostra do catálogo atual para gerar BU sintético de teste.
-RUN node -e "const c=require('/app/public/data/candidate-catalog.json').candidates; for (const k of ['presidente','governador','senador','depFederal','depEstadual']) console.log('CE_TEST_CAND',k,JSON.stringify((c[k]||[]).slice(0,3).map(x=>({numero:x.numero,nomeUrna:x.nomeUrna,partido:x.partido,situacao:x.situacao}))))"
 
 FROM node:22-slim AS runtime
 WORKDIR /app
@@ -22,6 +19,6 @@ COPY --from=builder /app /app
 ENV NODE_ENV=production
 RUN mkdir -p /app/runtime
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.8.4.1"
+      org.opencontainers.image.version="1.8.4.2"
 EXPOSE 8787
 CMD ["node","server.mjs"]
