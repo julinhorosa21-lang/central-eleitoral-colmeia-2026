@@ -4,12 +4,8 @@ WORKDIR /app
 ADD central-colmeia-v020.tar.gz /app/
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends unzip ca-certificates python3 python3-pip git \
+ && apt-get install -y --no-install-recommends unzip ca-certificates \
  && rm -rf /var/lib/apt/lists/*
-
-RUN python3 -m pip install --break-system-packages --no-cache-dir --target /app/pydeps \
- 'asn1tools>=0.167.0' asn1crypto \
- 'git+https://github.com/cslashm/ECPy.git@8143d9ac017de0cb7f980bedaf56cefe6b4d9180'
 
 COPY . /src
 RUN chmod +x /src/v182-build.sh \
@@ -18,15 +14,11 @@ RUN chmod +x /src/v182-build.sh \
 
 FROM node:22-slim AS runtime
 WORKDIR /app
-RUN apt-get update \
- && apt-get install -y --no-install-recommends python3-minimal ca-certificates \
- && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app /app
 
 ENV NODE_ENV=production
-ENV PYTHONPATH=/app/pydeps
 RUN mkdir -p /app/runtime
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.8.4"
+      org.opencontainers.image.version="1.8.4.1"
 EXPOSE 8787
 CMD ["node","server.mjs"]
