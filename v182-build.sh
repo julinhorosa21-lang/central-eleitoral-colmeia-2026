@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.4: consolidando histórico de patches..."
+echo "V1.8.4.1: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -117,11 +117,11 @@ run_patch v181-smart-refresh.mjs
 sed -i "s/const VERSION='v1.8.1-unified';/const VERSION='v1.8.2-unified';/" "$PUB/service-worker.js"
 run_patch v183-bu-scanner.mjs
 
-# V1.8.4: autenticidade conforme o Manual do QR Code do TSE 2026.
-# O certificado da própria urna vem nos QRCE e a assinatura é validada
-# com ECDSA P-521 (urnas antigas) ou EdDSA Ed521 (urnas 2020+).
-copy_file v184-bu-verify.py "$APP/v184-bu-verify.py"
-run_patch v184-cert-validation.mjs
+# V1.8.4.1: autenticidade do QR-BU conforme manual oficial do TSE.
+# HASH cumulativo em SHA-512 + assinatura Ed25519 do hash final,
+# validada com a chave pública oficial selecionada por VRCH/ORLC/FASE/UF.
+run_patch v184-parser.mjs
+run_patch v184-tse-signature.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -147,15 +147,13 @@ grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
 grep -q 'CE181 snapshot request' "$PUB/transparencia.html"
 grep -q 'CE183 — leitor robusto' "$PUB/bu-parser.js"
-test -f "$APP/v184-bu-verify.py"
-PYTHONPATH=/app/pydeps python3 -m py_compile "$APP/v184-bu-verify.py"
-PYTHONPATH=/app/pydeps python3 -c "from ecpy.curves import Curve; assert Curve.get_curve('Ed521') is not None"
-grep -q "p === '/api/bu/verify-signature'" "$APP/server.mjs"
-grep -q 'function ce184CertInfo' "$PUB/operacao.html"
-grep -q 'certificateQrVerified:true' "$PUB/operacao.html"
-! grep -q 'assinatura Ed25519' "$PUB/operacao.html"
+grep -q "p === '/api/tse/qr-key'" "$APP/server.mjs"
+grep -q "version:'1.8.4'" "$PUB/bu-parser.js"
+grep -q 'verifyEd25519Signature' "$PUB/bu-parser.js"
+grep -q "signatureAlgorithm:'Ed25519'" "$PUB/operacao.html"
+grep -q 'BUParser.verifyEd25519Signature(qrSession.parts,{chain})' "$PUB/operacao.html"
 grep -q "event:'section_locked_write_denied'" "$APP/server.mjs"
 grep -q "p === '/api/admin/backups/restore'" "$APP/server.mjs"
-grep -q "const VERSION='v1.8.4-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.4.1-unified'" "$PUB/service-worker.js"
 
-echo "V1.8.4: QRBU + QRCE, SHA-512 e assinatura da urna validados conforme especificação TSE 2026."
+echo "V1.8.4.1: QRBU com SHA-512 e assinatura Ed25519 validados pela chave pública oficial do TSE."
