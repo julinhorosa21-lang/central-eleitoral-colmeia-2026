@@ -119,6 +119,7 @@ run_patch v183-bu-scanner.mjs
 copy_file ce184-verify.py "$APP/ce184-verify.py"
 run_patch v184-bu-signature.mjs
 run_patch v1842-test-bu.mjs
+run_patch v186-test-suite.mjs
 run_patch v185-interface.mjs
 
 node --check "$APP/server.mjs"
@@ -144,6 +145,8 @@ test -f "$PUB/data/candidate-photo-map.json"
 test -f "$PUB/teste-bu.html"
 test -f "$PUB/teste-bu/qr-1.png"
 test -f "$PUB/teste-bu/qr-2.png"
+test -f "$PUB/teste-29-bus.html"
+test -f "$PUB/teste-29-bus/manifest.json"
 test -f "$PUB/v185-interface.css"
 test -f "$PUB/v185-icons.js"
 
@@ -161,6 +164,7 @@ grep -q 'testMode' "$PUB/operacao.html"
 grep -q 'Ed521' "$APP/ce184-verify.py"
 grep -q 'secp521r1' "$APP/ce184-verify.py"
 grep -q 'TESTE:1' "$PUB/teste-bu/qr-1.txt"
+grep -q '"count": 29' "$PUB/teste-29-bus/manifest.json"
 grep -q "event:'section_locked_write_denied'" "$APP/server.mjs"
 grep -q "p === '/api/admin/backups/restore'" "$APP/server.mjs"
 grep -q "/v185-interface.css" "$PUB/index.html"
