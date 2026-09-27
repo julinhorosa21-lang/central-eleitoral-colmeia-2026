@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.5: consolidando histórico de patches..."
+echo "V1.8.6: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -121,6 +121,7 @@ run_patch v184-bu-signature.mjs
 run_patch v1842-test-bu.mjs
 run_patch v186-test-suite.mjs
 run_patch v185-interface.mjs
+run_patch v186-visual-qa.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -134,6 +135,7 @@ node --check "$PUB/v176-integrity.js"
 node --check "$PUB/v178-backup.js"
 node --check "$PUB/v179-restore.js"
 node --check "$PUB/v185-icons.js"
+node --check "$PUB/v186-visual-qa.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -149,6 +151,8 @@ test -f "$PUB/teste-29-bus.html"
 test -f "$PUB/teste-29-bus/manifest.json"
 test -f "$PUB/v185-interface.css"
 test -f "$PUB/v185-icons.js"
+test -f "$PUB/v186-visual-qa.css"
+test -f "$PUB/v186-visual-qa.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -170,6 +174,9 @@ grep -q "p === '/api/admin/backups/restore'" "$APP/server.mjs"
 grep -q "/v185-interface.css" "$PUB/index.html"
 grep -q "/v185-icons.js" "$PUB/operacao.html"
 grep -q "/v185-interface.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.8.5-unified'" "$PUB/service-worker.js"
+grep -q "/v186-visual-qa.css" "$PUB/index.html"
+grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
+grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
+grep -q "const VERSION='v1.8.6-unified'" "$PUB/service-worker.js"
 
-echo "V1.8.5: criptografia preservada; interface refinada e ícones vetoriais padronizados."
+echo "V1.8.6: auditoria visual profunda aplicada; geometria de ícones, navegação e mobile validados."
