@@ -139,7 +139,7 @@ for(let idx=0;idx<sections.length;idx++){
 
   const data={synthetic:true,official:false,section,apto,comparecimento:comp,faltosos:falt,cargos:Object.fromEntries(cargos.map(([k,a,br,nu,total])=>[k,{candidatos:a,brancos:br,nulos:nu,total}])),parts};
   write(dir+'/dados.json',JSON.stringify(data,null,2));
-  manifest.push({section,slug,path:'/teste-29-bus/secao-'+slug+'/',parts:parts.length,apto,comparecimento:comp});
+  manifest.push({section,slug,path:'/teste-29-bus/secao-'+slug+'/index.html',parts:parts.length,apto,comparecimento:comp});
 }
 
 const cards=manifest.map(x=>'<a class="card" href="'+x.path+'"><b>Seção '+esc(x.section)+'</b><span>'+x.parts+' QRBU · '+fmt(x.comparecimento)+' comparecimento</span><em>Abrir teste →</em></a>').join('');
