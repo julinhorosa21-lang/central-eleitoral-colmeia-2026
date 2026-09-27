@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.4.2: consolidando histórico de patches..."
+echo "V1.8.4.3: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -116,8 +116,8 @@ run_patch v181-smart-refresh.mjs
 
 sed -i "s/const VERSION='v1.8.1-unified';/const VERSION='v1.8.2-unified';/" "$PUB/service-worker.js"
 run_patch v183-bu-scanner.mjs
-run_patch v184-parser.mjs
-run_patch v184-tse-signature.mjs
+copy_file ce184-verify.py "$APP/ce184-verify.py"
+run_patch v184-bu-signature.mjs
 run_patch v1842-test-bu.mjs
 
 node --check "$APP/server.mjs"
@@ -147,14 +147,18 @@ grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
 grep -q 'CE181 snapshot request' "$PUB/transparencia.html"
 grep -q 'CE183 — leitor robusto' "$PUB/bu-parser.js"
-grep -q "p === '/api/tse/qr-key'" "$APP/server.mjs"
-grep -q "version:'1.8.4'" "$PUB/bu-parser.js"
-grep -q 'verifyEd25519Signature' "$PUB/bu-parser.js"
-grep -q "signatureAlgorithm:'Ed25519'" "$PUB/operacao.html"
-grep -q 'SYNTHETIC_TEST' "$PUB/operacao.html"
+grep -q "p === '/api/bu/verify-signature'" "$APP/server.mjs"
+grep -q "version:'1.8.4.3'" "$PUB/bu-parser.js"
+grep -q 'certificateFragmentInfo' "$PUB/bu-parser.js"
+grep -q 'assembleCertificate' "$PUB/bu-parser.js"
+grep -q 'QRCE' "$PUB/operacao.html"
+grep -q 'signatureVerified' "$PUB/operacao.html"
+grep -q 'testMode' "$PUB/operacao.html"
+grep -q 'Ed521' "$APP/ce184-verify.py"
+grep -q 'secp521r1' "$APP/ce184-verify.py"
 grep -q 'TESTE:1' "$PUB/teste-bu/qr-1.txt"
 grep -q "event:'section_locked_write_denied'" "$APP/server.mjs"
 grep -q "p === '/api/admin/backups/restore'" "$APP/server.mjs"
-grep -q "const VERSION='v1.8.4.2-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.4.3-unified'" "$PUB/service-worker.js"
 
-echo "V1.8.4.2: QRBU oficial validado normalmente e BU sintético isolado disponível para teste."
+echo "V1.8.4.3: QRBU + QRCE com ECDSA P-521 / EdDSA Ed521 validados; BU sintético continua isolado."
