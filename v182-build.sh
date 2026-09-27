@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.4.3: consolidando histórico de patches..."
+echo "V1.8.5: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -119,6 +119,7 @@ run_patch v183-bu-scanner.mjs
 copy_file ce184-verify.py "$APP/ce184-verify.py"
 run_patch v184-bu-signature.mjs
 run_patch v1842-test-bu.mjs
+run_patch v185-interface.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -131,6 +132,7 @@ node --check "$PUB/v175-section-lock.js"
 node --check "$PUB/v176-integrity.js"
 node --check "$PUB/v178-backup.js"
 node --check "$PUB/v179-restore.js"
+node --check "$PUB/v185-icons.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -142,6 +144,8 @@ test -f "$PUB/data/candidate-photo-map.json"
 test -f "$PUB/teste-bu.html"
 test -f "$PUB/teste-bu/qr-1.png"
 test -f "$PUB/teste-bu/qr-2.png"
+test -f "$PUB/v185-interface.css"
+test -f "$PUB/v185-icons.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -159,6 +163,9 @@ grep -q 'secp521r1' "$APP/ce184-verify.py"
 grep -q 'TESTE:1' "$PUB/teste-bu/qr-1.txt"
 grep -q "event:'section_locked_write_denied'" "$APP/server.mjs"
 grep -q "p === '/api/admin/backups/restore'" "$APP/server.mjs"
-grep -q "const VERSION='v1.8.4.3-unified'" "$PUB/service-worker.js"
+grep -q "/v185-interface.css" "$PUB/index.html"
+grep -q "/v185-icons.js" "$PUB/operacao.html"
+grep -q "/v185-interface.css" "$PUB/admin/index.html"
+grep -q "const VERSION='v1.8.5-unified'" "$PUB/service-worker.js"
 
-echo "V1.8.4.3: QRBU + QRCE com ECDSA P-521 / EdDSA Ed521 validados; BU sintético continua isolado."
+echo "V1.8.5: criptografia preservada; interface refinada e ícones vetoriais padronizados."
