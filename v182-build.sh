@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.9: consolidando histórico de patches..."
+echo "V1.9.0: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -126,6 +126,7 @@ run_patch v186-visual-qa.mjs
 run_patch v187-interface.mjs
 run_patch v188-clean-qrbu-test-data.mjs
 run_patch v189-identity.mjs
+run_patch v190-performance.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -187,7 +188,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.8.9-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.9.0-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -197,5 +198,8 @@ grep -q 'CE188_QRBU_TEST_CLEANUP' "$APP/server.mjs"
 grep -q "/v189-identity.css" "$PUB/index.html"
 grep -q "/v189-identity.js" "$PUB/transparencia.html"
 grep -q -- "--ce-primary-900:#123D60" "$PUB/v189-identity.css"
+grep -q 'CE190_ASYNC_SIGNATURE_VERIFY' "$APP/server.mjs"
+grep -q 'CE190_DEFERRED_RESULT_BACKUP' "$APP/server.mjs"
+grep -q 'ce190ObserveRoots' "$PUB/v187-ui.js"
 
-echo "V1.8.9: guia de identidade visual aplicado com tokens canônicos, ranking, cards, abas e acessibilidade."
+echo "V1.9.0: desempenho operacional otimizado sem reduzir validação ou segurança."
