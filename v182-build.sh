@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.7.1: consolidando histórico de patches..."
+echo "V1.8.8: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -124,6 +124,7 @@ run_patch v186-test-suite.mjs
 run_patch v185-interface.mjs
 run_patch v186-visual-qa.mjs
 run_patch v187-interface.mjs
+run_patch v188-clean-qrbu-test-data.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -188,5 +189,6 @@ grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
 grep -q "/v187-ui.css" "$PUB/index.html"
 grep -q "/v187-ui.js" "$PUB/operacao.html"
+grep -q 'CE188_QRBU_TEST_CLEANUP' "$APP/server.mjs"
 
-echo "V1.8.7.1: candidaturas TSE corrigidas, aviso de simulação e ajustes finos de interface aplicados."
+echo "V1.8.8: reset pré-eleição do ambiente de ensaio preparado com backup prévio."
