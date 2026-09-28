@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.7: consolidando histórico de patches..."
+echo "V1.8.7.1: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -182,11 +182,11 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.8.7-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.7.1-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
 grep -q "/v187-ui.css" "$PUB/index.html"
 grep -q "/v187-ui.js" "$PUB/operacao.html"
 
-echo "V1.8.7: candidaturas TSE corrigidas, atualização automática e ajustes finos de interface aplicados."
+echo "V1.8.7.1: candidaturas TSE corrigidas, aviso de simulação e ajustes finos de interface aplicados."
