@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.8.1: consolidando histórico de patches..."
+echo "V1.8.9: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -125,6 +125,7 @@ run_patch v185-interface.mjs
 run_patch v186-visual-qa.mjs
 run_patch v187-interface.mjs
 run_patch v188-clean-qrbu-test-data.mjs
+run_patch v189-identity.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -140,6 +141,7 @@ node --check "$PUB/v179-restore.js"
 node --check "$PUB/v185-icons.js"
 node --check "$PUB/v186-visual-qa.js"
 node --check "$PUB/v187-ui.js"
+node --check "$PUB/v189-identity.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -159,6 +161,8 @@ test -f "$PUB/v186-visual-qa.css"
 test -f "$PUB/v186-visual-qa.js"
 test -f "$PUB/v187-ui.css"
 test -f "$PUB/v187-ui.js"
+test -f "$PUB/v189-identity.css"
+test -f "$PUB/v189-identity.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -183,12 +187,15 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.8.8.1-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.9-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
 grep -q "/v187-ui.css" "$PUB/index.html"
 grep -q "/v187-ui.js" "$PUB/operacao.html"
 grep -q 'CE188_QRBU_TEST_CLEANUP' "$APP/server.mjs"
+grep -q "/v189-identity.css" "$PUB/index.html"
+grep -q "/v189-identity.js" "$PUB/transparencia.html"
+grep -q -- "--ce-primary-900:#123D60" "$PUB/v189-identity.css"
 
-echo "V1.8.8.1: ranking dos candidatos corrigido para permanecer integralmente dentro dos cards."
+echo "V1.8.9: guia de identidade visual aplicado com tokens canônicos, ranking, cards, abas e acessibilidade."
