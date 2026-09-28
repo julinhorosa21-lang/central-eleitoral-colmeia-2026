@@ -1,0 +1,38 @@
+/* V1.8.7 — correções finas de interface e candidatos */
+:root{--ce187-bottom:74px}
+
+/* Evita que o botão flutuante cubra votos/cards e respeita a navegação inferior. */
+.ce187-scrolltop{position:fixed!important;right:12px!important;bottom:calc(var(--ce187-bottom) + env(safe-area-inset-bottom) + 10px)!important;z-index:80!important;width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important;padding:0!important;border-radius:12px!important;display:grid!important;place-items:center!important;box-shadow:0 8px 24px rgba(19,50,73,.18)!important;opacity:.92!important}
+
+/* O selo de posição ficava parcialmente fora do card no celular. */
+.ce161-rank{top:8px!important;right:8px!important;z-index:2!important}
+
+/* Nome, partido e número não podem estourar o card. */
+#leaders .leader .who{min-width:0!important;padding-right:4px!important}
+#leaders .leader .who b{overflow-wrap:anywhere!important;word-break:normal!important}
+#leaders .leader .who small{min-width:0!important;flex-wrap:wrap!important}
+#leaders .leader .votes{white-space:nowrap!important}
+#leaders .leader .num img{object-position:center 18%!important}
+
+.ce187-status{display:inline-flex!important;align-items:center!important;width:max-content!important;max-width:100%!important;margin-top:4px!important;padding:3px 7px!important;border:1px solid #d8e3e8!important;border-radius:999px!important;background:#f4f8fa!important;color:#516b7a!important;font-size:9px!important;font-weight:850!important;line-height:1.1!important;white-space:normal!important}
+.ce187-status[data-kind="sub_judice"],.ce187-status[data-kind="pendente"]{background:#fff9df!important;border-color:#eadb8e!important;color:#735f12!important}
+.ce187-status[data-active="false"]{background:#fff1f1!important;border-color:#eccaca!important;color:#8b3030!important}
+
+/* Catálogos/consultas de candidatos: grade estável mesmo com nomes longos. */
+.ce161-op-card{grid-template-columns:50px minmax(0,1fr)!important;min-height:72px!important;align-items:center!important}
+.ce161-op-photo{width:50px!important;height:58px!important}
+.ce161-op-info b{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.15!important}
+.ce161-op-info small{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.25!important}
+.ce187-candidate-card{min-width:0!important;overflow:hidden!important}
+.ce187-candidate-card img{object-fit:cover!important;object-position:center 18%!important}
+.ce187-candidate-card .ce187-main{min-width:0!important}
+.ce187-tech-tag{display:none!important}
+
+/* Navegação fixa não deve cobrir o último card. */
+body:has(.public-bottom-nav),body:has(.bottom-nav),body:has(.footer-nav){padding-bottom:calc(var(--ce187-bottom) + env(safe-area-inset-bottom))!important}
+
+@media(max-width:600px){
+  .ce161-rank{display:none!important}
+  #leaders .leader{overflow:hidden!important}
+  .ce187-scrolltop{right:10px!important;bottom:calc(var(--ce187-bottom) + env(safe-area-inset-bottom) + 8px)!important}
+}
