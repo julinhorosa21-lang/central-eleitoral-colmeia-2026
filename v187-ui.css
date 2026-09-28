@@ -36,3 +36,10 @@ body:has(.public-bottom-nav),body:has(.bottom-nav),body:has(.footer-nav){padding
   #leaders .leader{overflow:hidden!important}
   .ce187-scrolltop{right:10px!important;bottom:calc(var(--ce187-bottom) + env(safe-area-inset-bottom) + 8px)!important}
 }
+
+/* Aviso obrigatório enquanto a Central opera com dados de ensaio antes da eleição. */
+.ce187-test-notice{margin:12px auto;padding:12px 14px;max-width:1180px;border:1px solid #e6c75c;border-left:5px solid #d7a900;border-radius:13px;background:#fff9dd;color:#604d08;box-shadow:0 5px 18px rgba(90,70,0,.07)}
+.ce187-test-notice b{display:block;font-size:11px;letter-spacing:.045em}
+.ce187-test-notice span{display:block;margin-top:4px;font-size:11px;line-height:1.4}
+.ce187-pre-election #ce161Race{display:none!important}
+@media(max-width:600px){.ce187-test-notice{margin:10px 16px;padding:11px 12px}.ce187-test-notice span{font-size:10.5px}}
