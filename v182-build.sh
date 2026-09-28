@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.9.4: consolidando histórico de patches..."
+echo "V1.9.5: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -131,6 +131,7 @@ run_patch v191-share.mjs
 run_patch v192-sections.mjs
 run_patch v193-operations.mjs
 run_patch v194-performance.mjs
+run_patch v195-display.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -151,6 +152,7 @@ node --check "$PUB/v191-share.js"
 node --check "$PUB/v192-sections.js"
 node --check "$PUB/v193-operations.js"
 node --check "$PUB/v194-fastpath.js"
+node --check "$PUB/v195-display.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -180,6 +182,8 @@ test -f "$PUB/v193-operations.css"
 test -f "$PUB/v193-operations.js"
 test -f "$PUB/v194-fastpath.js"
 test -f "$PUB/v194-performance.css"
+test -f "$PUB/v195-display.css"
+test -f "$PUB/v195-display.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -204,7 +208,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.9.4-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.9.5-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -232,6 +236,11 @@ grep -q "undoWindowMs:15000" "$APP/server.mjs"
 grep -q "/v194-fastpath.js" "$PUB/index.html"
 grep -q "/v194-fastpath.js" "$PUB/admin/index.html"
 grep -q "CE194_AGGREGATE_CACHE" "$PUB/admin/admin-v150.js"
-grep -q "v1.9.4-unified" "$PUB/service-worker.js"
+grep -q "v1.9.4-unified" "$PUB/service-worker.js" || true
+grep -q "/v195-display.js" "$PUB/index.html"
+grep -q "/v195-display.js" "$PUB/transparencia.html"
+grep -q "Modo divulgação" "$PUB/v195-display.js"
+grep -q "Exportar CSV" "$PUB/v195-display.js"
+grep -q "v1.9.5-unified" "$PUB/service-worker.js"
 
-echo "V1.9.4: fast path, rankings memoizados, observers localizados e polling reduzido aplicados."
+echo "V1.9.5: modo divulgação, transparência pública e exportação ativados."
