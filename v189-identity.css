@@ -1,0 +1,272 @@
+/* V1.8.9 — alinhamento ao Guia de Identidade Visual da Central Eleitoral Colméia 2026 */
+:root{
+  --ce-primary-900:#123D60;
+  --ce-primary-950:#0B2C46;
+  --ce-action-700:#2450B2;
+  --ce-success-700:#16864F;
+  --ce-warning-700:#C79212;
+  --ce-danger-700:#AA382F;
+  --ce-text:#17212B;
+  --ce-text-muted:#667985;
+  --ce-bg:#F5F7F9;
+  --ce-surface:#FFFFFF;
+  --ce-line:#D8E4EA;
+  --ce-accent:#FFDF00;
+  --ce-focus:#005FCC;
+  --ce-radius-sm:8px;
+  --ce-radius-md:12px;
+  --ce-radius-lg:18px;
+  --ce-shadow:0 6px 20px rgba(18,50,74,.07);
+
+  /* aliases temporários para versões anteriores */
+  --ui-blue:var(--ce-primary-900);
+  --ce160-blue:var(--ce-primary-900);
+  --ce164-blue:var(--ce-primary-900);
+  --civic-blue:var(--ce-primary-900);
+  --ce-green:var(--ce-success-700);
+  --ce-yellow:var(--ce-accent);
+  --ce-blue:var(--ce-primary-900);
+  --ce-to:var(--ce-action-700);
+  --ce-ink:var(--ce-text);
+  --ce-muted:var(--ce-text-muted);
+}
+
+html,body{
+  background:var(--ce-bg)!important;
+  color:var(--ce-text)!important;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif!important;
+}
+body{overflow-x:hidden!important}
+
+.wrap,.container,main>.wrap,.public-v130 .wrap{
+  width:min(100%,1120px)!important;
+  max-width:1120px!important;
+  margin-inline:auto!important;
+}
+
+/* Hierarquia numérica */
+.numeric,
+#leaders .votes,
+#leaders .votes b,
+#leaders .votes small,
+.public-overview,
+.metric b,
+.mini b,
+[data-ce176-time],
+time{
+  font-variant-numeric:tabular-nums!important;
+}
+#leaders .votes,
+#leaders .votes b,
+#leaders .votes small{white-space:nowrap!important}
+
+/* Cards principais e repetidos */
+.card,.public-overview,.ce161-race,.ce161-op-candidates{
+  border-color:var(--ce-line)!important;
+}
+#leaders .leader{
+  border:1px solid var(--ce-line)!important;
+  border-left:1px solid var(--ce-line)!important;
+  border-radius:16px!important;
+  background:var(--ce-surface)!important;
+  box-shadow:none!important;
+}
+
+/* Cores partidárias ficam restritas à identificação do partido/número. */
+#leaders .leader .public-number-badge,
+#leaders .leader .who .party,
+#leaders .leader .who [class*="party"],
+#leaders .leader .who [class*="sigla"]{
+  border-radius:var(--ce-radius-sm)!important;
+}
+
+/* Ranking: bloco fixo, sem corte. */
+#leaders .leader .ce161-rank{
+  width:36px!important;
+  min-width:36px!important;
+  height:36px!important;
+  min-height:36px!important;
+  padding:0!important;
+  margin:0 0 6px auto!important;
+  border-radius:var(--ce-radius-sm)!important;
+  display:grid!important;
+  place-items:center!important;
+  overflow:visible!important;
+  background:var(--ce-primary-900)!important;
+  border:1px solid var(--ce-primary-900)!important;
+  color:#fff!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  line-height:1!important;
+  font-variant-numeric:tabular-nums!important;
+}
+#leaders .leader[data-ce161-rank="1"] .ce161-rank{
+  background:var(--ce-primary-900)!important;
+  border-color:var(--ce-primary-900)!important;
+  color:#fff!important;
+}
+#leaders .leader[data-ce161-rank] .votes{
+  min-width:104px!important;
+}
+
+/* Foto: proporção consistente e enquadramento neutro. */
+#leaders .leader .num,
+#leaders .leader .num.public-photo-num{
+  aspect-ratio:1/1!important;
+}
+#leaders .leader .num img,
+.ce161-op-photo img,
+.ce187-candidate-card img{
+  object-fit:cover!important;
+  object-position:50% 25%!important;
+}
+
+/* Nome pode quebrar; dado numérico não. */
+#leaders .leader .who b{
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  line-height:1.2!important;
+  font-weight:750!important;
+}
+#leaders .leader .who small{
+  line-height:1.35!important;
+}
+
+/* Abas de cargo: azul de ação + microacento amarelo. */
+#cargoTabs button,.cargo-tabs button{
+  min-height:44px!important;
+  border-radius:var(--ce-radius-md)!important;
+}
+#cargoTabs button.active,.cargo-tabs button.active{
+  position:relative!important;
+  background:var(--ce-action-700)!important;
+  color:#fff!important;
+  border-color:var(--ce-action-700)!important;
+}
+#cargoTabs button.active::after,.cargo-tabs button.active::after{
+  content:""!important;
+  position:absolute!important;
+  left:18%!important;
+  right:18%!important;
+  bottom:0!important;
+  height:3px!important;
+  border-radius:3px 3px 0 0!important;
+  background:var(--ce-accent)!important;
+}
+
+/* Estados semânticos */
+.ce187-status[data-kind="sub_judice"],
+.ce187-status[data-kind="pendente"]{
+  background:#FFF8E1!important;
+  border-color:#E3C46A!important;
+  color:#6B5412!important;
+}
+.ce187-status[data-kind="indeferida"],
+.ce187-status[data-kind="cancelada"],
+.ce187-status[data-kind="cassada"],
+.ce187-status[data-active="false"]{
+  background:#FFF1EF!important;
+  border-color:#E0B0AA!important;
+  color:var(--ce-danger-700)!important;
+}
+.ce187-status[data-kind="renuncia"],
+.ce187-status[data-kind="falecimento"],
+.ce187-status[data-kind="substituida"]{
+  background:#F0F3F5!important;
+  border-color:#D6E0E5!important;
+  color:#566771!important;
+}
+
+/* Aviso de simulação segundo o guia. */
+.ce187-test-notice{
+  border:1px solid #E1C45D!important;
+  border-left:4px solid var(--ce-warning-700)!important;
+  border-radius:var(--ce-radius-md)!important;
+  background:#FFF9E3!important;
+  color:#5D4A0C!important;
+  box-shadow:none!important;
+}
+
+/* Foco e acessibilidade */
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid var(--ce-focus)!important;
+  outline-offset:2px!important;
+}
+button,a,[role="button"],[role="tab"]{touch-action:manipulation}
+
+/* Rodapé institucional */
+.ce189-institutional-note{
+  width:min(calc(100% - 32px),1120px);
+  margin:18px auto calc(86px + env(safe-area-inset-bottom));
+  padding:12px 14px;
+  border-top:1px solid var(--ce-line);
+  color:var(--ce-text-muted);
+  font-size:12px;
+  line-height:1.45;
+  text-align:center;
+}
+
+/* Mobile: margem de 16 px, foto 56 px e dados protegidos. */
+@media(max-width:767px){
+  .wrap,.container,main>.wrap,.public-v130 .wrap{
+    width:auto!important;
+    margin-inline:16px!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  #leaders .leader.public-candidate-row,
+  #leaders .leader{
+    grid-template-columns:56px minmax(0,1fr) minmax(104px,auto)!important;
+    gap:12px!important;
+    padding:12px!important;
+  }
+  #leaders .leader .num,
+  #leaders .leader .num.public-photo-num{
+    width:56px!important;
+    height:56px!important;
+  }
+  #leaders .leader[data-ce161-rank] .votes{
+    min-width:104px!important;
+  }
+  #leaders .leader .bar{
+    grid-column:2/4!important;
+  }
+}
+
+/* Telefones muito estreitos: mantém números inteiros, nome quebra antes. */
+@media(max-width:390px){
+  #leaders .leader.public-candidate-row,
+  #leaders .leader{
+    grid-template-columns:52px minmax(0,1fr) 104px!important;
+    gap:9px!important;
+    padding:10px!important;
+  }
+  #leaders .leader .num,
+  #leaders .leader .num.public-photo-num{
+    width:52px!important;
+    height:52px!important;
+  }
+  #leaders .leader[data-ce161-rank] .votes{
+    grid-column:3!important;
+    flex-direction:column!important;
+    align-items:flex-end!important;
+    justify-content:center!important;
+    min-width:104px!important;
+    text-align:right!important;
+    gap:0!important;
+  }
+  #leaders .leader .ce161-rank{margin:0 0 5px auto!important}
+  #leaders .leader .bar{grid-column:2/4!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.001ms!important;
+  }
+}
