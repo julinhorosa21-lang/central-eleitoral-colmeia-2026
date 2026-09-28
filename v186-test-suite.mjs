@@ -11,7 +11,13 @@ const sha=s=>createHash('sha512').update(s).digest('hex').toUpperCase();
 
 const usable=a=>{
   const all=(Array.isArray(a)?a:[]).filter(x=>x&&String(x.numero||'').trim());
-  const ok=all.filter(x=>!/RENUNC|INAPTO|CANCEL|INDEFER/i.test(String(x.situacao||'')));
+  const ok=all.filter(x=>{
+    if(x.ativo===false)return false;
+    const s=String(x.situacao||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+    if(/RENUNC|INAPTO|CANCEL|FALEC|CASSAD/.test(s))return false;
+    if(s.includes('INDEFER')&&!/RECURSO|PRAZO RECURSAL/.test(s))return false;
+    return true;
+  });
   return ok.length?ok:all;
 };
 
