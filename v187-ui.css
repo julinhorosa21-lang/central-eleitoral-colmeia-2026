@@ -4,8 +4,34 @@
 /* Evita que o botão flutuante cubra votos/cards e respeita a navegação inferior. */
 .ce187-scrolltop{position:fixed!important;right:12px!important;bottom:calc(var(--ce187-bottom) + env(safe-area-inset-bottom) + 10px)!important;z-index:80!important;width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important;padding:0!important;border-radius:12px!important;display:grid!important;place-items:center!important;box-shadow:0 8px 24px rgba(19,50,73,.18)!important;opacity:.92!important}
 
-/* O selo de posição ficava parcialmente fora do card no celular. */
-.ce161-rank{top:8px!important;right:8px!important;z-index:2!important}
+/* Ranking sempre dentro do card: o selo passa a fazer parte da coluna de votos. */
+#leaders .leader .ce161-rank{
+  position:static!important;
+  inset:auto!important;
+  align-self:flex-end!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:max-content!important;
+  min-width:30px!important;
+  height:22px!important;
+  margin:0 0 5px auto!important;
+  padding:0 7px!important;
+  box-sizing:border-box!important;
+  border-radius:999px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  flex:0 0 auto!important;
+}
+#leaders .leader[data-ce161-rank] .votes{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  min-width:94px!important;
+}
+#leaders .leader[data-ce161-rank] .votes b,
+#leaders .leader[data-ce161-rank] .votes small{flex:0 0 auto!important}
 
 /* Nome, partido e número não podem estourar o card. */
 #leaders .leader .who{min-width:0!important;padding-right:4px!important}
@@ -32,9 +58,24 @@
 body:has(.public-bottom-nav),body:has(.bottom-nav),body:has(.footer-nav){padding-bottom:calc(var(--ce187-bottom) + env(safe-area-inset-bottom))!important}
 
 @media(max-width:600px){
-  .ce161-rank{display:none!important}
   #leaders .leader{overflow:hidden!important}
+  #leaders .leader[data-ce161-rank] .votes{min-width:82px!important}
+  #leaders .leader .ce161-rank{min-width:28px!important;height:21px!important;margin-bottom:4px!important;padding:0 6px!important;font-size:8.5px!important}
   .ce187-scrolltop{right:10px!important;bottom:calc(var(--ce187-bottom) + env(safe-area-inset-bottom) + 8px)!important}
+}
+@media(max-width:390px){
+  #leaders .leader[data-ce161-rank] .votes{
+    grid-column:2!important;
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    flex-wrap:wrap!important;
+    gap:5px!important;
+    min-width:0!important;
+    text-align:left!important;
+  }
+  #leaders .leader .ce161-rank{margin:0 2px 0 0!important}
 }
 
 /* Aviso obrigatório enquanto a Central opera com dados de ensaio antes da eleição. */
