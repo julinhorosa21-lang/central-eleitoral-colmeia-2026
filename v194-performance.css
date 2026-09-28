@@ -1,0 +1,12 @@
+/* V1.9.4 — renderização progressiva de listas extensas */
+#leaders .leader,
+.ce161-op-card,
+#ce176Integrity .ce176-section{
+  content-visibility:auto;
+}
+#leaders .leader{contain-intrinsic-size:82px}
+.ce161-op-card{contain-intrinsic-size:76px 320px}
+#ce176Integrity .ce176-section{contain-intrinsic-size:78px}
+@media(prefers-reduced-motion:reduce){
+  #leaders .leader,.ce161-op-card,#ce176Integrity .ce176-section{contain-intrinsic-size:auto}
+}
