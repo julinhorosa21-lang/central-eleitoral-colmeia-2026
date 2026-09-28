@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.6: consolidando histórico de patches..."
+echo "V1.8.7: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -119,9 +119,11 @@ run_patch v183-bu-scanner.mjs
 copy_file ce184-verify.py "$APP/ce184-verify.py"
 run_patch v184-bu-signature.mjs
 run_patch v1842-test-bu.mjs
+run_patch v187-candidate-integrity.mjs
 run_patch v186-test-suite.mjs
 run_patch v185-interface.mjs
 run_patch v186-visual-qa.mjs
+run_patch v187-interface.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -136,6 +138,7 @@ node --check "$PUB/v178-backup.js"
 node --check "$PUB/v179-restore.js"
 node --check "$PUB/v185-icons.js"
 node --check "$PUB/v186-visual-qa.js"
+node --check "$PUB/v187-ui.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -153,6 +156,8 @@ test -f "$PUB/v185-interface.css"
 test -f "$PUB/v185-icons.js"
 test -f "$PUB/v186-visual-qa.css"
 test -f "$PUB/v186-visual-qa.js"
+test -f "$PUB/v187-ui.css"
+test -f "$PUB/v187-ui.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -177,6 +182,11 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.8.6-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.7-unified'" "$PUB/service-worker.js"
+grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
+grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
+grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
+grep -q "/v187-ui.css" "$PUB/index.html"
+grep -q "/v187-ui.js" "$PUB/operacao.html"
 
-echo "V1.8.6: auditoria visual profunda aplicada; geometria de ícones, navegação e mobile validados."
+echo "V1.8.7: candidaturas TSE corrigidas, atualização automática e ajustes finos de interface aplicados."
