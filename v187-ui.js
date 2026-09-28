@@ -16,8 +16,17 @@ function removeTechTags(){document.querySelectorAll('main span,main small,main e
 function markCandidateCards(){document.querySelectorAll('.ce161-op-card,.candidate-card,.candidate-row,[data-candidate],#candidateCatalog .card').forEach(el=>el.classList.add('ce187-candidate-card'))}
 function fixScrollTop(){document.querySelectorAll('button,a').forEach(el=>{const t=(el.textContent||'').trim();if((t==='↑'||t==='⇧'||/voltar ao topo/i.test(el.getAttribute('aria-label')||''))&&getComputedStyle(el).position==='fixed')el.classList.add('ce187-scrolltop')})}
 function fixAdminLabels(){if(!location.pathname.includes('/admin'))return;document.querySelectorAll('.metric,.card').forEach(card=>{const h=norm(card.querySelector('small,.label,.metric-label')?.textContent);const sub=card.querySelector('em,.sub,.metric-sub,p');if(!sub)return;if(h.includes('CONFERIDAS')&&/seções completas/i.test(sub.textContent||''))sub.textContent='validadas pela coordenação';if(h.includes('EM CONFERENCIA')&&/exigem acompanhamento/i.test(sub.textContent||''))sub.textContent='aguardam validação da coordenação'})}
+function ensurePreElectionNotice(){
+ const PUBLIC=new Set(['/','/index.html','/transparencia.html']);if(!PUBLIC.has(location.pathname))return;
+ const cutoff=Date.parse('2026-10-04T17:00:00-03:00'),pre=Date.now()<cutoff;
+ document.documentElement.classList.toggle('ce187-pre-election',pre);
+ let box=document.getElementById('ce187TestNotice');
+ if(!pre){box?.remove();return}
+ if(!box){box=document.createElement('aside');box.id='ce187TestNotice';box.className='ce187-test-notice';box.setAttribute('role','status');const hero=document.querySelector('.hero,.public-hero,header');(hero?.parentNode||document.body).insertBefore(box,hero?hero.nextSibling:document.body.firstChild)}
+ box.innerHTML='<b>AMBIENTE DE TESTE · DADOS NÃO OFICIAIS</b><span>A eleição ocorre em 4 de outubro de 2026. Votos, percentuais e andamento exibidos nesta Central nesta fase são dados de simulação e não representam resultado eleitoral.</span>';
+}
 function fixCompletionNote(){const complete=/29\s*\/\s*29|100%/.test(document.body.textContent||'');if(!complete)return;document.querySelectorAll('div,p,span').forEach(el=>{if(el.children.length)return;const t=(el.textContent||'').trim();if(/^Acompanhamento local\s*·\s*resultados parciais podem mudar durante a apuração\.?$/i.test(t))el.textContent='Apuração local concluída · resultados sujeitos à conferência e à totalização oficial da Justiça Eleitoral.'})}
-function run(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;removeLiteralEscapes();removeTechTags();markCandidateCards();fixScrollTop();fixAdminLabels();fixCompletionNote();hydrateResults()})}
+function run(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;removeLiteralEscapes();removeTechTags();markCandidateCards();fixScrollTop();fixAdminLabels();ensurePreElectionNotice();fixCompletionNote();hydrateResults()})}
 async function load(){try{const r=await fetch('/data/candidate-catalog.json?v=187',{cache:'no-store'});if(r.ok){catalog=await r.json();adoptCatalog();run()}}catch(e){console.warn('V1.8.7 catálogo estático indisponível',e)}}
 function start(){load();run();[150,500,1200,2500].forEach(ms=>setTimeout(run,ms));new MutationObserver(run).observe(document.body,{subtree:true,childList:true,characterData:true});document.addEventListener('click',()=>setTimeout(run,80),true);window.addEventListener('pageshow',()=>{load();run()})}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start,{once:true}):start();
