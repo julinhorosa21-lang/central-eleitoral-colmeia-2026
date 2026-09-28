@@ -1,0 +1,76 @@
+/* V1.9.1 — compartilhamento de resultado por cargo */
+.ce191-share-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:10px 0 4px;
+}
+.ce191-share-btn{
+  min-height:44px;
+  border:1px solid var(--ce-line,#D8E4EA);
+  border-radius:12px;
+  padding:9px 13px;
+  background:#fff;
+  color:var(--ce-primary-900,#123D60);
+  font:inherit;
+  font-size:11.5px;
+  font-weight:800;
+  line-height:1;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  touch-action:manipulation;
+}
+.ce191-share-btn.primary{
+  background:var(--ce-action-700,#2450B2);
+  border-color:var(--ce-action-700,#2450B2);
+  color:#fff;
+}
+.ce191-share-btn:hover{filter:brightness(.985)}
+.ce191-share-btn:active{transform:translateY(1px)}
+.ce191-share-btn:disabled{opacity:.55;cursor:wait;transform:none}
+.ce191-share-btn svg{width:17px;height:17px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+.ce191-toast{
+  position:fixed;
+  left:50%;
+  bottom:calc(92px + env(safe-area-inset-bottom));
+  z-index:9999;
+  transform:translateX(-50%);
+  max-width:min(92vw,460px);
+  padding:10px 14px;
+  border-radius:12px;
+  background:#17212B;
+  color:#fff;
+  box-shadow:0 12px 32px rgba(0,0,0,.18);
+  font-size:12px;
+  font-weight:750;
+  line-height:1.3;
+  text-align:center;
+  pointer-events:none;
+  animation:ce191ToastIn .16s ease-out;
+}
+.ce191-toast.warn{background:#6B5412}
+.ce191-toast.bad{background:#8D3029}
+@keyframes ce191ToastIn{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+
+@media(max-width:600px){
+  .ce191-share-actions{
+    display:grid;
+    grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+    width:100%;
+    gap:7px;
+  }
+  .ce191-share-btn{width:100%;padding:9px 10px;font-size:10.8px}
+}
+@media(max-width:360px){
+  .ce191-share-actions{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .ce191-toast{animation:none}
+  .ce191-share-btn:active{transform:none}
+}
