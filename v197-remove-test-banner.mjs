@@ -23,18 +23,16 @@ const replacement=String.raw`function ensurePreElectionNotice(){
 ui=ui.slice(0,start)+replacement+ui.slice(end);
 write(uiPath,ui);
 
-/* Remove também o estilo específico para evitar reaparecimento por CSS legado. */
-const cssPath=pub+'/v187-ui.css';
-let css=read(cssPath);
-css=css.replace(//* Aviso obrigatório enquanto a Central opera com dados de ensaio antes da eleição. */[sS]*?@media(max-width:600px){.ce187-test-notice{[sS]*?}}s*/,'');
-write(cssPath,css);
-
 let sw=read(pub+'/service-worker.js');
 sw=sw.replace(/const VERSION='[^']+';/,"const VERSION='v1.9.7-unified';");
 write(pub+'/service-worker.js',sw);
 
 const pkg='/app/package.json';
-if(fs.existsSync(pkg)){const j=JSON.parse(read(pkg));j.version='1.9.7';write(pkg,JSON.stringify(j,null,2)+'\n')}
+if(fs.existsSync(pkg)){
+  const j=JSON.parse(read(pkg));
+  j.version='1.9.7';
+  write(pkg,JSON.stringify(j,null,2)+'\n');
+}
 
 if(read(uiPath).includes('AMBIENTE DE TESTE · DADOS NÃO OFICIAIS'))throw new Error('V1.9.7 banner ainda presente');
 if(!read(uiPath).includes("classList.toggle('ce187-pre-election',pre)"))throw new Error('V1.9.7 estado de teste interno perdido');
