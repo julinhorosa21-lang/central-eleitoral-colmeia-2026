@@ -38,6 +38,6 @@ ENV NODE_ENV=production \
 
 RUN mkdir -p /app/runtime
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="1.9.0"
+      org.opencontainers.image.version="1.9.1"
 EXPOSE 8787
 CMD ["node","server.mjs"]
