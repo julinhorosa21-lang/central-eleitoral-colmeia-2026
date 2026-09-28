@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.8.8: consolidando histórico de patches..."
+echo "V1.8.8.1: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -183,7 +183,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.8.7.1-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.8.8.1-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -191,4 +191,4 @@ grep -q "/v187-ui.css" "$PUB/index.html"
 grep -q "/v187-ui.js" "$PUB/operacao.html"
 grep -q 'CE188_QRBU_TEST_CLEANUP' "$APP/server.mjs"
 
-echo "V1.8.8: reset pré-eleição do ambiente de ensaio preparado com backup prévio."
+echo "V1.8.8.1: ranking dos candidatos corrigido para permanecer integralmente dentro dos cards."
