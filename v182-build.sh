@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V1.9.8: consolidando histórico de patches..."
+echo "V1.9.9: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -135,6 +135,7 @@ run_patch v195-display.mjs
 run_patch v196-fixes.mjs
 run_patch v197-remove-test-banner.mjs
 run_patch v198-remove-banner.mjs
+run_patch v199-qrbu-stress.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -190,6 +191,9 @@ test -f "$PUB/v195-display.css"
 test -f "$PUB/v195-display.js"
 test -f "$PUB/v198-remove-banner.css"
 test -f "$PUB/v198-remove-banner.js"
+test -f "$PUB/teste-qrbu-9.html"
+test -f "$PUB/teste-qrbu-9/manifest.json"
+test -f "$PUB/teste-qrbu-9/qr-9.png"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -214,7 +218,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v1.9.8-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v1.9.9-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -259,6 +263,9 @@ grep -q "/v187-ui.js?v=198" "$PUB/index.html"
 grep -q "/v198-remove-banner.js" "$PUB/index.html"
 grep -q "/v198-remove-banner.css" "$PUB/transparencia.html"
 ! grep -q "AMBIENTE DE TESTE · DADOS NÃO OFICIAIS" "$PUB/v187-ui.js"
-grep -q "v1.9.8-unified" "$PUB/service-worker.js"
+grep -q "v1.9.8-unified" "$PUB/service-worker.js" || true
+grep -q '"totalQrbu": 9' "$PUB/teste-qrbu-9/manifest.json"
+grep -q "Teste de estresse · QRBU 9 partes" "$PUB/teste-qrbu-9.html"
+grep -q "v1.9.9-unified" "$PUB/service-worker.js"
 
-echo "V1.9.8: banner legado removido com cache-busting e guarda final."
+echo "V1.9.9: regressão QRBU de 9 partes validada e suíte manual publicada."
