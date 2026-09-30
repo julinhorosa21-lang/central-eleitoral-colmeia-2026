@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.6: consolidando histórico de patches..."
+echo "V2.0.7: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -143,6 +143,7 @@ run_patch v203-modal-scroll.mjs
 run_patch v204-bu-form-scroll.mjs
 run_patch v205-bu-modal.mjs
 run_patch v206-register-bu.mjs
+run_patch v207-speed.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -171,6 +172,9 @@ node --check "$PUB/v202-contrast.js"
 node --check "$PUB/v203-modal-scroll.js"
 node --check "$PUB/v204-bu-form-scroll.js"
 node --check "$PUB/v205-bu-modal.js"
+node --check "$PUB/v202-contrast.js"
+node --check "$PUB/v161-candidates-all-cargos.js"
+node --check "$PUB/v200-resultados-public.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -220,6 +224,7 @@ test -f "$PUB/v204-bu-form-scroll.js"
 test -f "$PUB/v205-bu-modal.css"
 test -f "$PUB/v205-bu-modal.js"
 test -f "$PUB/v206-register-bu.css"
+test -f "$PUB/v207-speed.css"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -244,7 +249,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.6-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.7-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -317,6 +322,16 @@ grep -q "v2.0.5-unified" "$PUB/service-worker.js" || true
 grep -q "/v206-register-bu.css" "$PUB/operacao.html"
 grep -q "Revisar e confirmar resultado" "$PUB/operacao.html"
 grep -q "ce206-result-actions" "$PUB/operacao.html"
-grep -q "v2.0.6-unified" "$PUB/service-worker.js"
+grep -q "v2.0.6-unified" "$PUB/service-worker.js" || true
+grep -q "/v207-speed.css" "$PUB/index.html"
+grep -q "/v207-speed.css" "$PUB/operacao.html"
+grep -q "CE207_TARGETED_CONTRAST_OBSERVER" "$PUB/v202-contrast.js"
+! grep -q "observe(document.body,{subtree:true,childList:true,characterData:true})" "$PUB/v161-candidates-all-cargos.js"
+! grep -q 'loading="eager"' "$PUB/v161-candidates-all-cargos.js"
+grep -q "min-width:34px" "$PUB/v207-speed.css"
+! grep -q "v203-modal-scroll.js" "$PUB/service-worker.js"
+! grep -q "v204-bu-form-scroll.js" "$PUB/service-worker.js"
+! grep -q "v205-bu-modal.js" "$PUB/service-worker.js"
+grep -q "v2.0.7-unified" "$PUB/service-worker.js"
 
-echo "V2.0.6: ações reais do Registrar BU fixadas no rodapé e scripts antigos removidos."
+echo "V2.0.7: ranking protegido e runtime otimizado."
