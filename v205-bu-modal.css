@@ -1,0 +1,76 @@
+/* V2.0.5 — modal Registrar BU estável e rolável, sem observadores de estilo */
+html.ce205-bu-open,
+html.ce205-bu-open body{
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+}
+
+html.ce205-bu-open .bottom-nav,
+html.ce205-bu-open .footer-nav,
+html.ce205-bu-open .public-bottom-nav{
+  display:none!important;
+}
+
+.ce205-bu-backdrop{
+  position:fixed!important;
+  inset:0!important;
+  z-index:60000!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  box-sizing:border-box!important;
+  padding:10px!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+
+.ce205-bu-panel{
+  position:relative!important;
+  width:min(780px,100%)!important;
+  max-width:780px!important;
+  max-height:calc(100dvh - 20px)!important;
+  margin:0 auto!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  box-sizing:border-box!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  scrollbar-gutter:stable!important;
+  padding-bottom:max(88px,env(safe-area-inset-bottom))!important;
+}
+
+.ce205-bu-panel .modal-actions,
+.ce205-bu-panel .form-actions,
+.ce205-bu-panel .action-row,
+.ce205-bu-panel [class*="actions" i]:last-child{
+  position:sticky!important;
+  bottom:0!important;
+  z-index:5!important;
+  padding-top:10px!important;
+  padding-bottom:max(12px,env(safe-area-inset-bottom))!important;
+  background:linear-gradient(to bottom,rgba(255,255,255,.72),#fff 24%)!important;
+}
+
+.ce205-bu-panel::-webkit-scrollbar{width:10px}
+.ce205-bu-panel::-webkit-scrollbar-track{background:#eef2f5}
+.ce205-bu-panel::-webkit-scrollbar-thumb{
+  background:#8fa3b1;
+  border:2px solid #eef2f5;
+  border-radius:999px;
+}
+
+@supports not (height:100dvh){
+  .ce205-bu-panel{max-height:calc(100vh - 20px)!important}
+}
+
+@media(max-width:760px){
+  .ce205-bu-backdrop{padding:6px!important}
+  .ce205-bu-panel{
+    width:100%!important;
+    max-width:none!important;
+    max-height:calc(100dvh - 12px)!important;
+    border-radius:14px!important;
+    padding-bottom:max(100px,env(safe-area-inset-bottom))!important;
+  }
+}
