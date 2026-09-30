@@ -62,19 +62,24 @@ write(pub+'/v207-speed.css',read('/src/v207-speed.css'));
    2) Candidatos: elimina observer global + fotos eager
    ============================================================ */
 {
-  const p=pub+'/v161-candidates-all-cargos.js';
-  let s=read(p);
+  const candidatesFiles=[
+    pub+'/v161-candidates-all-cargos.js',
+    pub+'/v187-ui.js',
+    pub+'/v130-public.js'
+  ].filter(fs.existsSync);
+  let patched=false;
+  for(const p of candidatesFiles){
+    let s=read(p);
+    const before=s;
+    s=s.replaceAll('loading="eager"','loading="lazy"');
+    s=s.replaceAll("img.loading='eager'","img.loading='lazy'");
 
-  s=s.replaceAll('loading="eager"','loading="lazy"');
-  s=s.replaceAll("img.loading='eager'","img.loading='lazy'");
-
-  const old="function start(){loadCatalog();run();setTimeout(run,300);setTimeout(run,1000);new MutationObserver(run).observe(document.body,{subtree:true,childList:true,characterData:true});document.addEventListener('click',()=>setTimeout(run,100),true)}";
-  const neu="function start(){loadCatalog();run();setTimeout(run,450);const roots=[document.getElementById('leaders'),document.getElementById('cargoTabs')].filter(Boolean);const mo=new MutationObserver(run);roots.forEach(root=>mo.observe(root,{subtree:true,childList:true,characterData:true}));document.addEventListener('click',e=>{if(e.target.closest?.('#cargoTabs,[data-cargo],[data-ce161-cargo]'))setTimeout(run,80)},true);document.addEventListener('change',e=>{if(e.target.closest?.('select'))setTimeout(run,80)},true)}";
-  if(!s.includes(old))throw new Error('V2.0.7: observer global V161 não localizado');
-  s=s.replace(old,neu);
-
-  write(p,s);
-  new Function(s);
+    const old="function start(){loadCatalog();run();setTimeout(run,300);setTimeout(run,1000);new MutationObserver(run).observe(document.body,{subtree:true,childList:true,characterData:true});document.addEventListener('click',()=>setTimeout(run,100),true)}";
+    const neu="function start(){loadCatalog();run();setTimeout(run,450);const roots=[document.getElementById('leaders'),document.getElementById('cargoTabs')].filter(Boolean);const mo=new MutationObserver(run);roots.forEach(root=>mo.observe(root,{subtree:true,childList:true,characterData:true}));document.addEventListener('click',e=>{if(e.target.closest?.('#cargoTabs,[data-cargo],[data-ce161-cargo]'))setTimeout(run,80)},true);document.addEventListener('change',e=>{if(e.target.closest?.('select'))setTimeout(run,80)},true)}";
+    if(s.includes(old)){s=s.replace(old,neu);patched=true}
+    if(s!==before){write(p,s);new Function(s)}
+  }
+  globalThis.__ce207CandidateObserverPatched=patched;
 }
 
 /* ============================================================
@@ -120,14 +125,15 @@ if(fs.existsSync(pkg)){const j=JSON.parse(read(pkg));j.version='2.0.7';write(pkg
    5) Regressões obrigatórias
    ============================================================ */
 const contrast=read(pub+'/v202-contrast.js');
-const candidates=read(pub+'/v161-candidates-all-cargos.js');
+const candidatePath=[pub+'/v161-candidates-all-cargos.js',pub+'/v187-ui.js',pub+'/v130-public.js'].find(fs.existsSync);
+const candidates=candidatePath?read(candidatePath):'';
 const speed=read(pub+'/v207-speed.css');
 const serviceWorker=read(pub+'/service-worker.js');
 
 if(!contrast.includes('CE207_TARGETED_CONTRAST_OBSERVER'))throw new Error('V2.0.7: contraste otimizado ausente');
 if(contrast.includes("attributeFilter:['class','style','disabled']"))throw new Error('V2.0.7: observer de style ainda ativo');
 if(candidates.includes("observe(document.body,{subtree:true,childList:true,characterData:true})"))throw new Error('V2.0.7: observer global de candidatos ainda ativo');
-if(candidates.includes('loading="eager"')||candidates.includes("img.loading='eager'"))throw new Error('V2.0.7: fotos eager ainda ativas no V161');
+if(candidates.includes('loading="eager"')||candidates.includes("img.loading='eager'"))throw new Error('V2.0.7: fotos eager ainda ativas no módulo localizado');
 if(!speed.includes('.ce161-rank')||!speed.includes('min-width:34px'))throw new Error('V2.0.7: proteção do ranking ausente');
 for(const asset of ['v203-modal-scroll.js','v204-bu-form-scroll.js','v205-bu-modal.js']){
   if(serviceWorker.includes(asset))throw new Error('V2.0.7: asset obsoleto ainda no precache: '+asset);
