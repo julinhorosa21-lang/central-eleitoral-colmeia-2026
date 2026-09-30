@@ -142,6 +142,7 @@ run_patch v202-contrast.mjs
 run_patch v203-modal-scroll.mjs
 run_patch v204-bu-form-scroll.mjs
 run_patch v205-bu-modal.mjs
+run_patch v206-inspect-modal.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
