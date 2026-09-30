@@ -1,0 +1,123 @@
+/* V2.0.3 — correção global de rolagem em modais e folhas operacionais */
+
+/* O backdrop precisa aceitar rolagem caso o diálogo ultrapasse a viewport. */
+body.ce201-workspace[data-ce201-module="operacao"] .modal-backdrop,
+body.ce201-workspace[data-ce201-module="operacao"] .unified-sheet-backdrop,
+body.ce201-workspace[data-ce201-module="operacao"] .ce174-backdrop,
+body.ce201-workspace[data-ce201-module="operacao"] .ce179-backdrop,
+body.ce201-workspace[data-ce201-module="operacao"] .ce193-backdrop,
+body.ce201-workspace[data-ce201-module="operacao"] [class*="backdrop" i]:has([role="dialog"]){
+  z-index:50000!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  align-items:flex-start!important;
+  padding:
+    max(12px,env(safe-area-inset-top))
+    max(12px,env(safe-area-inset-right))
+    max(18px,env(safe-area-inset-bottom))
+    max(12px,env(safe-area-inset-left))!important;
+  box-sizing:border-box!important;
+}
+
+/* Qualquer diálogo operacional alto passa a ter scroll próprio. */
+body.ce201-workspace[data-ce201-module="operacao"] .modal-card,
+body.ce201-workspace[data-ce201-module="operacao"] .unified-sheet,
+body.ce201-workspace[data-ce201-module="operacao"] .ce174-sheet,
+body.ce201-workspace[data-ce201-module="operacao"] .ce179-modal,
+body.ce201-workspace[data-ce201-module="operacao"] .ce193-dialog,
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"]{
+  position:relative!important;
+  width:min(760px,100%)!important;
+  max-width:100%!important;
+  max-height:calc(100dvh - max(30px,env(safe-area-inset-top)) - max(34px,env(safe-area-inset-bottom)))!important;
+  margin:auto!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  scrollbar-gutter:stable!important;
+  box-sizing:border-box!important;
+}
+
+/* Fallback para navegadores sem dvh. */
+@supports not (height:100dvh){
+  body.ce201-workspace[data-ce201-module="operacao"] .modal-card,
+  body.ce201-workspace[data-ce201-module="operacao"] .unified-sheet,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce174-sheet,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce179-modal,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce193-dialog,
+  body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"]{
+    max-height:calc(100vh - 48px)!important;
+  }
+}
+
+/* Espaço final para que ações nunca fiquem encostadas/cobertas. */
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"] form,
+body.ce201-workspace[data-ce201-module="operacao"] .modal-card form,
+body.ce201-workspace[data-ce201-module="operacao"] .unified-sheet form{
+  padding-bottom:max(18px,env(safe-area-inset-bottom))!important;
+}
+
+/* Barras de ação no rodapé do modal ficam acessíveis. */
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"] .modal-actions,
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"] .form-actions,
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"] .action-row,
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"] .ce174-actions{
+  position:sticky!important;
+  bottom:0!important;
+  z-index:4!important;
+  margin-left:-2px!important;
+  margin-right:-2px!important;
+  padding:10px 2px max(10px,env(safe-area-inset-bottom))!important;
+  background:linear-gradient(to bottom,rgba(255,255,255,.72),#fff 24%)!important;
+}
+
+/* Enquanto houver modal operacional, navegações fixas não disputam a tela. */
+html.ce203-modal-open body.ce201-workspace[data-ce201-module="operacao"] .bottom-nav,
+html.ce203-modal-open body.ce201-workspace[data-ce201-module="operacao"] .footer-nav,
+html.ce203-modal-open body.ce201-workspace[data-ce201-module="operacao"] .public-bottom-nav,
+html.ce203-modal-open body.ce201-workspace[data-ce201-module="operacao"] [class*="bottom-nav" i]{
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+
+/* Não deixar um overflow herdado bloquear a roda do mouse. */
+html.ce203-modal-open,
+html.ce203-modal-open body{
+  overscroll-behavior:none;
+}
+html.ce203-modal-open body.ce201-workspace[data-ce201-module="operacao"]{
+  overflow:hidden!important;
+}
+
+/* Scrollbar discreta mas visível no desktop. */
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"]::-webkit-scrollbar{width:10px}
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"]::-webkit-scrollbar-track{background:#f2f4f7}
+body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"]::-webkit-scrollbar-thumb{
+  background:#9fb0bc;border:2px solid #f2f4f7;border-radius:999px
+}
+
+@media(max-width:760px){
+  body.ce201-workspace[data-ce201-module="operacao"] .modal-backdrop,
+  body.ce201-workspace[data-ce201-module="operacao"] .unified-sheet-backdrop,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce174-backdrop,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce179-backdrop,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce193-backdrop,
+  body.ce201-workspace[data-ce201-module="operacao"] [class*="backdrop" i]:has([role="dialog"]){
+    padding:8px 8px max(12px,env(safe-area-inset-bottom))!important;
+  }
+  body.ce201-workspace[data-ce201-module="operacao"] .modal-card,
+  body.ce201-workspace[data-ce201-module="operacao"] .unified-sheet,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce174-sheet,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce179-modal,
+  body.ce201-workspace[data-ce201-module="operacao"] .ce193-dialog,
+  body.ce201-workspace[data-ce201-module="operacao"] [role="dialog"]{
+    width:100%!important;
+    max-height:calc(100dvh - 16px - env(safe-area-inset-bottom))!important;
+    border-radius:14px!important;
+  }
+}
