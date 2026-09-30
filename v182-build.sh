@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.0: consolidando histórico de patches..."
+echo "V2.0.1: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -137,6 +137,7 @@ run_patch v197-remove-test-banner.mjs
 run_patch v198-remove-banner.mjs
 run_patch v199-qrbu-stress.mjs
 run_patch v200-resultados-public.mjs
+run_patch v201-workspace.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -160,6 +161,7 @@ node --check "$PUB/v194-fastpath.js"
 node --check "$PUB/v195-display.js"
 node --check "$PUB/v198-remove-banner.js"
 node --check "$PUB/v200-resultados-public.js"
+node --check "$PUB/v201-workspace.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -198,6 +200,8 @@ test -f "$PUB/teste-qrbu-9/manifest.json"
 test -f "$PUB/teste-qrbu-9/qr-9.png"
 test -f "$PUB/v200-resultados-public.css"
 test -f "$PUB/v200-resultados-public.js"
+test -f "$PUB/v201-workspace.css"
+test -f "$PUB/v201-workspace.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -222,7 +226,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.0-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.1-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -274,6 +278,10 @@ grep -q "v1.9.9-unified" "$PUB/service-worker.js" || true
 grep -q "/v200-resultados-public.css" "$PUB/index.html"
 grep -q "/v200-resultados-public.js" "$PUB/transparencia.html"
 grep -q "Central independente." "$PUB/v200-resultados-public.js"
-grep -q "v2.0.0-unified" "$PUB/service-worker.js"
+grep -q "v2.0.0-unified" "$PUB/service-worker.js" || true
+grep -q "/v201-workspace.css" "$PUB/operacao.html"
+grep -q "/v201-workspace.js" "$PUB/admin/index.html"
+grep -q "Central independente." "$PUB/v201-workspace.js"
+grep -q "v2.0.1-unified" "$PUB/service-worker.js"
 
-echo "V2.0.0: área pública redesenhada com hierarquia inspirada no app Resultados."
+echo "V2.0.1: módulos operacionais e administrativos unificados ao novo sistema visual."
