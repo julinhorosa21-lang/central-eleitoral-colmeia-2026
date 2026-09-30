@@ -1,0 +1,89 @@
+/* V2.0.4 — correção definitiva do formulário Registrar BU */
+html.ce204-bu-form-open,
+html.ce204-bu-form-open body{
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+}
+
+/* Esconde qualquer navegação fixa inferior enquanto o formulário de BU estiver aberto. */
+html.ce204-bu-form-open .bottom-nav,
+html.ce204-bu-form-open .footer-nav,
+html.ce204-bu-form-open .public-bottom-nav,
+html.ce204-bu-form-open nav[style*="fixed" i],
+html.ce204-bu-form-open [class*="bottom" i][style*="fixed" i]{
+  display:none!important;
+}
+
+/* Backdrop identificado dinamicamente pelo JS. */
+.ce204-bu-backdrop{
+  position:fixed!important;
+  inset:0!important;
+  z-index:60000!important;
+  box-sizing:border-box!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  padding:12px!important;
+  background:rgba(10,27,40,.58)!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+
+/* Painel branco que contém o formulário. */
+.ce204-bu-panel{
+  position:relative!important;
+  width:min(780px,calc(100vw - 24px))!important;
+  max-width:780px!important;
+  max-height:calc(100dvh - 24px)!important;
+  margin:0 auto!important;
+  box-sizing:border-box!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  scrollbar-gutter:stable!important;
+  padding-bottom:96px!important;
+}
+
+/* Reserva área no final para que os botões nunca fiquem escondidos. */
+.ce204-bu-panel form,
+.ce204-bu-panel .form,
+.ce204-bu-panel [class*="form" i]{
+  padding-bottom:max(72px,env(safe-area-inset-bottom))!important;
+}
+
+/* Qualquer bloco de ações no final fica visível ao chegar nele. */
+.ce204-bu-panel .modal-actions,
+.ce204-bu-panel .form-actions,
+.ce204-bu-panel .action-row,
+.ce204-bu-panel [class*="actions" i]:last-child{
+  position:relative!important;
+  z-index:3!important;
+  background:#fff!important;
+  padding-bottom:max(18px,env(safe-area-inset-bottom))!important;
+}
+
+/* Scrollbar visível no desktop. */
+.ce204-bu-panel::-webkit-scrollbar{width:12px}
+.ce204-bu-panel::-webkit-scrollbar-track{background:#eef2f5;border-radius:999px}
+.ce204-bu-panel::-webkit-scrollbar-thumb{
+  background:#8fa3b1;
+  border:3px solid #eef2f5;
+  border-radius:999px;
+}
+
+@supports not (height:100dvh){
+  .ce204-bu-panel{max-height:calc(100vh - 24px)!important}
+}
+
+@media(max-width:760px){
+  .ce204-bu-backdrop{padding:6px!important}
+  .ce204-bu-panel{
+    width:calc(100vw - 12px)!important;
+    max-width:none!important;
+    max-height:calc(100dvh - 12px)!important;
+    padding-bottom:110px!important;
+    border-radius:14px!important;
+  }
+}
