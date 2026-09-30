@@ -1,0 +1,306 @@
+/* V2.0.2 — guarda global de contraste WCAG
+   Regra: texto normal >= 4.5:1 nas combinações críticas. */
+:root{
+  --ce202-bg:#F2F4F7;
+  --ce202-surface:#FFFFFF;
+  --ce202-line:#DDE3E8;
+  --ce202-text:#25313C;
+  --ce202-muted:#5F6B76;
+  --ce202-primary:#1F4D7A;
+  --ce202-primary-strong:#153A61;
+  --ce202-primary-soft:#EAF1F7;
+  --ce202-success-bg:#EAF7F0;
+  --ce202-success-text:#1F6546;
+  --ce202-warning-bg:#FFF5DD;
+  --ce202-warning-text:#684A00;
+  --ce202-danger-bg:#FFF0EE;
+  --ce202-danger-text:#7F2720;
+  --ce202-on-dark:#FFFFFF;
+  --ce202-on-dark-soft:#E6EEF5;
+}
+
+/* =========================================================
+   1. Correção prioritária: cabeçalho operacional da captura
+   ========================================================= */
+body.ce201-workspace[data-ce201-module="operacao"] .hero,
+body.ce201-workspace[data-ce201-module="operacao"] .top{
+  background:#153A61!important;
+  background-image:none!important;
+  border-color:#153A61!important;
+  color:#FFFFFF!important;
+}
+body.ce201-workspace[data-ce201-module="operacao"] .hero h1,
+body.ce201-workspace[data-ce201-module="operacao"] .top h1,
+body.ce201-workspace[data-ce201-module="operacao"] .hero h2,
+body.ce201-workspace[data-ce201-module="operacao"] .top h2,
+body.ce201-workspace[data-ce201-module="operacao"] .hero strong,
+body.ce201-workspace[data-ce201-module="operacao"] .top strong{
+  color:#FFFFFF!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+body.ce201-workspace[data-ce201-module="operacao"] .hero p,
+body.ce201-workspace[data-ce201-module="operacao"] .top p,
+body.ce201-workspace[data-ce201-module="operacao"] .hero small,
+body.ce201-workspace[data-ce201-module="operacao"] .top small,
+body.ce201-workspace[data-ce201-module="operacao"] .hero .eyebrow,
+body.ce201-workspace[data-ce201-module="operacao"] .top .eyebrow,
+body.ce201-workspace[data-ce201-module="operacao"] .hero .kicker,
+body.ce201-workspace[data-ce201-module="operacao"] .top .kicker{
+  color:#E6EEF5!important;
+  opacity:1!important;
+}
+body.ce201-workspace[data-ce201-module="operacao"] .hero [class*="year" i],
+body.ce201-workspace[data-ce201-module="operacao"] .hero [class*="badge" i],
+body.ce201-workspace[data-ce201-module="operacao"] .top [class*="year" i],
+body.ce201-workspace[data-ce201-module="operacao"] .top [class*="badge" i]{
+  color:#FFFFFF!important;
+  border-color:rgba(255,255,255,.30)!important;
+}
+
+/* =========================================================
+   2. Superfícies claras: texto sempre suficientemente escuro
+   ========================================================= */
+body.ce200-resultados .card,
+body.ce200-resultados .public-overview,
+body.ce200-resultados .metric,
+body.ce200-resultados #publicApuracao,
+body.ce200-resultados #publicCandidatos,
+body.ce200-resultados #publicLocais,
+body.ce201-workspace .card,
+body.ce201-workspace .overview-card,
+body.ce201-workspace .metric,
+body.ce201-workspace .section-card,
+body.ce201-workspace .system-box,
+body.ce201-workspace .ce176-integrity,
+body.ce201-workspace .ce160-flow,
+body.ce201-workspace .ce161-op-candidates{
+  color:#25313C!important;
+}
+body.ce200-resultados .muted,
+body.ce201-workspace .muted,
+body.ce201-workspace .section-heading p,
+body.ce200-resultados .section-title small{
+  color:#5F6B76!important;
+  opacity:1!important;
+}
+
+/* =========================================================
+   3. Botões preenchidos / abas ativas: branco real no azul
+   ========================================================= */
+body .btn.primary,
+body button.primary,
+body .ce191-share-btn.primary,
+body .ce195-tvcontrols button.primary,
+body .ce195-transparency-actions button.primary,
+body.ce200-resultados #cargoTabs button.active,
+body.ce201-workspace #cargoTabs button.active,
+body.ce201-workspace .cargo-tabs button.active,
+body.ce201-workspace .ce161-op-tabs button.active,
+body.ce200-resultados .ce192-filter.active,
+body.ce201-workspace .ce192-filter.active{
+  background:#1F4D7A!important;
+  border-color:#1F4D7A!important;
+  color:#FFFFFF!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+body .btn.primary *,
+body button.primary *,
+body .ce191-share-btn.primary *,
+body .ce195-tvcontrols button.primary *,
+body .ce195-transparency-actions button.primary *,
+body.ce200-resultados #cargoTabs button.active *,
+body.ce201-workspace #cargoTabs button.active *,
+body.ce201-workspace .cargo-tabs button.active *,
+body.ce201-workspace .ce161-op-tabs button.active *{
+  color:#FFFFFF!important;
+  opacity:1!important;
+}
+
+/* Botões em gradiente conhecidos da operação */
+body.ce201-workspace[data-ce201-module="operacao"] .btn[style*="gradient" i],
+body.ce201-workspace[data-ce201-module="operacao"] button[style*="gradient" i],
+body.ce201-workspace[data-ce201-module="operacao"] [class*="gradient" i].btn,
+body.ce201-workspace[data-ce201-module="operacao"] [class*="gradient" i] button{
+  color:#FFFFFF!important;
+}
+body.ce201-workspace[data-ce201-module="operacao"] .btn[style*="gradient" i] *,
+body.ce201-workspace[data-ce201-module="operacao"] button[style*="gradient" i] *{
+  color:#FFFFFF!important;
+}
+
+/* =========================================================
+   4. Botões claros/contornados
+   ========================================================= */
+body .btn.ghost,
+body .btn.ghost-dark,
+body .btn.light,
+body .ce191-share-btn:not(.primary),
+body.ce200-resultados #publicLocais .ce192-next,
+body.ce201-workspace .ce192-next{
+  background:#FFFFFF!important;
+  border-color:#9DB3C5!important;
+  color:#153A61!important;
+  opacity:1!important;
+}
+body .btn.ghost *,
+body .btn.ghost-dark *,
+body .btn.light *,
+body .ce191-share-btn:not(.primary) *{
+  color:#153A61!important;
+}
+
+/* =========================================================
+   5. Estados semânticos com contraste explícito
+   ========================================================= */
+body .status-pill.verified,
+body .status-pill.complete,
+body .ce195-state.complete,
+body .ce176-pill.protected,
+body .ce193-status.ok{
+  background:#EAF7F0!important;
+  color:#1F6546!important;
+}
+body .status-pill.pending,
+body .status-pill.partial,
+body .ce195-state.partial,
+body .ce176-pill.partial,
+body .ce176-pill.reopened,
+body .ce193-status.warn{
+  background:#FFF5DD!important;
+  color:#684A00!important;
+}
+body .status-pill.divergent,
+body .ce176-pill.divergent,
+body .ce193-status.bad,
+body .ce179-status-bad{
+  background:#FFF0EE!important;
+  color:#7F2720!important;
+}
+
+/* Avisos vermelhos/amarelos */
+body [class*="alert" i],
+body [class*="warning" i],
+body .notice{
+  opacity:1!important;
+}
+body [class*="alert" i][style*="background" i] strong,
+body [class*="warning" i][style*="background" i] strong{
+  opacity:1!important;
+}
+
+/* =========================================================
+   6. Barras superiores escuras
+   ========================================================= */
+.ce200-appbar,
+.ce201-appbar{
+  background:#153A61!important;
+  color:#FFFFFF!important;
+}
+.ce200-appbar *,
+.ce201-appbar *{
+  opacity:1;
+}
+.ce200-appbrand b,
+.ce201-appcopy b,
+.ce200-locality strong,
+.ce201-module,
+.ce201-appactions a{
+  color:#FFFFFF!important;
+}
+.ce200-appbrand span,
+.ce201-appcopy span,
+.ce200-locality small{
+  color:#E6EEF5!important;
+}
+
+/* =========================================================
+   7. Navegação inferior
+   ========================================================= */
+body .public-bottom-nav,
+body .bottom-nav,
+body .footer-nav{
+  background:#FFFFFF!important;
+}
+body .public-bottom-nav button,
+body .bottom-nav button,
+body .footer-nav button{
+  color:#53616D!important;
+  opacity:1!important;
+}
+body .public-bottom-nav button.active,
+body .bottom-nav button.active,
+body .bottom-nav button.v141-current,
+body .footer-nav button.active{
+  background:#EAF1F7!important;
+  color:#153A61!important;
+}
+body .public-bottom-nav button.active *,
+body .bottom-nav button.active *,
+body .bottom-nav button.v141-current *,
+body .footer-nav button.active *{
+  color:#153A61!important;
+  opacity:1!important;
+}
+
+/* =========================================================
+   8. Campos e placeholders
+   ========================================================= */
+body input:not([type=checkbox]):not([type=radio]),
+body select,
+body textarea{
+  color:#25313C!important;
+}
+body input::placeholder,
+body textarea::placeholder{
+  color:#687783!important;
+  opacity:1!important;
+}
+body input:disabled,
+body select:disabled,
+body textarea:disabled,
+body button:disabled,
+body .btn:disabled{
+  opacity:1!important;
+}
+body input:disabled,
+body select:disabled,
+body textarea:disabled{
+  background:#EEF1F3!important;
+  color:#65727C!important;
+}
+body button:disabled,
+body .btn:disabled{
+  background:#E9EDF0!important;
+  border-color:#CBD4DA!important;
+  color:#5C6973!important;
+}
+
+/* =========================================================
+   9. Utilitários e correção automática do JS
+   ========================================================= */
+.ce202-on-dark{color:#FFFFFF!important}
+.ce202-on-dark-soft{color:#E6EEF5!important}
+.ce202-on-light{color:#25313C!important}
+.ce202-muted-safe{color:#5F6B76!important}
+.ce202-auto-contrast{color:var(--ce202-auto-fg)!important;opacity:1!important}
+.ce202-auto-contrast *:not(svg):not(path){color:inherit!important}
+
+/* foco visível */
+body button:focus-visible,
+body .btn:focus-visible,
+body a:focus-visible,
+body input:focus-visible,
+body select:focus-visible,
+body textarea:focus-visible{
+  outline:2px solid #005FCC!important;
+  outline-offset:2px!important;
+}
+
+@media(max-width:760px){
+  body.ce201-workspace[data-ce201-module="operacao"] .hero h1,
+  body.ce201-workspace[data-ce201-module="operacao"] .top h1{
+    font-size:20px!important;
+  }
+}
