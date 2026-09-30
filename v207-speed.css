@@ -1,0 +1,101 @@
+/* V2.0.7 — ranking sem recorte + renderização mais leve */
+
+/* 1º, 2º, 3º... precisam caber integralmente dentro da coluna de votos. */
+body.ce200-resultados #leaders .leader[data-ce161-rank] .votes{
+  min-width:96px!important;
+  padding-right:4px!important;
+  overflow:visible!important;
+  box-sizing:border-box!important;
+}
+body.ce200-resultados #leaders .leader .ce161-rank{
+  display:inline-grid!important;
+  place-items:center!important;
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:34px!important;
+  height:24px!important;
+  min-height:24px!important;
+  max-height:none!important;
+  margin:4px 0 0 auto!important;
+  padding:1px 7px 0!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+  border:1px solid #C7D5DF!important;
+  border-radius:999px!important;
+  background:#F3F6F8!important;
+  color:#53616D!important;
+  font-size:9px!important;
+  font-weight:850!important;
+  line-height:1.2!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+  text-indent:0!important;
+  font-variant-numeric:tabular-nums!important;
+}
+body.ce200-resultados #leaders .leader[data-ce161-rank="1"] .ce161-rank,
+body.ce200-resultados #leaders .leader[data-ce161-rank="2"] .ce161-rank,
+body.ce200-resultados #leaders .leader[data-ce161-rank="3"] .ce161-rank{
+  border-color:#B9CBD8!important;
+  background:#EAF1F7!important;
+  color:#153A61!important;
+}
+/* Garante folga interna no card mesmo com zoom/fonte do sistema. */
+body.ce200-resultados #leaders .leader{
+  padding-right:8px!important;
+}
+
+/* Renderização progressiva de áreas extensas abaixo da dobra. */
+body.ce200-resultados #publicCandidatos,
+body.ce200-resultados #publicLocais,
+body.ce200-resultados .public-details-card,
+body.ce200-resultados .public-regions-card,
+body.ce201-workspace .ce161-op-candidates,
+body.ce201-workspace .ce176-integrity{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 520px;
+}
+
+/* Isola repinturas dos cards repetitivos. */
+body.ce200-resultados #leaders .leader,
+body.ce201-workspace .ce161-op-card,
+body.ce201-workspace .ce176-section{
+  contain:layout paint style;
+}
+
+/* Blur de backdrop custa GPU e não acrescenta informação operacional. */
+body.ce201-workspace .modal-backdrop,
+body.ce201-workspace .ce193-backdrop,
+body.ce201-workspace .ce179-backdrop,
+body.ce201-workspace .unified-sheet-backdrop,
+body.ce201-workspace .ce174-backdrop{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
+@media(max-width:620px){
+  body.ce200-resultados #leaders .leader[data-ce161-rank] .votes{
+    min-width:86px!important;
+    padding-right:3px!important;
+  }
+  body.ce200-resultados #leaders .leader .ce161-rank{
+    min-width:32px!important;
+    height:23px!important;
+    min-height:23px!important;
+    padding:1px 6px 0!important;
+    font-size:9px!important;
+  }
+}
+@media(max-width:390px){
+  body.ce200-resultados #leaders .leader[data-ce161-rank] .votes{
+    min-width:0!important;
+    padding-right:0!important;
+  }
+  body.ce200-resultados #leaders .leader .ce161-rank{
+    min-width:31px!important;
+    height:22px!important;
+    min-height:22px!important;
+    margin:0 3px 0 0!important;
+    padding:1px 6px 0!important;
+    line-height:1.15!important;
+  }
+}
