@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.3: consolidando histórico de patches..."
+echo "V2.0.4: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -140,6 +140,7 @@ run_patch v200-resultados-public.mjs
 run_patch v201-workspace.mjs
 run_patch v202-contrast.mjs
 run_patch v203-modal-scroll.mjs
+run_patch v204-bu-form-scroll.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -166,6 +167,7 @@ node --check "$PUB/v200-resultados-public.js"
 node --check "$PUB/v201-workspace.js"
 node --check "$PUB/v202-contrast.js"
 node --check "$PUB/v203-modal-scroll.js"
+node --check "$PUB/v204-bu-form-scroll.js"
 
 test -f "$PUB/index.html"
 test -f "$PUB/transparencia.html"
@@ -210,6 +212,8 @@ test -f "$PUB/v202-contrast.css"
 test -f "$PUB/v202-contrast.js"
 test -f "$PUB/v203-modal-scroll.css"
 test -f "$PUB/v203-modal-scroll.js"
+test -f "$PUB/v204-bu-form-scroll.css"
+test -f "$PUB/v204-bu-form-scroll.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -234,7 +238,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.3-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.4-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -298,6 +302,10 @@ grep -q "v2.0.2-unified" "$PUB/service-worker.js" || true
 grep -q "/v203-modal-scroll.css" "$PUB/operacao.html"
 grep -q "/v203-modal-scroll.js" "$PUB/operacao.html"
 grep -q "max-height:calc(100dvh" "$PUB/v203-modal-scroll.css"
-grep -q "v2.0.3-unified" "$PUB/service-worker.js"
+grep -q "v2.0.3-unified" "$PUB/service-worker.js" || true
+grep -q "/v204-bu-form-scroll.css" "$PUB/operacao.html"
+grep -q "/v204-bu-form-scroll.js" "$PUB/operacao.html"
+grep -q "Ler Boletim de Urna pelo QR Code" "$PUB/v204-bu-form-scroll.js"
+grep -q "v2.0.4-unified" "$PUB/service-worker.js"
 
-echo "V2.0.3: rolagem de modais operacionais corrigida."
+echo "V2.0.4: formulário Registrar BU com rolagem forçada e barra inferior oculta."
