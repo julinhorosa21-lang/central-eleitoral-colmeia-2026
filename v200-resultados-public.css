@@ -1,0 +1,529 @@
+/* V2.0.0 — área pública inspirada no padrão de navegação do app Resultados
+   Sem uso de logotipo, marca ou identidade oficial da Justiça Eleitoral. */
+body.ce200-resultados{
+  --ce200-blue:#1f4d7a;
+  --ce200-blue-strong:#153a61;
+  --ce200-blue-soft:#eaf1f7;
+  --ce200-surface:#ffffff;
+  --ce200-bg:#f2f4f7;
+  --ce200-line:#dde3e8;
+  --ce200-text:#25313c;
+  --ce200-muted:#6b7783;
+  --ce200-green:#2f7d57;
+  --ce200-orange:#b87716;
+  background:var(--ce200-bg)!important;
+  color:var(--ce200-text)!important;
+}
+
+/* Barra superior de aplicativo */
+.ce200-appbar{
+  position:sticky;
+  top:0;
+  z-index:145;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:62px;
+  padding:9px max(14px,calc((100vw - 1120px)/2));
+  box-sizing:border-box;
+  background:var(--ce200-blue-strong);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(17,42,65,.18);
+}
+.ce200-appmark{
+  display:grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  flex:0 0 40px;
+  border-radius:11px;
+  background:rgba(255,255,255,.13);
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+.ce200-appbrand{min-width:0;flex:1}
+.ce200-appbrand b{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:14px;
+  line-height:1.2;
+}
+.ce200-appbrand span{
+  display:block;
+  margin-top:2px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:rgba(255,255,255,.72);
+  font-size:10px;
+}
+.ce200-locality{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:38px;
+  padding:0 11px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:10px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  white-space:nowrap;
+}
+.ce200-locality i{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#9fd2b7;
+  box-shadow:0 0 0 3px rgba(159,210,183,.14);
+}
+.ce200-locality div{display:flex;flex-direction:column}
+.ce200-locality small{font-size:8px;color:rgba(255,255,255,.64);text-transform:uppercase;letter-spacing:.06em;font-weight:800}
+.ce200-locality strong{font-size:10.5px;font-weight:800}
+
+/* Conteúdo principal */
+body.ce200-resultados.public-v130 .wrap{
+  max-width:980px!important;
+  padding-top:12px!important;
+}
+
+/* Hero deixa de parecer landing page e passa a funcionar como cabeçalho de consulta */
+body.ce200-resultados.public-v130 .hero.public-main-hero{
+  margin:0 0 10px!important;
+  padding:14px 16px!important;
+  border:1px solid var(--ce200-line)!important;
+  border-radius:12px!important;
+  background:var(--ce200-surface)!important;
+  color:var(--ce200-text)!important;
+  box-shadow:0 1px 2px rgba(25,45,61,.05)!important;
+}
+body.ce200-resultados.public-v130 .hero .eyebrow{
+  color:var(--ce200-blue)!important;
+  font-size:9px!important;
+  letter-spacing:.07em!important;
+  font-weight:850!important;
+}
+body.ce200-resultados.public-v130 .hero h1{
+  margin:3px 0 2px!important;
+  color:var(--ce200-text)!important;
+  font-size:22px!important;
+  line-height:1.12!important;
+  letter-spacing:-.02em!important;
+}
+body.ce200-resultados.public-v130 .hero p{
+  margin:0!important;
+  color:var(--ce200-muted)!important;
+  font-size:10.5px!important;
+  line-height:1.35!important;
+}
+body.ce200-resultados.public-v130 .hero-actions{
+  margin-top:10px!important;
+}
+body.ce200-resultados.public-v130 .hero-actions .btn,
+body.ce200-resultados .ce195-entry{
+  min-height:38px!important;
+  border-radius:8px!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+body.ce200-resultados.public-v130 .hero-actions #refreshBtn{
+  background:var(--ce200-blue)!important;
+  border-color:var(--ce200-blue)!important;
+  color:#fff!important;
+}
+body.ce200-resultados.public-v130 .hero-actions .public-operation-link,
+body.ce200-resultados .ce195-entry{
+  background:#fff!important;
+  border:1px solid var(--ce200-line)!important;
+  color:var(--ce200-blue)!important;
+}
+body.ce200-resultados.public-v130 .live{
+  margin-top:8px!important;
+  background:var(--ce200-blue-soft)!important;
+  color:var(--ce200-blue)!important;
+  border:0!important;
+}
+
+/* Faixa de contexto, equivalente ao seletor eleição/localidade */
+.ce200-context{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:0 0 10px;
+}
+.ce200-context-item{
+  min-width:0;
+  padding:10px 12px;
+  border:1px solid var(--ce200-line);
+  border-radius:10px;
+  background:#fff;
+}
+.ce200-context-item small{
+  display:block;
+  margin-bottom:2px;
+  color:var(--ce200-muted);
+  font-size:8px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.ce200-context-item strong{
+  display:block;
+  overflow:hidden;
+  color:var(--ce200-text);
+  font-size:11px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.ce200-context-item span{
+  display:block;
+  margin-top:2px;
+  color:var(--ce200-blue);
+  font-size:9px;
+  font-weight:700;
+}
+
+/* Totalização */
+body.ce200-resultados .public-overview{
+  margin:0 0 10px!important;
+  padding:14px 15px!important;
+  border:1px solid var(--ce200-line)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+}
+body.ce200-resultados .public-overview-kicker{
+  color:var(--ce200-muted)!important;
+  font-size:8.5px!important;
+}
+body.ce200-resultados .public-live-dot{background:var(--ce200-orange)!important}
+body.ce200-resultados .public-overview-row{
+  gap:12px!important;
+  margin-top:6px!important;
+}
+body.ce200-resultados .public-overview-row>strong{
+  color:var(--ce200-blue-strong)!important;
+  font-size:40px!important;
+}
+body.ce200-resultados .public-overview-row div b{
+  color:var(--ce200-text)!important;
+  font-size:13px!important;
+}
+body.ce200-resultados .public-overview-row div span{
+  color:var(--ce200-muted)!important;
+  font-size:10px!important;
+}
+body.ce200-resultados .public-progress{
+  height:6px!important;
+  margin-top:10px!important;
+  background:#e8edf1!important;
+}
+body.ce200-resultados .public-progress i{background:var(--ce200-blue)!important}
+body.ce200-resultados .public-legend{
+  font-size:9px!important;
+  color:var(--ce200-muted)!important;
+}
+
+/* Métricas como cards compactos de totalização */
+body.ce200-resultados.public-v130 .metrics{
+  gap:7px!important;
+  margin:0 0 10px!important;
+}
+body.ce200-resultados.public-v130 .metrics .metric{
+  min-height:64px!important;
+  border:1px solid var(--ce200-line)!important;
+  border-radius:10px!important;
+  background:#fff!important;
+}
+body.ce200-resultados.public-v130 .metrics .metric small{
+  color:var(--ce200-muted)!important;
+  font-size:8px!important;
+}
+body.ce200-resultados.public-v130 .metrics .metric b{
+  color:var(--ce200-blue-strong)!important;
+  font-size:18px!important;
+}
+
+/* Seções principais sem “card dentro de card” excessivo */
+body.ce200-resultados #publicApuracao,
+body.ce200-resultados #publicCandidatos,
+body.ce200-resultados #publicLocais,
+body.ce200-resultados .public-details-card,
+body.ce200-resultados .public-regions-card{
+  border:1px solid var(--ce200-line)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+}
+body.ce200-resultados #publicApuracao,
+body.ce200-resultados #publicCandidatos{padding:13px!important}
+body.ce200-resultados .section-title h2,
+body.ce200-resultados #publicCandidatos>.section-title h2{
+  color:var(--ce200-text)!important;
+  font-size:17px!important;
+  font-weight:800!important;
+}
+
+/* Cargos: navegação segmentada horizontal, como uma tela de resultados */
+body.ce200-resultados.public-v130 #cargoTabs{
+  display:flex!important;
+  gap:6px!important;
+  overflow-x:auto!important;
+  margin:10px -2px 9px!important;
+  padding:2px 2px 5px!important;
+  scrollbar-width:none;
+}
+body.ce200-resultados.public-v130 #cargoTabs::-webkit-scrollbar{display:none}
+body.ce200-resultados.public-v130 #cargoTabs button{
+  flex:0 0 auto!important;
+  min-width:118px!important;
+  min-height:38px!important;
+  padding:7px 11px!important;
+  border:1px solid var(--ce200-line)!important;
+  border-radius:999px!important;
+  background:#fff!important;
+  color:#53616d!important;
+  font-size:9.5px!important;
+  line-height:1.15!important;
+  font-weight:750!important;
+}
+body.ce200-resultados.public-v130 #cargoTabs button.active{
+  background:var(--ce200-blue)!important;
+  border-color:var(--ce200-blue)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+}
+body.ce200-resultados.public-v130 #cargoTabs button.active::after{display:none!important}
+
+/* Compartilhamento integrado à área do cargo */
+body.ce200-resultados .ce191-share-actions{
+  gap:6px!important;
+  margin:8px 0 4px!important;
+}
+body.ce200-resultados .ce191-share-btn{
+  min-height:38px!important;
+  border-radius:8px!important;
+  border-color:var(--ce200-line)!important;
+  background:#fff!important;
+  color:var(--ce200-blue)!important;
+  font-size:9.5px!important;
+}
+body.ce200-resultados .ce191-share-btn.primary{
+  background:var(--ce200-blue)!important;
+  border-color:var(--ce200-blue)!important;
+  color:#fff!important;
+}
+
+/* Candidatos: foto redonda + percentual como informação principal */
+body.ce200-resultados #leaders{
+  gap:0!important;
+  margin:7px 0 0!important;
+}
+body.ce200-resultados #leaders .leader,
+body.ce200-resultados.public-v130 .leader.public-candidate-row{
+  grid-template-columns:50px minmax(0,1fr) 96px!important;
+  gap:10px!important;
+  min-height:74px!important;
+  padding:10px 4px!important;
+  border:0!important;
+  border-bottom:1px solid #edf0f2!important;
+  border-radius:0!important;
+  background:#fff!important;
+  box-shadow:none!important;
+}
+body.ce200-resultados #leaders .leader:last-child{border-bottom:0!important}
+body.ce200-resultados #leaders .leader .num,
+body.ce200-resultados #leaders .leader .num.public-photo-num{
+  width:48px!important;
+  height:48px!important;
+  border-radius:50%!important;
+  background:#eef2f5!important;
+  overflow:hidden!important;
+}
+body.ce200-resultados #leaders .leader .num img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:50% 24%!important;
+}
+body.ce200-resultados #leaders .public-number-badge{
+  left:auto!important;
+  right:-2px!important;
+  bottom:-2px!important;
+  min-width:21px!important;
+  padding:2px 4px!important;
+  border:2px solid #fff!important;
+  border-radius:999px!important;
+  background:var(--ce200-blue-strong)!important;
+  font-size:7.5px!important;
+}
+body.ce200-resultados #leaders .leader .who b{
+  color:var(--ce200-text)!important;
+  font-size:12.5px!important;
+  line-height:1.2!important;
+  font-weight:800!important;
+}
+body.ce200-resultados #leaders .leader .who small{
+  color:var(--ce200-muted)!important;
+  font-size:9px!important;
+}
+body.ce200-resultados #leaders .leader[data-ce161-rank] .votes{
+  min-width:96px!important;
+  justify-content:center!important;
+}
+body.ce200-resultados #leaders .leader .votes b{
+  order:2;
+  color:var(--ce200-blue-strong)!important;
+  font-size:15px!important;
+  font-weight:850!important;
+}
+body.ce200-resultados #leaders .leader .votes small{
+  order:1;
+  margin-bottom:1px;
+  color:var(--ce200-muted)!important;
+  font-size:8.5px!important;
+}
+body.ce200-resultados #leaders .leader .ce161-rank{
+  order:3;
+  min-width:auto!important;
+  height:auto!important;
+  margin:3px 0 0 auto!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  color:#8a949d!important;
+  font-size:8px!important;
+}
+body.ce200-resultados #leaders .leader[data-ce161-rank="1"] .ce161-rank{
+  background:transparent!important;
+  color:var(--ce200-blue)!important;
+}
+body.ce200-resultados #leaders .leader .bar{
+  grid-column:2/4!important;
+  height:4px!important;
+  margin:0!important;
+  background:#edf1f4!important;
+}
+body.ce200-resultados #leaders .leader .bar i{
+  background:var(--ce200-blue)!important;
+}
+
+/* Totais auxiliares */
+body.ce200-resultados .submetrics{gap:6px!important}
+body.ce200-resultados .mini{
+  border:1px solid var(--ce200-line)!important;
+  border-radius:8px!important;
+  background:#fafbfc!important;
+}
+body.ce200-resultados .mini small{color:var(--ce200-muted)!important}
+
+/* Busca de seção */
+body.ce200-resultados .ce192-search input{
+  border-color:var(--ce200-line)!important;
+  border-radius:9px!important;
+  background:#f8f9fa!important;
+}
+body.ce200-resultados #publicLocais .ce192-next{
+  border-radius:9px!important;
+  background:#fff!important;
+  color:var(--ce200-blue)!important;
+  border-color:var(--ce200-blue)!important;
+}
+body.ce200-resultados .ce192-filter{
+  border-radius:999px!important;
+  background:#fff!important;
+}
+body.ce200-resultados .ce192-filter.active{
+  background:var(--ce200-blue)!important;
+  border-color:var(--ce200-blue)!important;
+}
+
+/* Nota institucional clara, sem aparência de órgão oficial */
+.ce200-independent{
+  margin:10px 0;
+  padding:9px 11px;
+  border:1px solid var(--ce200-line);
+  border-radius:9px;
+  background:#fff;
+  color:var(--ce200-muted);
+  font-size:9px;
+  line-height:1.4;
+}
+.ce200-independent b{color:var(--ce200-text)}
+
+/* Navegação inferior */
+body.ce200-resultados .public-bottom-nav{
+  z-index:160;
+  border-top:1px solid var(--ce200-line)!important;
+  background:#fff!important;
+  box-shadow:0 -2px 12px rgba(28,46,61,.08)!important;
+}
+body.ce200-resultados .public-bottom-nav button{
+  min-height:62px!important;
+  color:#77838d!important;
+}
+body.ce200-resultados .public-bottom-nav button span{
+  color:var(--ce200-blue)!important;
+  font-size:16px!important;
+}
+body.ce200-resultados .public-bottom-nav button b{font-size:9px!important}
+
+/* Transparência segue a mesma superfície */
+body.ce200-resultados .ce195-transparency{
+  border:1px solid var(--ce200-line)!important;
+  border-radius:12px!important;
+  box-shadow:none!important;
+}
+body.ce200-resultados .ce195-transparency-actions button{
+  border-radius:8px!important;
+}
+body.ce200-resultados .ce195-transparency-actions button.primary{
+  background:var(--ce200-blue)!important;
+  border-color:var(--ce200-blue)!important;
+}
+
+@media(max-width:620px){
+  .ce200-appbar{
+    min-height:58px;
+    padding:8px 11px;
+    gap:9px;
+  }
+  .ce200-appmark{width:36px;height:36px;flex-basis:36px;font-size:17px}
+  .ce200-appbrand b{font-size:12px}
+  .ce200-appbrand span{font-size:8.5px}
+  .ce200-locality{min-height:34px;padding:0 8px}
+  .ce200-locality small{display:none}
+  .ce200-locality strong{font-size:9px}
+  body.ce200-resultados.public-v130 .wrap{padding:9px 9px 78px!important}
+  .ce200-context{grid-template-columns:1fr 1fr;gap:6px}
+  .ce200-context-item{padding:9px}
+  body.ce200-resultados .public-overview-row>strong{font-size:34px!important}
+  body.ce200-resultados #leaders .leader,
+  body.ce200-resultados.public-v130 .leader.public-candidate-row{
+    grid-template-columns:46px minmax(0,1fr) 84px!important;
+    gap:8px!important;
+  }
+  body.ce200-resultados #leaders .leader .num,
+  body.ce200-resultados #leaders .leader .num.public-photo-num{width:44px!important;height:44px!important}
+  body.ce200-resultados #leaders .leader .votes{min-width:84px!important;text-align:right!important}
+  body.ce200-resultados #leaders .leader .votes b{font-size:13px!important}
+}
+@media(max-width:390px){
+  .ce200-locality div{max-width:84px}
+  .ce200-context{grid-template-columns:1fr}
+  body.ce200-resultados #leaders .leader,
+  body.ce200-resultados.public-v130 .leader.public-candidate-row{
+    grid-template-columns:44px minmax(0,1fr) 76px!important;
+  }
+  body.ce200-resultados #leaders .leader[data-ce161-rank] .votes{
+    grid-column:3!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-end!important;
+    justify-content:center!important;
+    gap:0!important;
+  }
+  body.ce200-resultados #leaders .leader .bar{grid-column:2/4!important}
+}
