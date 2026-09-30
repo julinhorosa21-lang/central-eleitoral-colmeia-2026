@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.7: consolidando histórico de patches..."
+echo "V2.0.8: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -144,6 +144,7 @@ run_patch v204-bu-form-scroll.mjs
 run_patch v205-bu-modal.mjs
 run_patch v206-register-bu.mjs
 run_patch v207-speed.mjs
+run_patch v208-analytics.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -167,6 +168,8 @@ node --check "$PUB/v194-fastpath.js"
 node --check "$PUB/v195-display.js"
 node --check "$PUB/v198-remove-banner.js"
 node --check "$PUB/v200-resultados-public.js"
+node --check "$PUB/v208-analytics.js"
+node --check "$PUB/v208-admin-analytics.js"
 node --check "$PUB/v201-workspace.js"
 node --check "$PUB/v202-contrast.js"
 node --check "$PUB/v203-modal-scroll.js"
@@ -224,6 +227,9 @@ test -f "$PUB/v205-bu-modal.css"
 test -f "$PUB/v205-bu-modal.js"
 test -f "$PUB/v206-register-bu.css"
 test -f "$PUB/v207-speed.css"
+test -f "$PUB/v208-analytics.js"
+test -f "$PUB/v208-admin-analytics.js"
+test -f "$PUB/v208-analytics.css"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -248,7 +254,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.7-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.8-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -329,6 +335,12 @@ grep -q "min-width:34px" "$PUB/v207-speed.css"
 ! grep -q "v203-modal-scroll.js" "$PUB/service-worker.js"
 ! grep -q "v204-bu-form-scroll.js" "$PUB/service-worker.js"
 ! grep -q "v205-bu-modal.js" "$PUB/service-worker.js"
-grep -q "v2.0.7-unified" "$PUB/service-worker.js"
+grep -q "v2.0.7-unified" "$PUB/service-worker.js" || true
+grep -q "p === '/api/analytics/event'" "$APP/server.mjs"
+grep -q "p === '/api/admin/analytics'" "$APP/server.mjs"
+grep -q "CREATE TABLE IF NOT EXISTS app_analytics" "$APP/server.mjs"
+grep -q "/v208-analytics.js" "$PUB/index.html"
+grep -q "/v208-admin-analytics.js" "$PUB/admin/index.html"
+grep -q "v2.0.8-unified" "$PUB/service-worker.js"
 
-echo "V2.0.7: ranking protegido e runtime otimizado."
+echo "V2.0.8: métricas privadas de acesso e instalação adicionadas ao admin."
