@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.5: consolidando histórico de patches..."
+echo "V2.0.6: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -142,7 +142,7 @@ run_patch v202-contrast.mjs
 run_patch v203-modal-scroll.mjs
 run_patch v204-bu-form-scroll.mjs
 run_patch v205-bu-modal.mjs
-run_patch v206-inspect-modal.mjs
+run_patch v206-register-bu.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -219,6 +219,7 @@ test -f "$PUB/v204-bu-form-scroll.css"
 test -f "$PUB/v204-bu-form-scroll.js"
 test -f "$PUB/v205-bu-modal.css"
 test -f "$PUB/v205-bu-modal.js"
+test -f "$PUB/v206-register-bu.css"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -243,7 +244,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.5-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.6-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -309,10 +310,13 @@ grep -q "Ler Boletim de Urna pelo QR Code" "$PUB/v204-bu-form-scroll.js"
 grep -q "v2.0.4-unified" "$PUB/service-worker.js" || true
 ! grep -q "/v203-modal-scroll.js" "$PUB/operacao.html"
 ! grep -q "/v204-bu-form-scroll.js" "$PUB/operacao.html"
-grep -q "/v205-bu-modal.css" "$PUB/operacao.html"
-grep -q "/v205-bu-modal.js" "$PUB/operacao.html"
-grep -q "childList:true,subtree:true" "$PUB/v205-bu-modal.js"
-! grep -q "attributeFilter" "$PUB/v205-bu-modal.js"
-grep -q "v2.0.5-unified" "$PUB/service-worker.js"
+grep -q "v2.0.5-unified" "$PUB/service-worker.js" || true
+! grep -q "/v203-modal-scroll." "$PUB/operacao.html"
+! grep -q "/v204-bu-form-scroll." "$PUB/operacao.html"
+! grep -q "/v205-bu-modal." "$PUB/operacao.html"
+grep -q "/v206-register-bu.css" "$PUB/operacao.html"
+grep -q "Revisar e confirmar resultado" "$PUB/operacao.html"
+grep -q "ce206-result-actions" "$PUB/operacao.html"
+grep -q "v2.0.6-unified" "$PUB/service-worker.js"
 
-echo "V2.0.5: abertura do Registrar BU restaurada com rolagem segura."
+echo "V2.0.6: ações reais do Registrar BU fixadas no rodapé e scripts antigos removidos."
