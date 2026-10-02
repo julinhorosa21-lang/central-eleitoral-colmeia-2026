@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.10: consolidando histórico de patches..."
+echo "V2.0.11: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -147,11 +147,12 @@ run_patch v207-speed.mjs
 run_patch v208-analytics.mjs
 run_patch v209-candidate-audit.mjs
 run_patch v210-ea20-patch.mjs
-run_patch v211-diagnose.mjs
+run_patch v211-reconciliation-patch.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
 node --check "$PUB/v210-official-panel.js"
+node --check "$PUB/v211-reconciliation.js"
 node --check "$APP/tse-sync.mjs"
 node --check "$PUB/service-worker.js"
 node --check "$PUB/bu-parser.js"
@@ -239,6 +240,8 @@ test -f "$PUB/v208-analytics.css"
 test -f "$PUB/v209-admin-audit.js"
 test -f "$PUB/v209-admin-audit.css"
 test -f "$PUB/v210-official-panel.css"
+test -f "$PUB/v211-reconciliation.js"
+test -f "$PUB/v211-reconciliation.css"
 test -f "$PUB/v210-official-panel.js"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
@@ -264,7 +267,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.10-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.11-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -358,8 +361,11 @@ grep -q "p === '/api/admin/candidate-audit'" "$APP/server.mjs"
 grep -q "CE209_OFFICIAL_DESTINATION_AUDIT" "$APP/server.mjs"
 grep -q "fetch('/api/candidates'" "$PUB/v187-ui.js"
 grep -q "v2.0.9-unified" "$PUB/service-worker.js" || true
-grep -q "v2.0.10-unified" "$PUB/service-worker.js"
+grep -q "v2.0.10-unified" "$PUB/service-worker.js" || true
 grep -q "CE210_READ_ONLY_EA20" "$APP/server.mjs"
 grep -q "p === '/api/official/ea20'" "$APP/server.mjs"
 grep -q "/v210-official-panel.js" "$PUB/index.html"
-echo "V2.0.10: EA20 oficial de Colméia integrado, validação pré-publicação executada."
+grep -q "p === '/api/admin/reconciliation'" "$APP/server.mjs"
+grep -q "v2.0.11-unified" "$PUB/service-worker.js"
+grep -q "/v211-reconciliation.js" "$PUB/admin/index.html"
+echo "V2.0.11: fila de divergências autenticada, por seção e cargo."
