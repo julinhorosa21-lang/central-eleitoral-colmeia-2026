@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.8: consolidando histórico de patches..."
+echo "V2.0.9: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -145,6 +145,7 @@ run_patch v205-bu-modal.mjs
 run_patch v206-register-bu.mjs
 run_patch v207-speed.mjs
 run_patch v208-analytics.mjs
+run_patch v209-candidate-audit.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
@@ -170,6 +171,7 @@ node --check "$PUB/v198-remove-banner.js"
 node --check "$PUB/v200-resultados-public.js"
 node --check "$PUB/v208-analytics.js"
 node --check "$PUB/v208-admin-analytics.js"
+node --check "$PUB/v209-admin-audit.js"
 node --check "$PUB/v201-workspace.js"
 node --check "$PUB/v202-contrast.js"
 node --check "$PUB/v203-modal-scroll.js"
@@ -230,6 +232,8 @@ test -f "$PUB/v207-speed.css"
 test -f "$PUB/v208-analytics.js"
 test -f "$PUB/v208-admin-analytics.js"
 test -f "$PUB/v208-analytics.css"
+test -f "$PUB/v209-admin-audit.js"
+test -f "$PUB/v209-admin-audit.css"
 
 grep -q 'CE180_MAX_PHOTO_LOADS' "$PUB/v130-public.js"
 grep -q 'CE181 snapshot request' "$PUB/index.html"
@@ -254,7 +258,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.8-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.9-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -343,4 +347,9 @@ grep -q "/v208-analytics.js" "$PUB/index.html"
 grep -q "/v208-admin-analytics.js" "$PUB/admin/index.html"
 grep -q "v2.0.8-unified" "$PUB/service-worker.js"
 
-echo "V2.0.8: métricas privadas de acesso e instalação adicionadas ao admin."
+grep -q "/v209-admin-audit.js" "$PUB/admin/index.html"
+grep -q "p === '/api/admin/candidate-audit'" "$APP/server.mjs"
+grep -q "CE209_OFFICIAL_DESTINATION_AUDIT" "$APP/server.mjs"
+grep -q "fetch('/api/candidates'" "$PUB/v187-ui.js"
+grep -q "v2.0.9-unified" "$PUB/service-worker.js"
+echo "V2.0.9: auditoria da destinação oficial integrada."
