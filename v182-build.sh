@@ -147,6 +147,7 @@ run_patch v207-speed.mjs
 run_patch v208-analytics.mjs
 run_patch v209-candidate-audit.mjs
 
+set -x # V2.0.9 diagnóstico de validações de build
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
 node --check "$PUB/service-worker.js"
