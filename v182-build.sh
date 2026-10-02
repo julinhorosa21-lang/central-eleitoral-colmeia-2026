@@ -147,6 +147,7 @@ run_patch v207-speed.mjs
 run_patch v208-analytics.mjs
 run_patch v209-candidate-audit.mjs
 run_patch v210-ea20-patch.mjs
+run_patch v211-diagnose.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
