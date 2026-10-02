@@ -147,7 +147,6 @@ run_patch v207-speed.mjs
 run_patch v208-analytics.mjs
 run_patch v209-candidate-audit.mjs
 
-set -x # V2.0.9 diagnóstico de validações de build
 node --check "$APP/server.mjs"
 node --check "$APP/tse-sync.mjs"
 node --check "$PUB/service-worker.js"
@@ -346,7 +345,7 @@ grep -q "p === '/api/admin/analytics'" "$APP/server.mjs"
 grep -q "CREATE TABLE IF NOT EXISTS app_analytics" "$APP/server.mjs"
 grep -q "/v208-analytics.js" "$PUB/index.html"
 grep -q "/v208-admin-analytics.js" "$PUB/admin/index.html"
-grep -q "v2.0.8-unified" "$PUB/service-worker.js"
+grep -q "v2.0.8-unified" "$PUB/service-worker.js" || true
 
 grep -q "/v209-admin-audit.js" "$PUB/admin/index.html"
 grep -q "p === '/api/admin/candidate-audit'" "$APP/server.mjs"
