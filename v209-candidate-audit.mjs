@@ -71,4 +71,23 @@ const example=fn.audit({candidates:{presidente:[{numero:'12',destinacaoVotos:'',
 if(example.totals.anulado!==0||example.totals.nao_informada!==1||example.judicialPending!==1)throw new Error('V209 judicial/ballot separation failed');
 if(!read(pub+'/admin/index.html').includes('/v209-admin-audit.js'))throw new Error('V209 admin panel missing');
 if(!read(serverFile).includes("p === '/api/admin/candidate-audit'"))throw new Error('V209 admin route missing');
+const tsePath='/app/tse-sync.mjs';
+if(fs.existsSync(tsePath)){
+ const ts=read(tsePath);
+ const interesting=ts.split('\\n').filter(line=>/EA20|ea20|EA18|ea18|p3220|6257|6259|resultados\\.tse\\.jus\\.br/i.test(line));
+ console.log('CE209_TSE_SYNC_DIAG:',JSON.stringify({
+  mentionsEA20:/EA20|ea20/.test(ts),
+  mentionsEA18:/EA18|ea18/.test(ts),
+  mentions2026Codes:/3220|6257|6259/.test(ts),
+  relatedLines:interesting.slice(0,25).map(line=>line.slice(0,230))
+ }));
+}
+if(fs.existsSync(staticFile)){
+ const source=JSON.parse(read(staticFile));
+ const dest={};
+ for(const rows of Object.values(source.candidates||{}))for(const c of rows){
+  const k=c.destinacaoCategoria||'nao_informada';dest[k]=(dest[k]||0)+1;
+ }
+ console.log('CE209_TSE_OFFICIAL_DESTINATION_COUNTS:',JSON.stringify(dest));
+}
 console.log('V2.0.9 audit tests passed: explicit five vote destinations, no inferred annulment, fresh runtime catalog, authorized admin UI.');
