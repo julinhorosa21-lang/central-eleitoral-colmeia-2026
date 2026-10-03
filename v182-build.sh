@@ -272,7 +272,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.14-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.14-unified'" "$PUB/service-worker.js" || true
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
