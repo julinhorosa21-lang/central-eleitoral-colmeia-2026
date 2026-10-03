@@ -94,6 +94,34 @@ v157=v157.slice(0,a)+[
 ].join('\n')+v157.slice(b);
 new Function(v157);write(v157File,v157);
 
+/* Team entry: retry only when login controls appear/open. */
+const bridgeFile=pub+'/v151-operator-bridge.js';let bridge=read(bridgeFile);
+const ta=bridge.indexOf('function start(){handoff();');
+const tb=bridge.indexOf("if(document.readyState==='loading')",ta);
+if(ta<0||tb<0)throw new Error('CE213 team bridge lifecycle changed');
+bridge=bridge.slice(0,ta)+[
+"/* CE213_TARGETED_TEAM_HANDOFF */",
+"function start(){",
+" handoff();let pending=false;",
+" const inputs='input[type=\"password\"],input[id*=\"chave\" i],input[id*=\"token\" i],input[id*=\"key\" i]';",
+" const mo=new MutationObserver(records=>{",
+"  const relevant=records.some(m=>{",
+"   if(m.type==='attributes')return m.target instanceof Element &&",
+"    m.target.closest?.('form,[role=\"dialog\"],.modal,.sheet,.dialog') &&",
+"    (m.target.matches?.(inputs)||m.target.querySelector?.(inputs));",
+"   return [...m.addedNodes].some(n=>n instanceof Element &&",
+"    (n.matches?.(inputs)||n.querySelector?.(inputs)));",
+"  });",
+"  if(!relevant||pending)return;",
+"  pending=true;requestAnimationFrame(()=>{pending=false;handoff()});",
+" });",
+" mo.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','open']});",
+" setTimeout(handoff,300);setTimeout(handoff,900);",
+"}",
+""
+].join('\n')+bridge.slice(tb);
+new Function(bridge);write(bridgeFile,bridge);
+
 write(opFile,h);
 const css="/* V2.0.13: reduce offscreen paint on low-powered phones. */\n@media(max-width:850px){body .candidate-card{content-visibility:auto;contain-intrinsic-size:auto 85px}body #ce161OperatorCandidates{content-visibility:auto;contain-intrinsic-size:auto 480px}}\n#sheetWrap.open .sheet{scroll-behavior:auto;overscroll-behavior:contain}\n";
 write(pub+'/v213-operator-speed.css',css);
@@ -106,6 +134,7 @@ const pkg='/app/package.json';if(fs.existsSync(pkg)){const j=JSON.parse(read(pkg
 for(const needle of ['BUParser.verifyHashChain(qrSession.parts)','ce184VerifyCertificate()','saveResult()','queueOffline(payload)']){
  if(original.split(needle).length!==h.split(needle).length)throw new Error('CE213 QR/write invariant changed: '+needle);
 }
+if(!read(bridgeFile).includes('CE213_TARGETED_TEAM_HANDOFF'))throw new Error('CE213 team handoff not scoped');
 for(const needle of ['CE213_FORM_SAFE_REFRESH','CE213_FRAME_DEDUP','fps:6','/v213-operator-speed.css']){
  if(!h.includes(needle))throw new Error('CE213 missing: '+needle);
 }
