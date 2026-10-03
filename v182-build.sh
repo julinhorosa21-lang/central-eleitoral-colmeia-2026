@@ -149,6 +149,7 @@ run_patch v209-candidate-audit.mjs
 run_patch v210-ea20-patch.mjs
 run_patch v211-reconciliation-patch.mjs
 run_patch v212-candidate-fixes.mjs
+run_patch v213-diagnose.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
