@@ -53,8 +53,8 @@ ui=replaceRequired(ui,
  "if(!['all','judicial','substituida','distintas'].includes(active)&&c.destino!==active)",
  'special filters');
 ui=replaceRequired(ui,
- "'</small></div><span data-kind="'+esc(c.destino)+'">'",
- "'</small>'+(c.situacoesDistintas?'<small class="ce212-dual">Judicial: '+esc(c.situacaoJudicial||'—')+' · Totalização: '+esc(c.situacaoTotalizacao||c.situacaoJulgamentoPleito||'—')+'</small>':'')+'</div><span data-kind="'+esc(c.destino)+'">'",
+ "</small></div><span data-kind=",
+ "</small>'+(c.situacoesDistintas?'<small class=\"ce212-dual\">Judicial: '+esc(c.situacaoJudicial||'—')+' · Totalização: '+esc(c.situacaoTotalizacao||c.situacaoJulgamentoPleito||'—')+'</small>':'')+'</div><span data-kind=",
  'show distinct official fields');
 ui=replaceRequired(ui,
  "q('#ce209Status').textContent='Último catálogo oficial importado: '+when+' · Origem: Portal de Dados Abertos do TSE · '+(j.missingComplement||0)+' sem registro complementar encontrado';",
