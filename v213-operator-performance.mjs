@@ -131,6 +131,9 @@ if(!sw.includes("'/v213-operator-speed.css'"))sw=sw.replace("const CORE=[","cons
 write(pub+'/service-worker.js',sw);
 const pkg='/app/package.json';if(fs.existsSync(pkg)){const j=JSON.parse(read(pkg));j.version='2.0.13';write(pkg,JSON.stringify(j,null,2)+'\n')}
 
+const inline=[...h.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].find(m=>m[1].includes('CE213_FORM_SAFE_REFRESH'));
+if(!inline)throw new Error('CE213 operational inline script missing');
+new Function(inline[1]);
 for(const needle of ['BUParser.verifyHashChain(qrSession.parts)','ce184VerifyCertificate()','saveResult()','queueOffline(payload)']){
  if(original.split(needle).length!==h.split(needle).length)throw new Error('CE213 QR/write invariant changed: '+needle);
 }
