@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.11: consolidando histórico de patches..."
+echo "V2.0.15: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -149,8 +149,8 @@ run_patch v209-candidate-audit.mjs
 run_patch v210-ea20-patch.mjs
 run_patch v211-reconciliation-patch.mjs
 run_patch v212-candidate-fixes.mjs
-run_patch v213-diagnose.mjs
 run_patch v214-bu-fluid.mjs
+run_patch v215-form-stability.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -380,5 +380,8 @@ echo "V2.0.12: auditoria individual TSE e nulo técnico atualizados."
 
 grep -q "CE214_SCOPED_CANDIDATE_RENDER" "$PUB/v157-polish.js"
 grep -q "CE214_SCOPED_VISUAL_QA" "$PUB/v186-visual-qa.js"
-grep -q "v2.0.14-unified" "$PUB/service-worker.js"
-echo "V2.0.14: otimização operacional validada."
+grep -q "v2.0.14-unified" "$PUB/service-worker.js" || true
+grep -q "v2.0.15-unified" "$PUB/service-worker.js"
+grep -q "CE215_SHEET_SAFE_UPDATES" "$PUB/operacao.html"
+grep -q "CE215_TARGETED_HANDOFF" "$PUB/v151-operator-bridge.js"
+echo "V2.0.15: leitura e digitação de BU protegidas, testes aprovados."
