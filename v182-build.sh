@@ -148,7 +148,7 @@ run_patch v208-analytics.mjs
 run_patch v209-candidate-audit.mjs
 run_patch v210-ea20-patch.mjs
 run_patch v211-reconciliation-patch.mjs
-run_patch v212-diagnostic.mjs
+run_patch v212-candidate-fixes.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -177,6 +177,7 @@ node --check "$PUB/v198-remove-banner.js"
 node --check "$PUB/v200-resultados-public.js"
 node --check "$PUB/v208-analytics.js"
 node --check "$PUB/v208-admin-analytics.js"
+node --check "$PUB/v209-admin-audit.js"
 node --check "$PUB/v209-admin-audit.js"
 node --check "$PUB/v201-workspace.js"
 node --check "$PUB/v202-contrast.js"
@@ -367,6 +368,9 @@ grep -q "CE210_READ_ONLY_EA20" "$APP/server.mjs"
 grep -q "p === '/api/official/ea20'" "$APP/server.mjs"
 grep -q "/v210-official-panel.js" "$PUB/index.html"
 grep -q "p === '/api/admin/reconciliation'" "$APP/server.mjs"
-grep -q "v2.0.11-unified" "$PUB/service-worker.js"
+grep -q "v2.0.11-unified" "$PUB/service-worker.js" || true
 grep -q "/v211-reconciliation.js" "$PUB/admin/index.html"
-echo "V2.0.11: fila de divergências autenticada, por seção e cargo."
+grep -q "v2.0.12-unified" "$PUB/service-worker.js"
+grep -q "nulo_tecnico:0" "$APP/server.mjs"
+grep -q "v209-admin-audit.js?v=212" "$PUB/admin/index.html"
+echo "V2.0.12: auditoria individual TSE e nulo técnico atualizados."
