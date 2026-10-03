@@ -150,6 +150,7 @@ run_patch v210-ea20-patch.mjs
 run_patch v211-reconciliation-patch.mjs
 run_patch v212-candidate-fixes.mjs
 run_patch v213-diagnose.mjs
+run_patch v214-bu-fluid.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -179,6 +180,8 @@ node --check "$PUB/v200-resultados-public.js"
 node --check "$PUB/v208-analytics.js"
 node --check "$PUB/v208-admin-analytics.js"
 node --check "$PUB/v209-admin-audit.js"
+node --check "$PUB/v157-polish.js"
+node --check "$PUB/v186-visual-qa.js"
 node --check "$PUB/v201-workspace.js"
 node --check "$PUB/v202-contrast.js"
 node --check "$PUB/v203-modal-scroll.js"
@@ -269,7 +272,7 @@ grep -q "/v185-interface.css" "$PUB/admin/index.html"
 grep -q "/v186-visual-qa.css" "$PUB/index.html"
 grep -q "/v186-visual-qa.js" "$PUB/operacao.html"
 grep -q "/v186-visual-qa.css" "$PUB/admin/index.html"
-grep -q "const VERSION='v2.0.12-unified'" "$PUB/service-worker.js"
+grep -q "const VERSION='v2.0.14-unified'" "$PUB/service-worker.js"
 grep -q '"version":"1.8.7"' "$PUB/data/candidate-catalog.json"
 grep -q 'candidatePrefer(item,prev)' "$APP/server.mjs"
 grep -q 'CE187_AUTO_CANDIDATE_REFRESH' "$APP/server.mjs"
@@ -370,7 +373,12 @@ grep -q "/v210-official-panel.js" "$PUB/index.html"
 grep -q "p === '/api/admin/reconciliation'" "$APP/server.mjs"
 grep -q "v2.0.11-unified" "$PUB/service-worker.js" || true
 grep -q "/v211-reconciliation.js" "$PUB/admin/index.html"
-grep -q "v2.0.12-unified" "$PUB/service-worker.js"
+grep -q "v2.0.12-unified" "$PUB/service-worker.js" || true
 grep -q "nulo_tecnico:0" "$APP/server.mjs"
 grep -q "v209-admin-audit.js?v=212" "$PUB/admin/index.html"
 echo "V2.0.12: auditoria individual TSE e nulo técnico atualizados."
+
+grep -q "CE214_SCOPED_CANDIDATE_RENDER" "$PUB/v157-polish.js"
+grep -q "CE214_SCOPED_VISUAL_QA" "$PUB/v186-visual-qa.js"
+grep -q "v2.0.14-unified" "$PUB/service-worker.js"
+echo "V2.0.14: otimização operacional validada."
