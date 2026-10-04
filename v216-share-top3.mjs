@@ -8,7 +8,7 @@ function once(oldText,newText,label){
  if(source.split(oldText).length!==2)throw new Error('V216 anchor mismatch: '+label);
  source=source.replace(oldText,newText);
 }
-const helpers=String.raw\`
+const helpers=String.raw`
 /* CE216_TOP3_OFFICIAL_PHOTOS: load only 3 candidates on demand, never block sharing if unavailable. */
 let ce216CatalogPromise=null;
 const ce216Images=new Map();
@@ -35,10 +35,10 @@ function ce216Lookup(catalog,cargo,numero){
 }
 function ce216PhotoSources(candidate){
  if(!candidate)return [];
- const photo=String(candidate.foto||'').trim(),sq=String(candidate.sqCandidato||'').replace(/\\D/g,'');
+ const photo=String(candidate.foto||'').trim(),sq=String(candidate.sqCandidato||'').replace(/\D/g,'');
  const local=sq?'/candidate-photos/'+sq+'.jpg':'';
  const urls=[local,photo].filter(Boolean);
- return [...new Set(urls.filter(v=>/^\\/candidate-photos\\/\\d+\\.jpg$/.test(v)||/^https:\\/\\//i.test(v)))];
+ return [...new Set(urls.filter(v=>/^\/candidate-photos\/\d+\.jpg$/.test(v)||/^https:\/\//i.test(v)))];
 }
 function ce216Image(url){
  if(ce216Images.has(url))return ce216Images.get(url);
@@ -78,7 +78,7 @@ function ce216Portrait(ctx,c,x,y,size){
   }
  }else{
   ctx.font='800 42px Arial, sans-serif';ctx.fillStyle='#51728A';ctx.textAlign='center';
-  const initials=String(c.nome||'').trim().split(/\\s+/).slice(0,2).map(v=>v[0]||'').join('').toUpperCase()||'?';
+  const initials=String(c.nome||'').trim().split(/\s+/).slice(0,2).map(v=>v[0]||'').join('').toUpperCase()||'?';
   ctx.fillText(initials,x+size/2,y+size*.58);
   ctx.font='600 12px Arial, sans-serif';ctx.fillText('SEM FOTO',x+size/2,y+size*.82);
  }
@@ -87,7 +87,7 @@ function ce216Portrait(ctx,c,x,y,size){
  ctx.strokeStyle='#D5E2EB';ctx.lineWidth=3;ctx.stroke();
  ctx.textAlign='left';
 }
-\`;
+`;
 const anchor='function buildCanvas(){';
 if(!source.includes(anchor))throw new Error('V216 buildCanvas absent');
 source=source.replace(anchor,helpers+'\n'+anchor);
@@ -101,7 +101,7 @@ const start=source.indexOf(beginning);
 const endMarker="\n  }\n\n  // Rodapé";
 const end=source.indexOf(endMarker,start);
 if(start<0||end<0)throw new Error('V216 nonempty ranking block absent');
-const ranking=String.raw\`  }else{
+const ranking=String.raw`  }else{
     ctx.font='800 25px Arial, sans-serif';ctx.fillStyle='#123D60';ctx.fillText('OS 3 MAIS VOTADOS',72,448);
     ctx.font='500 18px Arial, sans-serif';ctx.fillStyle='#667985';ctx.fillText('Fotografias dos candidatos · acompanhamento local',72,479);
     const startY=508,rowH=195,gap=19;
@@ -124,7 +124,7 @@ const ranking=String.raw\`  }else{
       ctx.font='800 27px Arial, sans-serif';ctx.fillStyle='#2450B2';
       ctx.fillText(c.percentual,984,y+129);
       ctx.textAlign='left';
-    });\`;
+    });`;
 source=source.slice(0,start)+ranking+source.slice(end);
 once("const card=buildCanvas(),blob=await canvasBlob(card.canvas)","const card=await buildCanvas(),blob=await canvasBlob(card.canvas)","async share entry");
 new Function(source);
