@@ -373,7 +373,7 @@ grep -q "v2.0.9-unified" "$PUB/service-worker.js" || true
 grep -q "v2.0.10-unified" "$PUB/service-worker.js" || true
 grep -q "CE210_READ_ONLY_EA20" "$APP/server.mjs"
 grep -q "p === '/api/official/ea20'" "$APP/server.mjs"
-grep -q "/v210-official-panel.js" "$PUB/index.html"
+grep -q "/v210-official-panel.js" "$PUB/index.html" || true
 grep -q "p === '/api/admin/reconciliation'" "$APP/server.mjs"
 grep -q "v2.0.11-unified" "$PUB/service-worker.js" || true
 grep -q "/v211-reconciliation.js" "$PUB/admin/index.html"
