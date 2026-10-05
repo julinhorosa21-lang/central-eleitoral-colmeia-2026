@@ -1,0 +1,8 @@
+
+.ce217-official{margin-top:18px}
+.ce217-official .ce210-header small{letter-spacing:.08em}
+.ce217-official .ce210-candidate{content-visibility:auto;contain-intrinsic-size:72px}
+.ce217-official .ce210-candidates{max-height:760px;overflow:auto;overscroll-behavior:contain}
+.ce217-official-row .who small::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#16864F;margin-left:7px;vertical-align:1px}
+body.ce217-tse-live #publicPhase{color:#16864F}
+@media(max-width:640px){.ce217-official .ce210-candidates{max-height:620px}.ce217-official .ce210-candidate{gap:10px}}
