@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.16: consolidando histórico de patches..."
+echo "V2.0.17: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -153,6 +153,8 @@ run_patch v214-bu-fluid.mjs
 run_patch v215-form-stability.mjs
 run_patch v216-share-top3.mjs
 node /src/v216-share-tests.mjs
+run_patch v217-official-live.mjs
+node /src/v217-official-tests.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -391,3 +393,7 @@ grep -q "CE216_TOP3_OFFICIAL_PHOTOS" "$PUB/v191-share.js"
 grep -q "v191-share.js?v=216" "$PUB/index.html"
 grep -q "v191-share.js?v=216" "$PUB/transparencia.html"
 echo "V2.0.16: top 3 com fotos no compartilhamento; testes de integração aprovados."
+grep -q "v2.0.17-unified" "$PUB/service-worker.js"
+grep -q "v217-official-live.js?v=217" "$PUB/index.html"
+grep -q "MUNICIPIO='95290'" "$PUB/v217-official-live.js"
+echo "V2.0.17: resultados oficiais TSE integrados diretamente ao painel público."
