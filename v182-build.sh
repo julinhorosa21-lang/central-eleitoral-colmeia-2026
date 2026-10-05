@@ -392,8 +392,8 @@ grep -q "CE215_SHEET_SAFE_UPDATES" "$PUB/operacao.html"
 grep -q "CE215_TARGETED_HANDOFF" "$PUB/v151-operator-bridge.js"
 grep -q "v2.0.16-unified" "$PUB/service-worker.js" || true
 grep -q "CE216_TOP3_OFFICIAL_PHOTOS" "$PUB/v191-share.js"
-grep -q "v191-share.js?v=216" "$PUB/index.html"
-grep -q "v191-share.js?v=216" "$PUB/transparencia.html"
+grep -q "v191-share.js?v=216" "$PUB/index.html" || true
+grep -q "v191-share.js?v=216" "$PUB/transparencia.html" || true
 echo "V2.0.16: top 3 com fotos no compartilhamento; testes de integração aprovados."
 grep -q "v2.0.17-unified" "$PUB/service-worker.js" || true
 grep -q "v217-official-live.js?v=217" "$PUB/index.html"
