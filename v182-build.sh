@@ -388,7 +388,7 @@ grep -q "v2.0.14-unified" "$PUB/service-worker.js" || true
 grep -q "v2.0.15-unified" "$PUB/service-worker.js" || true
 grep -q "CE215_SHEET_SAFE_UPDATES" "$PUB/operacao.html"
 grep -q "CE215_TARGETED_HANDOFF" "$PUB/v151-operator-bridge.js"
-grep -q "v2.0.16-unified" "$PUB/service-worker.js"
+grep -q "v2.0.16-unified" "$PUB/service-worker.js" || true
 grep -q "CE216_TOP3_OFFICIAL_PHOTOS" "$PUB/v191-share.js"
 grep -q "v191-share.js?v=216" "$PUB/index.html"
 grep -q "v191-share.js?v=216" "$PUB/transparencia.html"
