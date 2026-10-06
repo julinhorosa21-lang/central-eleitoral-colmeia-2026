@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.17: consolidando histórico de patches..."
+echo "V2.0.19: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -157,6 +157,7 @@ run_patch v217-official-live.mjs
 node /src/v217-official-tests.mjs
 run_patch v218-share-official.mjs
 node /src/v218-share-tests.mjs
+run_patch v219-manual-bu-only.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -398,8 +399,13 @@ echo "V2.0.16: top 3 com fotos no compartilhamento; testes de integração aprov
 grep -q "v2.0.17-unified" "$PUB/service-worker.js" || true
 grep -q "v217-official-live.js?v=217" "$PUB/index.html"
 grep -q "MUNICIPIO='95290'" "$PUB/v217-official-live.js"
-grep -q "v2.0.18-unified" "$PUB/service-worker.js"
-grep -Fq "window.__CE217_OFFICIAL__?.cargos?.[cargo]" "$PUB/v191-share.js"
+grep -q "v2.0.18-unified" "$PUB/service-worker.js" || true
+! grep -Fq "window.__CE217_OFFICIAL__?.cargos?.[cargo]" "$PUB/v191-share.js"
 grep -q "Compartilhar resultado com fotos" "$PUB/v191-share.js"
-grep -Fq "v191-share.js?v=218" "$PUB/index.html"
-echo "V2.0.18: compartilhamento top 3 ligado diretamente ao estado oficial do TSE."
+grep -Fq "v191-share.js?v=218" "$PUB/index.html" || true
+grep -q "v2.0.19-unified" "$PUB/service-worker.js"
+! grep -q "/v217-official-live.js" "$PUB/index.html"
+! grep -q "/v217-official-live.js" "$PUB/transparencia.html"
+grep -Fq "v191-share.js?v=219" "$PUB/index.html"
+grep -Fq "document.querySelectorAll('#leaders .leader')" "$PUB/v191-share.js"
+echo "V2.0.19: resultados TSE ocultos; ranking e compartilhamento públicos usam apenas BUs manuais."
