@@ -397,7 +397,7 @@ grep -q "v191-share.js?v=216" "$PUB/index.html" || true
 grep -q "v191-share.js?v=216" "$PUB/transparencia.html" || true
 echo "V2.0.16: top 3 com fotos no compartilhamento; testes de integração aprovados."
 grep -q "v2.0.17-unified" "$PUB/service-worker.js" || true
-grep -q "v217-official-live.js?v=217" "$PUB/index.html"
+! grep -q "v217-official-live.js?v=217" "$PUB/index.html"
 grep -q "MUNICIPIO='95290'" "$PUB/v217-official-live.js"
 grep -q "v2.0.18-unified" "$PUB/service-worker.js" || true
 ! grep -Fq "window.__CE217_OFFICIAL__?.cargos?.[cargo]" "$PUB/v191-share.js"
