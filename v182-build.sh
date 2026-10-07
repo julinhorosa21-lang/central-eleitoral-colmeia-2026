@@ -158,7 +158,7 @@ node /src/v217-official-tests.mjs
 run_patch v218-share-official.mjs
 node /src/v218-share-tests.mjs
 run_patch v219-manual-bu-only.mjs
-run_patch v220-diagnose-runoff.mjs
+run_patch v220-second-turn.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -410,3 +410,12 @@ grep -q "v2.0.19-unified" "$PUB/service-worker.js"
 grep -Fq "v191-share.js?v=219" "$PUB/index.html"
 grep -Fq "document.querySelectorAll('#leaders .leader')" "$PUB/v191-share.js"
 echo "V2.0.19: resultados TSE ocultos; ranking e compartilhamento públicos usam apenas BUs manuais."
+
+node --check "$APP/server.mjs"
+node --check "$PUB/v220-second-turn.js"
+node --check "$PUB/bu-parser.js"
+grep -q "CE220_FIRST_TURN_ARCHIVE" "$APP/server.mjs"
+grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
+grep -q "v2.1.0-runoff" "$PUB/service-worker.js"
+grep -q "2t-presidente-13" "$PUB/data/candidate-catalog.json" || true
+echo "V2.1.0: segundo turno Presidente/Governador preparado e validado."
