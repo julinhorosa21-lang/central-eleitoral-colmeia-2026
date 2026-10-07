@@ -158,6 +158,7 @@ node /src/v217-official-tests.mjs
 run_patch v218-share-official.mjs
 node /src/v218-share-tests.mjs
 run_patch v219-manual-bu-only.mjs
+run_patch v220-diagnose-runoff.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
