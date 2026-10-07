@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.1.1: consolidando histórico de patches..."
+echo "V2.1.2: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -159,7 +159,7 @@ run_patch v218-share-official.mjs
 node /src/v218-share-tests.mjs
 run_patch v219-manual-bu-only.mjs
 run_patch v220-second-turn.mjs
-run_patch v221-auto-update.mjs
+run_patch v221-auto-update.mjs\nrun_patch v222-runoff-polish.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -422,4 +422,8 @@ grep -q "2t-presidente-13" "$PUB/data/candidate-catalog.json" || true
 grep -q "CE221_AUTO_PWA_UPDATE" "$PUB/v135-install.js"
 grep -q "v2.1.1-runoff" "$PUB/service-worker.js"
 grep -q "v135-install.js?v=221" "$PUB/index.html"
-echo "V2.1.1: segundo turno preservado e atualização automática do PWA ativada."
+grep -q "inBrazil==='2026-10-25'" "$APP/server.mjs"
+grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
+grep -q "v2.1.2-runoff" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=222" "$PUB/index.html"
+echo "V2.1.2: segundo turno alinhado a 25/10, estado pré-apuração corrigido e PWA atualizado."
