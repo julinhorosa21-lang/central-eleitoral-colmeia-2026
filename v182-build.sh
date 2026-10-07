@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.0.19: consolidando histórico de patches..."
+echo "V2.1.1: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -159,6 +159,7 @@ run_patch v218-share-official.mjs
 node /src/v218-share-tests.mjs
 run_patch v219-manual-bu-only.mjs
 run_patch v220-second-turn.mjs
+run_patch v221-auto-update.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -418,4 +419,7 @@ grep -q "CE220_FIRST_TURN_ARCHIVE" "$APP/server.mjs"
 grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "v2.1.0-runoff" "$PUB/service-worker.js"
 grep -q "2t-presidente-13" "$PUB/data/candidate-catalog.json" || true
-echo "V2.1.0: segundo turno Presidente/Governador preparado e validado."
+grep -q "CE221_AUTO_PWA_UPDATE" "$PUB/v135-install.js"
+grep -q "v2.1.1-runoff" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=221" "$PUB/index.html"
+echo "V2.1.1: segundo turno preservado e atualização automática do PWA ativada."
