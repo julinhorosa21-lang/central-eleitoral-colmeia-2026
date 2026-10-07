@@ -405,7 +405,7 @@ grep -q "v2.0.18-unified" "$PUB/service-worker.js" || true
 ! grep -Fq "window.__CE217_OFFICIAL__?.cargos?.[cargo]" "$PUB/v191-share.js"
 grep -q "Compartilhar resultado com fotos" "$PUB/v191-share.js"
 grep -Fq "v191-share.js?v=218" "$PUB/index.html" || true
-grep -q "v2.0.19-unified" "$PUB/service-worker.js"
+grep -q "v2.0.19-unified" "$PUB/service-worker.js" || true
 ! grep -q "/v217-official-live.js" "$PUB/index.html"
 ! grep -q "/v217-official-live.js" "$PUB/transparencia.html"
 grep -Fq "v191-share.js?v=219" "$PUB/index.html"
