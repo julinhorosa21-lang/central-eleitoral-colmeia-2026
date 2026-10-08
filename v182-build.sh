@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.1.6: consolidando histórico de patches..."
+echo "V2.1.7: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -165,8 +165,9 @@ run_patch v223-runoff-safety.mjs
 run_patch v224-runoff-audit.mjs
 run_patch v225-runoff-minimal-assets.mjs
 run_patch v226-first-turn-purge.mjs
+run_patch v227-ballot-names.mjs
 
-echo "V2.1.6: executando preflight final do segundo turno..."
+echo "V2.1.7: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -178,9 +179,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.1.6-runoff-purge" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=226" "$PUB/index.html"
-grep -q "v135-install.js?v=226" "$PUB/transparencia.html"
+grep -q "v2.1.7-ballot-names" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=227" "$PUB/index.html"
+grep -q "v135-install.js?v=227" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -203,16 +204,19 @@ const p='/app/public/data/candidate-catalog.json';
 const c=JSON.parse(fs.readFileSync(p,'utf8'));
 const keys=Object.keys(c.candidates||{}).sort();
 if(keys.join(',')!=='governador,presidente') throw new Error('catalog cargos mismatch: '+keys.join(','));
-if(c.version!=='2.1.6-runoff-only') throw new Error('catalog version mismatch: '+c.version);
+if(c.version!=='2.1.7-ballot-names') throw new Error('catalog version mismatch: '+c.version);
 if(Number(c.turno)!==2) throw new Error('catalog turno mismatch');
 if(c.electionDate!=='2026-10-25') throw new Error('catalog date mismatch');
 const nums=(cargo)=>(c.candidates?.[cargo]||[]).map(x=>String(x.numero)).sort();
 if(nums('presidente').join(',')!=='13,22') throw new Error('president finalists mismatch: '+nums('presidente'));
 if(nums('governador').join(',')!=='44,45') throw new Error('governor finalists mismatch: '+nums('governador'));
-console.log('V2.1.6 catalog preflight: presidente 13/22; governador 44/45.');
+const gov=Object.fromEntries((c.candidates?.governador||[]).map(x=>[String(x.numero),String(x.nome||'')]));
+if(gov['44']!=='PROFESSORA DORINHA') throw new Error('governor 44 ballot name mismatch: '+gov['44']);
+if(gov['45']!=='VICENTINHO JÚNIOR') throw new Error('governor 45 ballot name mismatch: '+gov['45']);
+console.log('V2.1.7 catalog preflight: presidente 13/22; governador 44 PROFESSORA DORINHA / 45 VICENTINHO JÚNIOR.');
 NODE
 
 ! grep -q "CE223_SAFE_SECOND_TURN_ARCHIVE" "$APP/server.mjs"
 grep -q "firstTurnPreserved:false" "$APP/server.mjs"
 
-echo "V2.1.6 FINAL PREFLIGHT PASSED: somente Presidente 13/22 e Governador 44/45; primeiro turno descartado."
+echo "V2.1.7 FINAL PREFLIGHT PASSED: nomes de urna corrigidos; somente Presidente 13/22 e Governador 44/45."
