@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.1.4: consolidando histórico de patches..."
+echo "V2.1.5: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -163,6 +163,7 @@ run_patch v221-auto-update.mjs
 run_patch v222-runoff-polish.mjs
 run_patch v223-runoff-safety.mjs
 run_patch v224-runoff-audit.mjs
+run_patch v225-runoff-minimal-assets.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -172,7 +173,6 @@ node --check "$APP/tse-sync.mjs"
 node --check "$PUB/service-worker.js"
 node --check "$PUB/bu-parser.js"
 node --check "$PUB/v130-public.js"
-node --check "$PUB/v0241-photos.js"
 node --check "$PUB/v174-bu-validation.js"
 node --check "$PUB/v175-section-lock.js"
 node --check "$PUB/v176-integrity.js"
@@ -208,7 +208,6 @@ test -f "$PUB/operacao.html"
 test -f "$PUB/admin/index.html"
 test -f "$PUB/apuracao.html"
 test -f "$PUB/data/candidate-catalog.json"
-test -f "$PUB/data/candidate-photo-map.json"
 test -f "$PUB/teste-bu.html"
 test -f "$PUB/teste-bu/qr-1.png"
 test -f "$PUB/teste-bu/qr-2.png"
@@ -426,6 +425,15 @@ grep -q "CE221_AUTO_PWA_UPDATE" "$PUB/v135-install.js"
 grep -q "inBrazil==='2026-10-25'" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
 grep -q "CE223_SAFE_SECOND_TURN_ARCHIVE" "$APP/server.mjs"
-grep -q "v2.1.4-runoff" "$PUB/service-worker.js"
+grep -q "v2.1.5-runoff-minimal" "$PUB/service-worker.js"
 grep -q "v135-install.js?v=224" "$PUB/index.html"
-echo "V2.1.4: segundo turno auditado, pipeline corrigido, backup protegido e PWA renovado."
+test ! -f "$PUB/v0241-photos.js"
+test ! -f "$PUB/v0241-photos.css"
+test ! -f "$PUB/data/candidate-photo-map.json"
+test "$(find "$PUB/candidate-photos" -maxdepth 1 -type f -name "*.jpg" | wc -l | tr -d " ")" = "4"
+test -f "$PUB/candidate-photos/2t-presidente-13.jpg"
+test -f "$PUB/candidate-photos/2t-presidente-22.jpg"
+test -f "$PUB/candidate-photos/2t-governador-44.jpg"
+test -f "$PUB/candidate-photos/2t-governador-45.jpg"
+grep -q '"version":"2.1.5-runoff-minimal"' "$PUB/data/candidate-catalog.json"
+echo "V2.1.5: somente 4 candidatos/fotos do segundo turno permanecem na aplicação final."
