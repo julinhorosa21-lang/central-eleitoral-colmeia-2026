@@ -147,9 +147,9 @@ for(const sig of ['SIGTERM','SIGINT']){
 }
 
 /* Corrige o mecanismo de backup local para o caminho real usado no Render. */
-server=server.replace("const CE178_DB_FILE='/data/central.sqlite';","const CE178_DB_FILE=CE231_DB_FILE;");
+server=server.replace("const CE178_DB_FILE='/data/central.sqlite';","const CE178_DB_FILE='/app/runtime/central.sqlite';");
 server=server.replace("const CE178_BACKUP_DIR='/data/backups';","const CE178_BACKUP_DIR='/app/runtime/backups';");
-server=server.replace("const CE179_DB_FILE='/data/central.sqlite';","const CE179_DB_FILE=CE231_DB_FILE;");
+server=server.replace("const CE179_DB_FILE='/data/central.sqlite';","const CE179_DB_FILE='/app/runtime/central.sqlite';");
 server=server.replace("const CE179_BACKUP_DIR='/data/backups';","const CE179_BACKUP_DIR='/app/runtime/backups';");
 server=server.replace("const CE179_RESTORE_MARKER='/data/restore-request.json';","const CE179_RESTORE_MARKER='/app/runtime/restore-request.json';");
 server=server.replace("const CE179_LAST_RESTORE='/data/last-restore.json';","const CE179_LAST_RESTORE='/app/runtime/last-restore.json';");
@@ -228,5 +228,5 @@ if(!final.includes('CE231_PERSISTENT_SQLITE_RESTORE'))throw new Error('V231: res
 if(!final.includes('CE231_PERSISTENT_SQLITE_SNAPSHOT'))throw new Error('V231: snapshot layer missing');
 if(!final.includes('CE231_RUNOFF_META'))throw new Error('V231: persistent runoff marker missing');
 if(!final.includes("p === '/api/admin/persistence'"))throw new Error('V231: persistence diagnostic endpoint missing');
-if(!final.includes('const CE178_DB_FILE=CE231_DB_FILE;'))throw new Error('V231: backup DB path not fixed');
+if(!final.includes("const CE178_DB_FILE='/app/runtime/central.sqlite';"))throw new Error('V231: backup DB path not fixed');
 console.log('V2.2.1 persistence layer passed: SQLite remote snapshot restore/save + persistent second-turn marker enabled.');
