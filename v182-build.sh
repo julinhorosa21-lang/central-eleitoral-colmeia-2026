@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.1.7: consolidando histórico de patches..."
+echo "V2.1.8: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -166,8 +166,9 @@ run_patch v224-runoff-audit.mjs
 run_patch v225-runoff-minimal-assets.mjs
 run_patch v226-first-turn-purge.mjs
 run_patch v227-ballot-names.mjs
+run_patch v228-operator-all-sections.mjs
 
-echo "V2.1.7: executando preflight final do segundo turno..."
+echo "V2.1.8: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -179,9 +180,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.1.7-ballot-names" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=227" "$PUB/index.html"
-grep -q "v135-install.js?v=227" "$PUB/transparencia.html"
+grep -q "v2.1.8-operator-all-sections" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=228" "$PUB/index.html"
+grep -q "v135-install.js?v=228" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -219,4 +220,9 @@ NODE
 ! grep -q "CE223_SAFE_SECOND_TURN_ARCHIVE" "$APP/server.mjs"
 grep -q "firstTurnPreserved:false" "$APP/server.mjs"
 
-echo "V2.1.7 FINAL PREFLIGHT PASSED: nomes de urna corrigidos; somente Presidente 13/22 e Governador 44/45."
+grep -q "CE228_OPERATOR_ALL_SECTIONS" "$APP/server.mjs"
+grep -q "CE228_GLOBAL_OPERATOR_WRITE" "$APP/server.mjs"
+grep -q "/v228-operator-all-sections.js" "$PUB/operacao.html"
+node --check "$PUB/v228-operator-all-sections.js"
+
+echo "V2.1.8 FINAL PREFLIGHT PASSED: 2º turno correto e operador liberado para todas as seções."
