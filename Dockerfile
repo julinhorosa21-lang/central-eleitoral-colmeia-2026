@@ -36,7 +36,7 @@ COPY --from=builder /app /app
 ENV NODE_ENV=production \
     CE184_PYTHON=/opt/ce184-venv/bin/python
 
-RUN mkdir -p /app/runtime
+RUN mkdir -p /app/runtime /data
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
       org.opencontainers.image.version="2.1.6"
 EXPOSE 8787
