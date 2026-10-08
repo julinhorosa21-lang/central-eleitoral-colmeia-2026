@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.1.5: consolidando histórico de patches..."
+echo "V2.1.6: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -164,6 +164,7 @@ run_patch v222-runoff-polish.mjs
 run_patch v223-runoff-safety.mjs
 run_patch v224-runoff-audit.mjs
 run_patch v225-runoff-minimal-assets.mjs
+run_patch v226-first-turn-purge.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -424,10 +425,10 @@ grep -q "2t-presidente-13" "$PUB/data/candidate-catalog.json" || true
 grep -q "CE221_AUTO_PWA_UPDATE" "$PUB/v135-install.js"
 grep -q "inBrazil==='2026-10-25'" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "CE223_SAFE_SECOND_TURN_ARCHIVE" "$APP/server.mjs"
-grep -q "v2.1.5-runoff-minimal" "$PUB/service-worker.js"
+grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
+grep -q "v2.1.6-runoff-purge" "$PUB/service-worker.js"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
-grep -q "v135-install.js?v=225" "$PUB/index.html"
+grep -q "v135-install.js?v=226" "$PUB/index.html"
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
 test ! -f "$PUB/data/candidate-photo-map.json"
@@ -437,4 +438,7 @@ test -f "$PUB/candidate-photos/2t-presidente-22.jpg"
 test -f "$PUB/candidate-photos/2t-governador-44.jpg"
 test -f "$PUB/candidate-photos/2t-governador-45.jpg"
 grep -q '"version":"2.1.5-runoff-minimal"' "$PUB/data/candidate-catalog.json"
-echo "V2.1.5: somente 4 candidatos/fotos do segundo turno permanecem na aplicação final."
+! grep -q "CE223_SAFE_SECOND_TURN_ARCHIVE" "$APP/server.mjs"
+! grep -q "central-primeiro-turno-2026-10-04.sqlite" "$APP/server.mjs"
+grep -q "firstTurnPreserved:false" "$APP/server.mjs"
+echo "V2.1.6: somente dados do 2º turno permanecem; históricos e backups do 1º turno são eliminados."
