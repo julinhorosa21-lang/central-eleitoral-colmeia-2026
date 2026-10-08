@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.1.3: consolidando histórico de patches..."
+echo "V2.1.4: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -160,7 +160,7 @@ node /src/v218-share-tests.mjs
 run_patch v219-manual-bu-only.mjs
 run_patch v220-second-turn.mjs
 run_patch v221-auto-update.mjs\nrun_patch v222-runoff-polish.mjs
-run_patch v223-runoff-safety.mjs
+run_patch v223-runoff-safety.mjs\nrun_patch v224-runoff-audit.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
@@ -424,6 +424,6 @@ grep -q "CE221_AUTO_PWA_UPDATE" "$PUB/v135-install.js"
 grep -q "inBrazil==='2026-10-25'" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
 grep -q "CE223_SAFE_SECOND_TURN_ARCHIVE" "$APP/server.mjs"
-grep -q "v2.1.3-runoff" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=222" "$PUB/index.html"
-echo "V2.1.3: segundo turno alinhado a 25/10, backup do 1º turno protegido e migração idempotente."
+grep -q "v2.1.4-runoff" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=224" "$PUB/index.html"
+echo "V2.1.4: segundo turno auditado, pipeline corrigido, backup protegido e PWA renovado."
