@@ -43,15 +43,7 @@ async function ce231RestoreBeforeOpen(){
       connectionTimeoutMillis:10000,
       ssl:CE231_DATABASE_URL.includes('localhost')?undefined:{rejectUnauthorized:false}
     });
-    await ce231Pool.query(`
-      CREATE TABLE IF NOT EXISTS ce_sqlite_snapshot(
-        id smallint PRIMARY KEY CHECK(id=1),
-        db_bytes bytea NOT NULL,
-        sha256 text NOT NULL,
-        updated_at timestamptz NOT NULL DEFAULT now(),
-        reason text
-      )
-    `);
+    await ce231Pool.query("CREATE TABLE IF NOT EXISTS ce_sqlite_snapshot(id smallint PRIMARY KEY CHECK(id=1),db_bytes bytea NOT NULL,sha256 text NOT NULL,updated_at timestamptz NOT NULL DEFAULT now(),reason text)");
     const q=await ce231Pool.query('SELECT db_bytes,sha256,updated_at FROM ce_sqlite_snapshot WHERE id=1');
     const row=q.rows?.[0];
     if(row?.db_bytes){
@@ -105,13 +97,7 @@ async function ce231PersistNow(reason='auto'){
     const sha=ce231Hash('sha256').update(buf).digest('hex');
     if(sha===ce231LastSha)return true;
     await ce231Pool.query(
-      `INSERT INTO ce_sqlite_snapshot(id,db_bytes,sha256,updated_at,reason)
-       VALUES(1,$1,$2,now(),$3)
-       ON CONFLICT(id) DO UPDATE SET
-         db_bytes=EXCLUDED.db_bytes,
-         sha256=EXCLUDED.sha256,
-         updated_at=EXCLUDED.updated_at,
-         reason=EXCLUDED.reason`,
+      "INSERT INTO ce_sqlite_snapshot(id,db_bytes,sha256,updated_at,reason) VALUES(1,$1,$2,now(),$3) ON CONFLICT(id) DO UPDATE SET db_bytes=EXCLUDED.db_bytes,sha256=EXCLUDED.sha256,updated_at=EXCLUDED.updated_at,reason=EXCLUDED.reason",
       [buf,sha,String(reason||'auto').slice(0,80)]
     );
     ce231LastSha=sha;
