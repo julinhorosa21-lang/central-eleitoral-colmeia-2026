@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.0: consolidando histórico de patches..."
+echo "V2.2.1: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -169,8 +169,9 @@ run_patch v227-ballot-names.mjs
 run_patch v228-operator-all-sections.mjs
 run_patch v229-tse-interface.mjs
 run_patch v230-admin-only.mjs
+run_patch v231-persistent-sqlite.mjs
 
-echo "V2.2.0: executando preflight final do segundo turno..."
+echo "V2.2.1: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -182,9 +183,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.0-admin-only" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=230" "$PUB/index.html"
-grep -q "v135-install.js?v=230" "$PUB/transparencia.html"
+grep -q "v2.2.1-persistent" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=231" "$PUB/index.html"
+grep -q "v135-install.js?v=231" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -239,4 +240,10 @@ grep -q "function ce230LegacyAuth(req)" "$APP/server.mjs"
 grep -q "/v230-admin-only.js" "$PUB/operacao.html"
 node --check "$PUB/v230-admin-only.js"
 
-echo "V2.2.0 FINAL PREFLIGHT PASSED: 2º turno correto, somente chave administrativa e 29 seções disponíveis."
+grep -q "CE231_PERSISTENT_SQLITE_RESTORE" "$APP/server.mjs"
+grep -q "CE231_PERSISTENT_SQLITE_SNAPSHOT" "$APP/server.mjs"
+grep -q "CE231_RUNOFF_META" "$APP/server.mjs"
+grep -q "p === '/api/admin/persistence'" "$APP/server.mjs"
+grep -q '"pg"' "$APP/package.json"
+
+echo "V2.2.1 FINAL PREFLIGHT PASSED: chave administrativa única, 29 seções e persistência remota pronta para DATABASE_URL."
