@@ -122,6 +122,24 @@ for(const file of walk(PUB).filter(p=>/\.html$/i.test(p))){
   write(file,h);
 }
 
+const installFile=PUB+'/v135-install.js';
+if(exists(installFile)){
+  let install=read(installFile)
+    .replaceAll('/service-worker.js?v=224','/service-worker.js?v=225')
+    .replaceAll('/service-worker.js?v=222','/service-worker.js?v=225');
+  if(!install.includes('/service-worker.js?v=225'))throw new Error('V225: cachebuster do service worker ausente');
+  write(installFile,install);
+}
+for(const rel of ['index.html','transparencia.html']){
+  const p=PUB+'/'+rel;
+  if(!exists(p))continue;
+  let h=read(p)
+    .replaceAll('/v135-install.js?v=224','/v135-install.js?v=225')
+    .replaceAll('/v135-install.js?v=222','/v135-install.js?v=225');
+  if(!h.includes('/v135-install.js?v=225'))throw new Error('V225: cachebuster do instalador ausente em '+rel);
+  write(p,h);
+}
+
 const swFile=PUB+'/service-worker.js';
 let sw=read(swFile);
 sw=sw
@@ -152,6 +170,7 @@ if(Object.keys(finalCatalog.candidates||{}).sort().join(',')!=='governador,presi
   throw new Error('V225: catálogo final contém cargos retirados');
 }
 if(!read(swFile).includes("v2.1.5-runoff-minimal"))throw new Error('V225: service worker não atualizado');
+if(exists(installFile)&&!read(installFile).includes('/service-worker.js?v=225'))throw new Error('V225: registro PWA não atualizado');
 
 const afterBytes=sizeOf(afterFiles);
 console.log('V2.1.5 runoff minimal assets passed',JSON.stringify({
