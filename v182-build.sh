@@ -159,8 +159,10 @@ run_patch v218-share-official.mjs
 node /src/v218-share-tests.mjs
 run_patch v219-manual-bu-only.mjs
 run_patch v220-second-turn.mjs
-run_patch v221-auto-update.mjs\nrun_patch v222-runoff-polish.mjs
-run_patch v223-runoff-safety.mjs\nrun_patch v224-runoff-audit.mjs
+run_patch v221-auto-update.mjs
+run_patch v222-runoff-polish.mjs
+run_patch v223-runoff-safety.mjs
+run_patch v224-runoff-audit.mjs
 
 node --check "$APP/server.mjs"
 node --check "$APP/v210-ea20.mjs"
