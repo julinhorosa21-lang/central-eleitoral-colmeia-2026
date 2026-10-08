@@ -24,14 +24,12 @@ services:
     container_name: central-caddy
     restart: unless-stopped
     depends_on:
-      central:
-        condition: service_healthy
+      - central
     environment:
       CENTRAL_HOST: ${CENTRAL_HOST}
     ports:
       - "80:80"
       - "443:443"
-      - "443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
