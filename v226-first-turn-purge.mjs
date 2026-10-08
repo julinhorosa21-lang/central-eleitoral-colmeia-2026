@@ -105,6 +105,16 @@ const purge=String.raw`  /* CE226_FIRST_TURN_PURGE
 server=server.slice(0,start)+purge+server.slice(end);
 write(SERVER,server);
 
+const catalogFile=PUB+'/data/candidate-catalog.json';
+if(fs.existsSync(catalogFile)){
+  const c=JSON.parse(read(catalogFile));
+  c.version='2.1.6-runoff-only';
+  c.turno=2;
+  c.electionDate='2026-10-25';
+  c.activeCargos=['presidente','governador'];
+  write(catalogFile,JSON.stringify(c));
+}
+
 const pkg=APP+'/package.json';
 if(fs.existsSync(pkg)){
   const j=JSON.parse(read(pkg));
