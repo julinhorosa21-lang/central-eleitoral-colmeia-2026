@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.1.9: consolidando histórico de patches..."
+echo "V2.2.0: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -168,8 +168,9 @@ run_patch v226-first-turn-purge.mjs
 run_patch v227-ballot-names.mjs
 run_patch v228-operator-all-sections.mjs
 run_patch v229-tse-interface.mjs
+run_patch v230-admin-only.mjs
 
-echo "V2.1.9: executando preflight final do segundo turno..."
+echo "V2.2.0: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -181,9 +182,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.1.9-tse-inspired" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=229" "$PUB/index.html"
-grep -q "v135-install.js?v=229" "$PUB/transparencia.html"
+grep -q "v2.2.0-admin-only" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=230" "$PUB/index.html"
+grep -q "v135-install.js?v=230" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -233,4 +234,9 @@ grep -q "ce229-round-badge" "$PUB/v229-tse-interface.js"
 grep -q -- "--ce229-yellow:#e9b800" "$PUB/v229-tse-interface.css"
 node --check "$PUB/v229-tse-interface.js"
 
-echo "V2.1.9 FINAL PREFLIGHT PASSED: 2º turno correto, operador global e interface pública inspirada no app Resultados."
+grep -q "CE230_ADMIN_ONLY_AUTH" "$APP/server.mjs"
+grep -q "function ce230LegacyAuth(req)" "$APP/server.mjs"
+grep -q "/v230-admin-only.js" "$PUB/operacao.html"
+node --check "$PUB/v230-admin-only.js"
+
+echo "V2.2.0 FINAL PREFLIGHT PASSED: 2º turno correto, somente chave administrativa e 29 seções disponíveis."
