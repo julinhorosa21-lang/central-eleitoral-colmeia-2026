@@ -10,7 +10,7 @@ let server=read(SERVER);
 
 /* Imports isolados para persistência remota do SQLite. */
 if(!server.includes("CE231PgPool")){
-  server="import { Pool as CE231PgPool } from 'pg';\nimport * as ce231fs from 'node:fs';\nimport { createHash as ce231Hash } from 'node:crypto';\n"+server;
+  server="import CE231Pg from 'pg';\nconst { Pool: CE231PgPool } = CE231Pg;\nimport * as ce231fs from 'node:fs';\nimport { createHash as ce231Hash } from 'node:crypto';\n"+server;
 }
 
 /* Restaura o SQLite do Postgres/Neon ANTES de DatabaseSync abrir o arquivo. */
