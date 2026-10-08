@@ -1,0 +1,524 @@
+/* V2.1.9 — interface pública mais próxima da experiência visual do app Resultados.
+   Referência apenas de hierarquia/layout; sem logotipos ou marca oficial da Justiça Eleitoral. */
+
+body.ce229-tse-inspired{
+  --ce229-yellow:#e9b800;
+  --ce229-yellow-deep:#d39a00;
+  --ce229-green:#718f2d;
+  --ce229-green-deep:#657f29;
+  --ce229-bg:#f4f4f4;
+  --ce229-card:#fff;
+  --ce229-text:#2f343b;
+  --ce229-muted:#6e747b;
+  --ce229-line:#e7e7e7;
+  background:var(--ce229-bg)!important;
+  color:var(--ce229-text)!important;
+}
+
+/* Cabeçalho de eleição */
+body.ce229-tse-inspired .ce200-appbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:180!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  gap:14px!important;
+  min-height:94px!important;
+  padding:14px max(18px,calc((100vw - 980px)/2)) 12px!important;
+  background:#fff!important;
+  color:var(--ce229-text)!important;
+  border:0!important;
+  border-radius:0 0 28px 28px!important;
+  box-shadow:0 2px 10px rgba(28,35,40,.08)!important;
+}
+body.ce229-tse-inspired .ce200-appmark,
+body.ce229-tse-inspired .ce200-appbrand,
+body.ce229-tse-inspired .ce200-locality{display:none!important}
+.ce229-election-copy{min-width:0}
+.ce229-election-copy strong{
+  display:block;
+  font-size:23px;
+  line-height:1.15;
+  font-weight:850;
+  letter-spacing:-.025em;
+  color:var(--ce229-text);
+}
+.ce229-election-copy span{
+  display:block;
+  margin-top:5px;
+  color:#4d5359;
+  font-size:14px;
+  line-height:1.2;
+}
+.ce229-round{display:flex;flex-direction:column;align-items:center;gap:5px}
+.ce229-round small{font-size:10px;font-weight:800;color:#4d5359}
+.ce229-round b{
+  display:grid;
+  place-items:center;
+  min-width:58px;
+  height:45px;
+  padding:0 10px;
+  border-radius:12px;
+  background:var(--ce229-yellow);
+  color:#353535;
+  font-size:17px;
+  font-weight:850;
+}
+
+/* Faixa de localidade */
+.ce229-placebar{
+  position:sticky;
+  top:88px;
+  z-index:170;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  max-width:980px;
+  min-height:54px;
+  margin:0 auto 12px;
+  padding:0 18px;
+  border:3px solid rgba(255,255,255,.22);
+  border-radius:0 0 28px 28px;
+  background:var(--ce229-green);
+  color:#fff;
+  box-sizing:border-box;
+  box-shadow:0 2px 7px rgba(72,94,25,.18);
+  font-size:15px;
+  font-weight:850;
+}
+.ce229-pin{font-size:22px;line-height:1}
+.ce229-placebar strong{flex:1;text-align:center}
+.ce229-placebar span:last-child{font-size:20px;line-height:1}
+
+/* O bloco antigo de contexto vira redundante */
+body.ce229-tse-inspired #ce200Context{display:none!important}
+
+/* Hero vira uma faixa utilitária de ações */
+body.ce229-tse-inspired.public-v130 .hero.public-main-hero{
+  max-width:980px!important;
+  margin:0 auto 8px!important;
+  padding:0 10px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.ce229-tse-inspired .hero .eyebrow,
+body.ce229-tse-inspired .hero h1,
+body.ce229-tse-inspired .hero>p{display:none!important}
+body.ce229-tse-inspired .hero-actions{
+  display:flex!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  margin:0!important;
+}
+body.ce229-tse-inspired .hero-actions .btn,
+body.ce229-tse-inspired .ce195-entry{
+  width:auto!important;
+  min-height:42px!important;
+  padding:0 13px!important;
+  border:1px solid #dadada!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:#4c535a!important;
+  box-shadow:0 2px 5px rgba(0,0,0,.05)!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+body.ce229-tse-inspired .hero-actions #refreshBtn{
+  background:#ececec!important;
+  border-color:#e4e4e4!important;
+  color:#5f656b!important;
+}
+
+/* Resumo no padrão Dados Gerais */
+body.ce229-tse-inspired #publicOverview{display:none!important}
+.ce229-summary{
+  max-width:920px;
+  margin:0 auto 16px;
+  padding:0 0 18px;
+  overflow:hidden;
+  border-radius:0 0 28px 28px;
+  background:#fff;
+  box-shadow:0 4px 14px rgba(0,0,0,.07);
+}
+.ce229-summary-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:2px 26px 12px;
+  font-size:20px;
+  color:#33383e;
+}
+.ce229-summary-head b{font-weight:500}
+.ce229-summary-head span{font-size:32px;line-height:1;color:#41464b}
+.ce229-summary-update{
+  padding:0 28px 14px;
+  color:#7b8086;
+  font-size:10px;
+}
+.ce229-summary-row{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:16px;
+  padding:0 28px 10px;
+  color:#62676d;
+  font-size:14px;
+}
+.ce229-summary-row strong{
+  color:#666b70;
+  font-size:15px;
+  font-weight:850;
+}
+.ce229-progress{
+  position:relative;
+  height:36px;
+  margin:0 28px;
+  overflow:hidden;
+  border-radius:7px;
+  background:#e7e7e7;
+}
+.ce229-progress i{
+  position:absolute;
+  inset:0 auto 0 0;
+  width:0;
+  background:#a5c12a;
+  transition:width .35s ease;
+}
+.ce229-progress b{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:grid;
+  place-items:center;
+  color:#161616;
+  font-size:13px;
+  font-weight:900;
+}
+.ce229-summary-state{
+  margin:10px 28px 0;
+  color:#777d83;
+  font-size:10px;
+}
+
+/* Métricas redundantes ficam fora da primeira dobra */
+body.ce229-tse-inspired.public-v130 .metrics{display:none!important}
+
+/* Área de resultados sem card externo */
+body.ce229-tse-inspired #publicApuracao,
+body.ce229-tse-inspired #publicCandidatos{
+  max-width:920px!important;
+  margin:0 auto!important;
+  padding:0 18px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.ce229-tse-inspired #publicApuracao .section-title,
+body.ce229-tse-inspired #publicCandidatos>.section-title{
+  background:transparent!important;
+}
+body.ce229-tse-inspired #publicApuracao .section-title h2{
+  margin:3px 0 0!important;
+  color:#4f555b!important;
+  font-size:14px!important;
+  font-weight:700!important;
+}
+body.ce229-tse-inspired #publicApuracao .section-title h2:before{content:''!important}
+
+/* Cargos como seletor leve */
+body.ce229-tse-inspired.public-v130 #cargoTabs{
+  display:flex!important;
+  justify-content:center!important;
+  gap:2px!important;
+  margin:10px 0 18px!important;
+  padding:0!important;
+  border-bottom:1px solid #d8b52b!important;
+  overflow-x:auto!important;
+}
+body.ce229-tse-inspired.public-v130 #cargoTabs button{
+  flex:1 0 145px!important;
+  min-width:145px!important;
+  min-height:42px!important;
+  padding:8px 14px!important;
+  border:0!important;
+  border-bottom:3px solid transparent!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#777d83!important;
+  box-shadow:none!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  text-transform:uppercase!important;
+}
+body.ce229-tse-inspired.public-v130 #cargoTabs button.active{
+  background:transparent!important;
+  border-color:var(--ce229-yellow)!important;
+  color:var(--ce229-yellow-deep)!important;
+}
+
+/* Cabeçalho NOMINAL como na referência */
+.ce229-nominal{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:8px 2px 18px;
+  color:var(--ce229-yellow-deep);
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.015em;
+}
+.ce229-nominal:before,.ce229-nominal:after{
+  content:'';
+  height:2px;
+  flex:1;
+  background:#d7b426;
+}
+body.ce229-tse-inspired #publicCandidatos>.section-title{display:none!important}
+
+/* Cartões dos candidatos */
+body.ce229-tse-inspired #leaders{
+  display:grid!important;
+  gap:16px!important;
+  margin:0!important;
+}
+body.ce229-tse-inspired #leaders .leader,
+body.ce229-tse-inspired.public-v130 .leader.public-candidate-row{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:86px minmax(0,1fr) 150px!important;
+  grid-template-rows:auto auto!important;
+  gap:8px 16px!important;
+  min-height:170px!important;
+  padding:24px 28px!important;
+  border:3px solid #d6b200!important;
+  border-radius:22px!important;
+  background:#fff!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.06)!important;
+}
+body.ce229-tse-inspired #leaders .leader .num,
+body.ce229-tse-inspired #leaders .leader .num.public-photo-num{
+  grid-row:1/3!important;
+  align-self:start!important;
+  width:76px!important;
+  height:76px!important;
+  padding:0!important;
+  border:5px solid #fff!important;
+  border-radius:50%!important;
+  background:#efefef!important;
+  overflow:hidden!important;
+  box-shadow:0 0 0 4px var(--ce229-yellow),0 2px 7px rgba(0,0,0,.10)!important;
+}
+body.ce229-tse-inspired #leaders .leader .num img{
+  width:100%!important;
+  height:100%!important;
+  border-radius:50%!important;
+  object-fit:cover!important;
+  object-position:center 18%!important;
+}
+body.ce229-tse-inspired #leaders .public-number-badge{display:none!important}
+body.ce229-tse-inspired #leaders .leader .who{
+  display:flex!important;
+  flex-direction:column!important;
+  align-self:center!important;
+  min-width:0!important;
+  padding:0!important;
+}
+body.ce229-tse-inspired #leaders .leader .who small{
+  order:1!important;
+  margin:0 0 10px!important;
+  color:#596068!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  text-transform:uppercase!important;
+}
+body.ce229-tse-inspired #leaders .leader .who b{
+  order:2!important;
+  color:#2f3540!important;
+  font-size:20px!important;
+  line-height:1.08!important;
+  font-weight:900!important;
+  letter-spacing:-.018em!important;
+}
+.ce229-round-badge{
+  order:3;
+  align-self:flex-start;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:28px;
+  margin-top:18px;
+  padding:0 11px;
+  border-radius:999px;
+  background:#e4a52a;
+  color:#fff;
+  font-size:10px;
+  font-weight:850;
+  white-space:nowrap;
+}
+body.ce229-tse-inspired #leaders .leader .votes{
+  grid-column:3!important;
+  grid-row:1/3!important;
+  align-self:center!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  min-width:0!important;
+  text-align:right!important;
+}
+body.ce229-tse-inspired #leaders .leader .votes small{
+  order:1!important;
+  margin:0!important;
+  color:var(--ce229-yellow)!important;
+  font-size:26px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  letter-spacing:-.025em!important;
+}
+body.ce229-tse-inspired #leaders .leader .votes b{
+  order:2!important;
+  margin-top:7px!important;
+  color:#5c626a!important;
+  font-size:14px!important;
+  line-height:1.1!important;
+  font-weight:500!important;
+}
+body.ce229-tse-inspired #leaders .leader .ce161-rank,
+body.ce229-tse-inspired #leaders .leader .bar{display:none!important}
+
+/* Compartilhamento/ações, mantendo a funcionalidade sem roubar o foco */
+body.ce229-tse-inspired .ce191-share-actions{
+  justify-content:flex-end!important;
+  gap:7px!important;
+  margin:8px 0 12px!important;
+}
+body.ce229-tse-inspired .ce191-share-btn{
+  min-height:40px!important;
+  border-radius:8px!important;
+  border:0!important;
+  background:var(--ce229-yellow)!important;
+  color:#303030!important;
+  box-shadow:0 2px 6px rgba(0,0,0,.10)!important;
+}
+body.ce229-tse-inspired .ce191-share-btn.primary{
+  background:var(--ce229-yellow)!important;
+  color:#303030!important;
+}
+
+/* Demais cards */
+body.ce229-tse-inspired #publicLocais,
+body.ce229-tse-inspired .public-details-card,
+body.ce229-tse-inspired .public-regions-card,
+body.ce229-tse-inspired .ce195-transparency{
+  max-width:920px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  border:0!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  box-shadow:0 3px 10px rgba(0,0,0,.05)!important;
+}
+body.ce229-tse-inspired .ce192-filter.active,
+body.ce229-tse-inspired #publicLocais .ce192-next{
+  background:var(--ce229-green)!important;
+  border-color:var(--ce229-green)!important;
+  color:#fff!important;
+}
+
+/* Nota independente continua visível */
+body.ce229-tse-inspired .ce200-independent{
+  max-width:920px;
+  margin:14px auto;
+  border:1px solid #dedede!important;
+  background:#fff!important;
+  color:#676d73!important;
+}
+
+/* Barra inferior de cinco atalhos */
+body.ce229-tse-inspired .public-bottom-nav{
+  z-index:190!important;
+  grid-template-columns:repeat(5,1fr)!important;
+  min-height:72px!important;
+  border-top:1px solid #dedede!important;
+  background:rgba(255,255,255,.98)!important;
+  box-shadow:0 -3px 14px rgba(0,0,0,.07)!important;
+}
+body.ce229-tse-inspired .public-bottom-nav button{
+  min-height:68px!important;
+  gap:5px!important;
+  padding:5px 3px!important;
+  background:transparent!important;
+  color:#777!important;
+}
+body.ce229-tse-inspired .public-bottom-nav button span{
+  color:#777!important;
+  font-size:19px!important;
+}
+body.ce229-tse-inspired .public-bottom-nav button b{
+  color:#777!important;
+  font-size:8.5px!important;
+  font-weight:650!important;
+}
+body.ce229-tse-inspired .public-bottom-nav button.active span,
+body.ce229-tse-inspired .public-bottom-nav button.active b{
+  color:var(--ce229-yellow)!important;
+}
+body.ce229-tse-inspired{padding-bottom:86px!important}
+
+@media(max-width:680px){
+  body.ce229-tse-inspired .ce200-appbar{
+    min-height:84px!important;
+    padding:12px 16px 10px!important;
+    border-radius:0 0 24px 24px!important;
+  }
+  .ce229-election-copy strong{font-size:20px}
+  .ce229-election-copy span{font-size:12px}
+  .ce229-round b{min-width:54px;height:42px;font-size:16px}
+  .ce229-placebar{top:78px;min-height:49px;margin-bottom:9px;border-radius:0 0 24px 24px;font-size:13px}
+  body.ce229-tse-inspired.public-v130 .wrap{padding:0 8px 88px!important}
+  .ce229-summary{margin:0 8px 14px;border-radius:0 0 22px 22px}
+  .ce229-summary-head{padding:2px 20px 10px;font-size:18px}
+  .ce229-summary-update{padding:0 20px 13px}
+  .ce229-summary-row{padding:0 20px 9px;font-size:12px}
+  .ce229-progress{height:34px;margin:0 20px}
+  .ce229-summary-state{margin:9px 20px 0}
+  body.ce229-tse-inspired #publicApuracao,
+  body.ce229-tse-inspired #publicCandidatos{padding:0 8px!important}
+  body.ce229-tse-inspired #leaders .leader,
+  body.ce229-tse-inspired.public-v130 .leader.public-candidate-row{
+    grid-template-columns:68px minmax(0,1fr) 112px!important;
+    gap:8px 12px!important;
+    min-height:148px!important;
+    padding:20px 18px!important;
+    border-radius:18px!important;
+  }
+  body.ce229-tse-inspired #leaders .leader .num,
+  body.ce229-tse-inspired #leaders .leader .num.public-photo-num{
+    width:62px!important;height:62px!important;border-width:4px!important;box-shadow:0 0 0 3px var(--ce229-yellow)!important;
+  }
+  body.ce229-tse-inspired #leaders .leader .who small{margin-bottom:8px!important;font-size:9px!important}
+  body.ce229-tse-inspired #leaders .leader .who b{font-size:16px!important}
+  .ce229-round-badge{min-height:25px;margin-top:15px;padding:0 9px;font-size:9px}
+  body.ce229-tse-inspired #leaders .leader .votes small{font-size:21px!important}
+  body.ce229-tse-inspired #leaders .leader .votes b{font-size:11.5px!important}
+}
+@media(max-width:420px){
+  body.ce229-tse-inspired #leaders .leader,
+  body.ce229-tse-inspired.public-v130 .leader.public-candidate-row{
+    grid-template-columns:58px minmax(0,1fr) 94px!important;
+    gap:7px 9px!important;
+    min-height:136px!important;
+    padding:17px 13px!important;
+  }
+  body.ce229-tse-inspired #leaders .leader .num,
+  body.ce229-tse-inspired #leaders .leader .num.public-photo-num{width:52px!important;height:52px!important}
+  body.ce229-tse-inspired #leaders .leader .who b{font-size:14px!important}
+  body.ce229-tse-inspired #leaders .leader .votes small{font-size:18px!important}
+  body.ce229-tse-inspired #leaders .leader .votes b{font-size:10.5px!important}
+  .ce229-round-badge{margin-top:12px}
+  body.ce229-tse-inspired .public-bottom-nav button b{font-size:7.7px!important}
+}
