@@ -1,6 +1,6 @@
 # Central Eleitoral Colméia 2026
 
-## V2.1.4 — 2º turno
+## V2.1.5 — 2º turno enxuto
 
 Aplicação local para acompanhamento das **29 seções eleitorais de Colméia/TO**, com operação por Boletim de Urna (BU), painel administrativo, transparência pública e mecanismos de auditoria.
 
@@ -22,6 +22,17 @@ Aplicação local para acompanhamento das **29 seções eleitorais de Colméia/T
 - migração idempotente: reinicializações parciais não sobrescrevem o backup histórico;
 - auditoria V2.1.4 bloqueia regressões de data, turno, cargos, QRBU e PWA.
 
+### Limpeza de candidatos e espaço
+
+A V2.1.5 mantém fisicamente na aplicação final apenas os **4 candidatos do 2º turno**: dois de Presidente e dois de Governador.
+
+- o catálogo ativo contém somente Presidente e Governador;
+- a pasta `/public/candidate-photos` termina o build com exatamente 4 fotografias;
+- fotos de Senador, Deputado Federal, Deputado Estadual e demais candidatos do 1º turno são removidas da imagem final;
+- o módulo legado de fotos proporcionais e o antigo `candidate-photo-map.json` são excluídos da aplicação final;
+- o build registra quantos arquivos e bytes de fotografias foram removidos;
+- os dados históricos da apuração do 1º turno continuam preservados separadamente em `/data/archive`.
+
 ### Principais módulos
 
 - coleta de resultados por seção com autenticação por chave;
@@ -42,9 +53,9 @@ A migração para o 2º turno preserva os dados anteriores em `/data/archive`, i
 
 ### Build
 
-O build é consolidado pelo `v182-build.sh`, que reaplica os patches históricos em sequência e termina com a auditoria `v224-runoff-audit.mjs`.
+O build é consolidado pelo `v182-build.sh`, que reaplica os patches históricos em sequência e termina com a auditoria `v224-runoff-audit.mjs` e a limpeza física `v225-runoff-minimal-assets.mjs`.
 
-Release atual: **V2.1.4**.
+Release atual: **V2.1.5**.
 
 ### Produção
 
@@ -52,4 +63,4 @@ Endereço configurado historicamente:
 
 `https://central-eleitoral-production.up.railway.app/`
 
-> O código V2.1.4 está no GitHub. A publicação de uma nova imagem depende do ambiente Railway estar habilitado para novos deploys.
+> O código V2.1.5 está no GitHub. A publicação de uma nova imagem depende do ambiente Railway estar habilitado para novos deploys.
