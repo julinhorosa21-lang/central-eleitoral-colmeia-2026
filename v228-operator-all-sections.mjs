@@ -130,8 +130,8 @@ write(PUB+'/v228-operator-all-sections.css',css);
 
 const op=PUB+'/operacao.html';
 let h=read(op);
-if(!h.includes('/v228-operator-all-sections.css'))h=h.replace('</head>','<link rel="stylesheet" href="/v228-operator-all-sections.css?v=228">\\n</head>');
-if(!h.includes('/v228-operator-all-sections.js'))h=h.replace('</body>','<script src="/v228-operator-all-sections.js?v=228"></script>\\n</body>');
+if(!h.includes('/v228-operator-all-sections.css'))h=h.replace('</head>','<link rel="stylesheet" href="/v228-operator-all-sections.css?v=228">\n</head>');
+if(!h.includes('/v228-operator-all-sections.js'))h=h.replace('</body>','<script src="/v228-operator-all-sections.js?v=228"></script>\n</body>');
 write(op,h);
 
 const installFile=PUB+'/v135-install.js';
@@ -154,7 +154,7 @@ write(swFile,sw);
 
 const pkg=APP+'/package.json';
 if(fs.existsSync(pkg)){
-  const j=JSON.parse(read(pkg));j.version='2.1.8';write(pkg,JSON.stringify(j,null,2)+'\\n');
+  const j=JSON.parse(read(pkg));j.version='2.1.8';write(pkg,JSON.stringify(j,null,2)+'\n');
 }
 
 const finalServer=read(SERVER),finalOp=read(op);
