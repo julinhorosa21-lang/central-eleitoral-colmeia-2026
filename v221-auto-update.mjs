@@ -5,8 +5,10 @@ const write=(p,s)=>fs.writeFileSync(p,s);
 
 const installFile=pub+'/v135-install.js';
 let s=read(installFile);
-s=s.replace("navigator.serviceWorker.register('/service-worker.js?v=173',{scope:'/',updateViaCache:'none'})",
-            "navigator.serviceWorker.register('/service-worker.js?v=221',{scope:'/',updateViaCache:'none'})");
+s=s.replace(
+  /navigator\.serviceWorker\.register\('\/service-worker\.js(?:\?v=\d+)?',\{scope:'\/',updateViaCache:'none'\}\)/,
+  "navigator.serviceWorker.register('/service-worker.js?v=221',{scope:'/',updateViaCache:'none'})"
+);
 if(!s.includes('/service-worker.js?v=221'))throw new Error('V221 service worker registration anchor missing');
 
 const bootAnchor="async function boot(){\n  ensureStyle();";
