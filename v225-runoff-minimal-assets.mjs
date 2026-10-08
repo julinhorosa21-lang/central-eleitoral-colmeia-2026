@@ -108,6 +108,16 @@ for(const name of fs.readdirSync(PHOTO_DIR)){
   if(fs.existsSync(p)&&fs.statSync(p).isDirectory())fs.rmSync(p,{recursive:true,force:true});
 }
 
+const runoffFile=PUB+'/v220-second-turn.js';
+if(exists(runoffFile)){
+  let runoff=read(runoffFile);
+  const old="try{if(typeof CANDIDATOS!=='undefined'){CANDIDATOS.senador=[];CANDIDATOS.depFederal=[];CANDIDATOS.depEstadual=[]}}catch{}";
+  const next="try{if(typeof CANDIDATOS!=='undefined'){/* CE225_RUNOFF_ONLY_CANDIDATES */const ce225Keep={presidente:new Set(['13','22']),governador:new Set(['44','45'])};CANDIDATOS.presidente=(Array.isArray(CANDIDATOS.presidente)?CANDIDATOS.presidente:[]).filter(c=>ce225Keep.presidente.has(String(c.numero||'')));CANDIDATOS.governador=(Array.isArray(CANDIDATOS.governador)?CANDIDATOS.governador:[]).filter(c=>ce225Keep.governador.has(String(c.numero||'')));CANDIDATOS.senador=[];CANDIDATOS.depFederal=[];CANDIDATOS.depEstadual=[]}}catch{}";
+  if(runoff.includes(old))runoff=runoff.replace(old,next);
+  if(!runoff.includes('CE225_RUNOFF_ONLY_CANDIDATES'))throw new Error('V225: filtro imediato dos candidatos legados não aplicado');
+  write(runoffFile,runoff);
+}
+
 const retiredAssets=[
   PUB+'/v0241-photos.js',
   PUB+'/v0241-photos.css',
@@ -170,6 +180,7 @@ if(Object.keys(finalCatalog.candidates||{}).sort().join(',')!=='governador,presi
   throw new Error('V225: catálogo final contém cargos retirados');
 }
 if(!read(swFile).includes("v2.1.5-runoff-minimal"))throw new Error('V225: service worker não atualizado');
+if(exists(runoffFile)&&!read(runoffFile).includes('CE225_RUNOFF_ONLY_CANDIDATES'))throw new Error('V225: runtime ainda não filtra candidatos do 1º turno');
 if(exists(installFile)&&!read(installFile).includes('/service-worker.js?v=225'))throw new Error('V225: registro PWA não atualizado');
 
 const afterBytes=sizeOf(afterFiles);
