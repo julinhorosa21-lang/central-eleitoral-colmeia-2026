@@ -26,8 +26,9 @@ const safe=String.raw`  /* CE220_FIRST_TURN_ARCHIVE */
       ce220fs.mkdirSync(ce223ArchiveDir,{recursive:true});
       try{db.exec('PRAGMA wal_checkpoint(FULL)')}catch{}
 
+      const ce223HadArchive=ce220fs.existsSync(ce223ArchiveJson);
       let ce223ArchivedResults=0;
-      if(ce220fs.existsSync(ce223ArchiveJson)){
+      if(ce223HadArchive){
         try{
           const previous=JSON.parse(ce220fs.readFileSync(ce223ArchiveJson,'utf8'));
           ce223ArchivedResults=Array.isArray(previous?.rows)?previous.rows.length:Number(previous?.archivedResults||0);
@@ -60,7 +61,7 @@ const safe=String.raw`  /* CE220_FIRST_TURN_ARCHIVE */
       ce220fs.writeFileSync(markerTmp,JSON.stringify({
         mode:'segundo_turno',turno:2,electionDate:'2026-10-25',
         archivedAt:ce220Now,archivedResults:ce223ArchivedResults,
-        recoveredFromExistingArchive:ce220fs.existsSync(ce223ArchiveJson)
+        recoveredFromExistingArchive:ce223HadArchive
       }));
       ce220fs.renameSync(markerTmp,ce220Marker);
       console.log('CE223_SAFE_SECOND_TURN_RESET',JSON.stringify({
