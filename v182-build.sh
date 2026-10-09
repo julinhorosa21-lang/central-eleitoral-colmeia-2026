@@ -173,6 +173,7 @@ run_patch v231-persistent-sqlite.mjs
 run_patch v232-secure-fast-operation.mjs
 run_patch v233-ready-sections.mjs
 run_patch v234-section-context.mjs
+node /src/v235-diagnose-operation.mjs
 
 echo "V2.2.4: executando preflight final do segundo turno..."
 
