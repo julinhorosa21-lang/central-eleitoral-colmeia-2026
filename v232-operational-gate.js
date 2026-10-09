@@ -3,23 +3,60 @@ if(location.pathname!=='/operacao.html')return;
 document.documentElement.classList.add('ce232-auth-pending');
 
 const rawFetch=window.fetch.bind(window);
+/* CE234_SCOPED_LEGACY_CONTEXT */
 let token=String(sessionStorage.getItem('ce_admin_token')||sessionStorage.getItem('ce_team_token')||'').trim();
 let authUser=null;
 let placeRows=null;
 
-function apiFetch(input,init={}){
+function ce232Selection(){
+  const q=new URLSearchParams(location.search);
+  const n=Number(q.get('section'));
+  return q.get('ui')==='232'&&q.get('selected')==='1'&&Number.isFinite(n)?n:null;
+}
+function ce232ScopedWhoami(data,section){
+  if(!data||!section)return data;
+  const wrap=data.user?{...data,user:{...data.user}}:{...data};
+  const u=wrap.user||wrap;
+  const meta=Array.isArray(placeRows)?placeRows.find(x=>Number(x.section)===Number(section)):null;
+  u.section=Number(section);
+  u.sections=[Number(section)];
+  if(meta?.placeId!==undefined&&meta?.placeId!==null)u.places=[meta.placeId];
+  else if(meta?.place)u.places=[meta.place];
+  u.scope='selected_section';
+  u.selectedSection=Number(section);
+  u.selectedPlace=meta?.place||null;
+  return wrap;
+}
+async function apiFetch(input,init={}){
+  let req=null,url=null;
   try{
-    const req=input instanceof Request?input:null;
-    const url=new URL(req?req.url:input,location.href);
-    if(url.origin===location.origin&&url.pathname.startsWith('/api/')&&token){
-      const h=new Headers(req?req.headers:undefined);
-      new Headers(init.headers||{}).forEach((v,k)=>h.set(k,v));
-      if(!h.has('Authorization'))h.set('Authorization','Bearer '+token);
-      if(req)return rawFetch(new Request(req,{...init,headers:h}));
-      return rawFetch(input,{...init,headers:h});
+    req=input instanceof Request?input:null;
+    url=new URL(req?req.url:input,location.href);
+  }catch{return rawFetch(input,init)}
+  let nextInput=input,nextInit={...init};
+  if(url.origin===location.origin&&url.pathname.startsWith('/api/')&&token){
+    const h=new Headers(req?req.headers:undefined);
+    new Headers(init.headers||{}).forEach((v,k)=>h.set(k,v));
+    if(!h.has('Authorization'))h.set('Authorization','Bearer '+token);
+    if(req){nextInput=new Request(req,{...init,headers:h});nextInit={}}
+    else nextInit={...init,headers:h};
+  }
+  const resp=await rawFetch(nextInput,nextInit);
+  if(url.origin===location.origin&&url.pathname==='/api/whoami'&&resp.ok){
+    const section=ce232Selection();
+    if(section){
+      try{
+        if(!placeRows)await loadPlaces();
+        const j=await resp.clone().json();
+        const scoped=ce232ScopedWhoami(j,section);
+        const headers=new Headers(resp.headers);
+        headers.set('content-type','application/json; charset=utf-8');
+        headers.set('cache-control','no-store');
+        return new Response(JSON.stringify(scoped),{status:resp.status,statusText:resp.statusText,headers});
+      }catch{}
     }
-  }catch{}
-  return rawFetch(input,init);
+  }
+  return resp;
 }
 window.fetch=apiFetch;
 
@@ -41,6 +78,7 @@ function clearAuth(){
   sessionStorage.removeItem('ce_admin_token');
   sessionStorage.removeItem('ce_team_token');
   sessionStorage.removeItem('ce232_selected_section');
+  sessionStorage.removeItem('ce232_selected_mode');
 }
 function esc(v){return String(v??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
 function selectedByThisFlow(){
@@ -62,10 +100,11 @@ async function loadPlaces(){
     const out=[];
     for(const p of list){
       const place=String(p?.nome||p?.name||p?.local||p?.titulo||p?.title||p?.id||'').trim();
+      const placeId=p?.id??p?.codigo??p?.code??p?.placeId??place;
       const secs=Array.isArray(p?.secoes)?p.secoes:Array.isArray(p?.sections)?p.sections:[];
       for(const s of secs){
         const n=Number(typeof s==='object'?(s.numero??s.section??s.secao):s);
-        if(Number.isFinite(n))out.push({section:n,place});
+        if(Number.isFinite(n))out.push({section:n,place,placeId});
       }
     }
     placeRows=out;
@@ -140,7 +179,7 @@ function addSwitcher(n){
   if(document.getElementById('ce232Switcher'))return;
   const b=document.createElement('button');b.id='ce232Switcher';b.type='button';b.className='ce232-switcher';
   b.innerHTML='<span>Seção <b>'+esc(n)+'</b></span><small>Trocar seção</small>';
-  b.onclick=()=>{try{window.stopQrScanner?.()}catch{};const u=new URL(location.href);u.searchParams.delete('section');u.searchParams.delete('selected');history.replaceState({},'',u.pathname+'?from=team&ui=232');showSectionHub()};
+  b.onclick=()=>{try{window.stopQrScanner?.()}catch{};sessionStorage.removeItem('ce232_selected_section');sessionStorage.removeItem('ce232_selected_mode');location.href='/operacao.html?from=team&ui=232'};
   document.body.appendChild(b);
 }
 function ce232Norm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim()}
