@@ -211,24 +211,44 @@ function ce232ClickAction(mode){
   return false;
 }
 async function ce232LaunchSelected(n,mode){
-  await ce232OpenPlaceForSection(n);
-  const wanted=String(n);
+  const wanted=Number(n);
   let tries=0;
-  const tick=()=>{
+  async function tick(){
     tries++;
-    let selected=false;
-    for(const sel of document.querySelectorAll('select')){
-      const meta=ce232Norm(sel.id+' '+sel.name+' '+(sel.getAttribute('aria-label')||'')+' '+(sel.closest('label')?.textContent||''));
-      const opt=[...sel.options].find(o=>String(o.value)===wanted||new RegExp('(?:^|\\D)'+wanted+'(?:\\D|$)').test(String(o.textContent||'')));
-      if(opt&&(/secao|section/.test(meta)||sel.options.length>=20)){
-        if(sel.value!==opt.value){sel.value=opt.value;sel.dispatchEvent(new Event('input',{bubbles:true}));sel.dispatchEvent(new Event('change',{bubbles:true}))}
-        selected=true;
+    try{
+      const pl=typeof window.placeForSection==='function'?window.placeForSection(wanted):(typeof placeForSection==='function'?placeForSection(wanted):null);
+      const opener=typeof window.openPlace==='function'?window.openPlace:(typeof openPlace==='function'?openPlace:null);
+      if(pl&&opener){
+        opener(pl.id,wanted);
+        const panel=document.getElementById('adminPanel');
+        if(panel&&!panel.classList.contains('open')){
+          const toggler=typeof window.toggleAdmin==='function'?window.toggleAdmin:(typeof toggleAdmin==='function'?toggleAdmin:null);
+          if(toggler)await toggler();
+        }
+        const sec=document.getElementById('adminSection');
+        if(sec&&[...sec.options].some(o=>Number(o.value)===wanted)){
+          sec.value=String(wanted);
+          sec.dispatchEvent(new Event('change',{bubbles:true}));
+        }
+        document.documentElement.classList.add('ce232-direct-section');
+        const identity=document.getElementById('operatorPanelIdentity');
+        if(identity)identity.innerHTML='<b>Chave administrativa · Seção '+wanted+'</b><br><span>Você pode trocar de seção a qualquer momento.</span>';
+        if(mode==='qr'){
+          const qr=document.getElementById('qrTools');if(qr)qr.style.display='';
+          const start=document.getElementById('qrStart');
+          if(start){setTimeout(()=>start.click(),120);return}
+        }else{
+          const qr=document.getElementById('qrTools');if(qr)qr.style.display='none';
+          const form=document.getElementById('adminPanel');
+          form?.scrollIntoView?.({block:'start'});
+          const field=document.getElementById('voteLines');
+          if(field){setTimeout(()=>field.focus(),80);return}
+        }
       }
-    }
-    if((selected&&ce232ClickAction(mode))||tries>=18)return;
-    setTimeout(tick,120);
-  };
-  setTimeout(tick,80);
+    }catch{}
+    if(tries<30)setTimeout(tick,120);
+  }
+  setTimeout(tick,60);
 }
 function applySelectedSection(n){
   const wanted=String(n);
@@ -245,6 +265,7 @@ function applySelectedSection(n){
 }
 async function boot(){
   if(!document.body)return;
+  if(selectedByThisFlow())document.documentElement.classList.add('ce232-direct-section');
   if(token){
     try{
       const u=await verify(token);remember(token,u);removeGate();document.documentElement.classList.remove('ce232-auth-pending');
