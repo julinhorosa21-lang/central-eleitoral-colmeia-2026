@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.2: consolidando histórico de patches..."
+echo "V2.2.3: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -171,8 +171,9 @@ run_patch v229-tse-interface.mjs
 run_patch v230-admin-only.mjs
 run_patch v231-persistent-sqlite.mjs
 run_patch v232-secure-fast-operation.mjs
+run_patch v233-ready-sections.mjs
 
-echo "V2.2.2: executando preflight final do segundo turno..."
+echo "V2.2.3: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -184,9 +185,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.2-secure-fast-operation" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=232" "$PUB/index.html"
-grep -q "v135-install.js?v=232" "$PUB/transparencia.html"
+grep -q "v2.2.3-ready-sections" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=233" "$PUB/index.html"
+grep -q "v135-install.js?v=233" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -256,4 +257,10 @@ node --check "$PUB/v232-public-access.js"
 node --check "$PUB/v230-admin-only.js"
 test "$(grep -c "new MutationObserver(()=>{if(adminOk)requestAnimationFrame(expand)" "$PUB/v230-admin-only.js" || true)" = "0"
 
-echo "V2.2.2 FINAL PREFLIGHT PASSED: senha administrativa, seletor das 29 seções e operação otimizada."
+grep -q "data-mode=\"qr\"" "$PUB/v232-operational-gate.js"
+grep -q "data-mode=\"manual\"" "$PUB/v232-operational-gate.js"
+grep -q "ce232LaunchSelected" "$PUB/v232-operational-gate.js"
+grep -q "ce232-section-actions" "$PUB/v232-access.css"
+node --check "$PUB/v232-operational-gate.js"
+
+echo "V2.2.3 FINAL PREFLIGHT PASSED: 29 seções prontas com ações diretas de QRBU e digitação manual."
