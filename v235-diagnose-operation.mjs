@@ -15,7 +15,8 @@ const terms=[
   'google.com/maps',
   'coordenação',
   'sections',
-  'places'
+  'places',
+  'function syncAdminSelectors'
 ];
 console.log('CE235_DIAG_BEGIN',JSON.stringify({bytes:s.length,scripts:(s.match(/<script/g)||[]).length}));
 for(const term of terms){
