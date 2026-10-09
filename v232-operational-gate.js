@@ -104,14 +104,14 @@ async function showSectionHub(){
   const by=new Map(rows.map(x=>[Number(x.section),x]));
   const nums=sections();
   const hub=document.createElement('div');hub.id='ce232SectionHub';hub.className='ce232-section-hub';
-  hub.innerHTML='<section class="ce232-section-panel" role="dialog" aria-modal="true" aria-labelledby="ce232SectionTitle"><header><div><div class="ce232-kicker">REGISTRO DE BU</div><h2 id="ce232SectionTitle">Escolha a seção</h2><p>A chave administrativa não está vinculada a nenhuma escola. Selecione a seção que você vai lançar.</p></div><button type="button" class="ce232-exit" title="Sair">Sair</button></header><div class="ce232-section-tools"><input type="search" inputmode="numeric" placeholder="Buscar seção ou local de votação" aria-label="Buscar seção ou local"><span>'+nums.length+' seções</span></div><div class="ce232-section-grid"></div><p class="ce232-section-empty" hidden>Nenhuma seção encontrada.</p></section>';
+  hub.innerHTML='<section class="ce232-section-panel" role="dialog" aria-modal="true" aria-labelledby="ce232SectionTitle"><header><div><div class="ce232-kicker">REGISTRO DE BU</div><h2 id="ce232SectionTitle">Escolha a seção</h2><p>As 29 seções estão prontas para operação. Escolha a seção e toque em Ler BU ou Digitar resultado.</p></div><button type="button" class="ce232-exit" title="Sair">Sair</button></header><div class="ce232-section-tools"><input type="search" inputmode="numeric" placeholder="Buscar seção ou local de votação" aria-label="Buscar seção ou local"><span>'+nums.length+' seções</span></div><div class="ce232-section-grid"></div><p class="ce232-section-empty" hidden>Nenhuma seção encontrada.</p></section>';
   const grid=hub.querySelector('.ce232-section-grid');
   for(const n of nums){
     const meta=by.get(n)||{};
-    const b=document.createElement('button');b.type='button';b.className='ce232-section-card';
+    const b=document.createElement('article');b.className='ce232-section-card';
     b.dataset.section=String(n);b.dataset.search=('seção '+n+' '+(meta.place||'')).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-    b.innerHTML='<span class="ce232-section-number">Seção <b>'+String(n).padStart(2,'0')+'</b></span><span class="ce232-section-place">'+esc(meta.place||'Local de votação')+'</span><span class="ce232-section-action">Lançar BU ›</span>';
-    b.onclick=()=>chooseSection(n);
+    b.innerHTML='<div class="ce232-section-top"><span class="ce232-section-number">Seção <b>'+String(n).padStart(2,'0')+'</b></span><span class="ce232-ready">PRONTA</span></div><span class="ce232-section-place">'+esc(meta.place||'Local de votação')+'</span><div class="ce232-section-actions"><button type="button" data-mode="qr">Ler BU</button><button type="button" data-mode="manual">Digitar resultado</button></div>';
+    b.querySelectorAll('[data-mode]').forEach(btn=>btn.onclick=()=>chooseSection(n,btn.dataset.mode));
     grid.appendChild(b);
   }
   const search=hub.querySelector('input[type="search"]'),empty=hub.querySelector('.ce232-section-empty');
@@ -125,13 +125,15 @@ async function showSectionHub(){
   document.body.appendChild(hub);
   requestAnimationFrame(()=>search.focus());
 }
-function chooseSection(n){
+function chooseSection(n,mode='manual'){
   sessionStorage.setItem('ce232_selected_section',String(n));
+  sessionStorage.setItem('ce232_selected_mode',String(mode||'manual'));
   const u=new URL('/operacao.html',location.origin);
   u.searchParams.set('from','team');
   u.searchParams.set('ui','232');
   u.searchParams.set('selected','1');
   u.searchParams.set('section',String(n));
+  u.searchParams.set('mode',String(mode||'manual'));
   location.href=u.pathname+u.search;
 }
 function addSwitcher(n){
@@ -140,6 +142,54 @@ function addSwitcher(n){
   b.innerHTML='<span>Seção <b>'+esc(n)+'</b></span><small>Trocar seção</small>';
   b.onclick=()=>{try{window.stopQrScanner?.()}catch{};const u=new URL(location.href);u.searchParams.delete('section');u.searchParams.delete('selected');history.replaceState({},'',u.pathname+'?from=team&ui=232');showSectionHub()};
   document.body.appendChild(b);
+}
+function ce232Norm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim()}
+function ce232Visible(el){if(!el)return false;const st=getComputedStyle(el),r=el.getBoundingClientRect();return st.display!=='none'&&st.visibility!=='hidden'&&r.width>0&&r.height>0}
+async function ce232OpenPlaceForSection(n){
+  const rows=await loadPlaces(),meta=rows.find(x=>Number(x.section)===Number(n));
+  if(!meta?.place)return;
+  const target=ce232Norm(meta.place);
+  const candidates=[...document.querySelectorAll('button,[role="button"],.place,.card,[data-place],[data-id]')].filter(el=>!el.closest('#ce232SectionHub,#ce232AuthGate,#ce232Switcher'));
+  const hit=candidates.find(el=>ce232Visible(el)&&ce232Norm(el.textContent).includes(target));
+  if(hit){try{hit.click()}catch{}}
+}
+function ce232ClickAction(mode){
+  const qr=mode==='qr';
+  if(qr&&typeof window.startQrScanner==='function'){try{window.startQrScanner();return true}catch{}}
+  const re=qr?/(ler.*bu|ler.*qr|qr.*code|scanner|c[aâ]mera|camera)/i:/(digitar.*resultado|resultado.*manual|digitar|preencher.*manual|lan[cç]ar.*manual)/i;
+  const els=[...document.querySelectorAll('button,[role="button"],a')].filter(el=>!el.closest('#ce232SectionHub,#ce232AuthGate,#ce232Switcher')&&ce232Visible(el));
+  const hit=els.find(el=>re.test(String(el.textContent||el.getAttribute('aria-label')||el.title||'')));
+  if(hit){try{hit.click();return true}catch{}}
+  if(!qr){
+    const panel=document.getElementById('adminPanel');
+    if(panel){
+      try{panel.scrollIntoView({block:'start'})}catch{}
+      const field=panel.querySelector('input[type="number"],input[inputmode="numeric"],textarea');
+      field?.focus?.();
+      return true;
+    }
+  }
+  return false;
+}
+async function ce232LaunchSelected(n,mode){
+  await ce232OpenPlaceForSection(n);
+  const wanted=String(n);
+  let tries=0;
+  const tick=()=>{
+    tries++;
+    let selected=false;
+    for(const sel of document.querySelectorAll('select')){
+      const meta=ce232Norm(sel.id+' '+sel.name+' '+(sel.getAttribute('aria-label')||'')+' '+(sel.closest('label')?.textContent||''));
+      const opt=[...sel.options].find(o=>String(o.value)===wanted||new RegExp('(?:^|\\D)'+wanted+'(?:\\D|$)').test(String(o.textContent||'')));
+      if(opt&&(/secao|section/.test(meta)||sel.options.length>=20)){
+        if(sel.value!==opt.value){sel.value=opt.value;sel.dispatchEvent(new Event('input',{bubbles:true}));sel.dispatchEvent(new Event('change',{bubbles:true}))}
+        selected=true;
+      }
+    }
+    if((selected&&ce232ClickAction(mode))||tries>=18)return;
+    setTimeout(tick,120);
+  };
+  setTimeout(tick,80);
 }
 function applySelectedSection(n){
   const wanted=String(n);
@@ -160,8 +210,10 @@ async function boot(){
     try{
       const u=await verify(token);remember(token,u);removeGate();document.documentElement.classList.remove('ce232-auth-pending');
       if(selectedByThisFlow()){
-        const n=new URLSearchParams(location.search).get('section');
-        addSwitcher(n);applySelectedSection(n);
+        const q=new URLSearchParams(location.search);
+        const n=q.get('section');
+        const mode=q.get('mode')||sessionStorage.getItem('ce232_selected_mode')||'manual';
+        addSwitcher(n);applySelectedSection(n);ce232LaunchSelected(n,mode);
       }else{
         stripStaleSelection();await showSectionHub();
       }
