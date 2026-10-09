@@ -23,11 +23,16 @@ html.ce232-auth-pending body{overflow:hidden!important}
 .ce232-section-tools input{flex:1;min-width:0;border:1px solid #cddbe4;border-radius:11px;padding:11px 12px;font:inherit}
 .ce232-section-tools span{white-space:nowrap;font-size:10px;font-weight:850;color:#587184}
 .ce232-section-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.ce232-section-card{display:grid;gap:3px;text-align:left;border:1px solid #d7e2e8;border-radius:12px;background:#fff;color:#183b54;padding:11px;cursor:pointer}
-.ce232-section-card:hover,.ce232-section-card:focus-visible{border-color:#4882a4;box-shadow:0 0 0 3px rgba(44,112,153,.1)}
+.ce232-section-card{display:grid;gap:6px;text-align:left;border:1px solid #d7e2e8;border-radius:12px;background:#fff;color:#183b54;padding:11px}
+.ce232-section-card:hover{border-color:#9db8c8}
+.ce232-section-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .ce232-section-number{font-size:11px}.ce232-section-number b{font-size:16px}
+.ce232-ready{font-size:7.5px;font-weight:900;letter-spacing:.06em;color:#176b49;background:#eaf6ef;border:1px solid #cde8d8;border-radius:999px;padding:4px 6px}
 .ce232-section-place{font-size:9px;color:#637a89;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ce232-section-action{font-size:9px;font-weight:850;color:#176b49;margin-top:3px}
+.ce232-section-actions{display:grid;grid-template-columns:.85fr 1.15fr;gap:6px;margin-top:3px}
+.ce232-section-actions button{border:1px solid #cbdbe4;border-radius:9px;background:#fff;color:#24526d;padding:8px 7px;font:inherit;font-size:8.5px;font-weight:900;cursor:pointer}
+.ce232-section-actions button[data-mode="qr"]{background:#176b49;border-color:#176b49;color:#fff}
+.ce232-section-actions button:hover,.ce232-section-actions button:focus-visible{box-shadow:0 0 0 3px rgba(44,112,153,.1);outline:0}
 .ce232-section-empty{text-align:center;padding:20px}
 .ce232-switcher{position:fixed;z-index:16000;right:12px;top:12px;border:1px solid #c8d8e1;border-radius:11px;background:#fff;color:#193d56;padding:7px 10px;box-shadow:0 5px 18px rgba(11,48,72,.16);font:inherit;text-align:left}
 .ce232-switcher span,.ce232-switcher small{display:block}.ce232-switcher span{font-size:10px}.ce232-switcher small{font-size:8px;color:#627b8b;margin-top:1px}
