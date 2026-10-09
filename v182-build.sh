@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.4: consolidando histórico de patches..."
+echo "V2.2.5: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -173,9 +173,8 @@ run_patch v231-persistent-sqlite.mjs
 run_patch v232-secure-fast-operation.mjs
 run_patch v233-ready-sections.mjs
 run_patch v234-section-context.mjs
-node /src/v235-diagnose-operation.mjs
 
-echo "V2.2.4: executando preflight final do segundo turno..."
+echo "V2.2.5: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -187,9 +186,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.4-section-context" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=234" "$PUB/index.html"
-grep -q "v135-install.js?v=234" "$PUB/transparencia.html"
+grep -q "v2.2.5-root-section" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=235" "$PUB/index.html"
+grep -q "v135-install.js?v=235" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -265,9 +264,12 @@ grep -q "ce232LaunchSelected" "$PUB/v232-operational-gate.js"
 grep -q "ce232-section-actions" "$PUB/v232-access.css"
 node --check "$PUB/v232-operational-gate.js"
 
-grep -q "CE234_SCOPED_LEGACY_CONTEXT" "$PUB/v232-operational-gate.js"
-grep -q "u.sections=\[Number(section)\]" "$PUB/v232-operational-gate.js"
-grep -q "/v232-operational-gate.js?v=234" "$PUB/operacao.html"
+grep -q "CE235_ROOT_SECTION" "$PUB/operacao.html"
+grep -q "openPlace(id,preferredSection=null)" "$PUB/operacao.html"
+grep -q "else secs=allSections" "$PUB/operacao.html"
+grep -q "adminSection.onchange=()=>" "$PUB/operacao.html"
+grep -q "const CARGOS={presidente:'Presidente',governador:'Governador'}" "$PUB/operacao.html"
+grep -q "/v232-operational-gate.js?v=235" "$PUB/operacao.html"
 node --check "$PUB/v232-operational-gate.js"
 
-echo "V2.2.4 FINAL PREFLIGHT PASSED: seção escolhida controla o contexto interno e não fica presa a outra escola."
+echo "V2.2.5 FINAL PREFLIGHT PASSED: fluxo legado corrigido; 29 seções selecionáveis e somente Presidente/Governador."
