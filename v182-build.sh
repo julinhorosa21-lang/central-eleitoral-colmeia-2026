@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.1: consolidando histórico de patches..."
+echo "V2.2.2: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -170,8 +170,9 @@ run_patch v228-operator-all-sections.mjs
 run_patch v229-tse-interface.mjs
 run_patch v230-admin-only.mjs
 run_patch v231-persistent-sqlite.mjs
+run_patch v232-secure-fast-operation.mjs
 
-echo "V2.2.1: executando preflight final do segundo turno..."
+echo "V2.2.2: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -183,9 +184,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.1-persistent" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=231" "$PUB/index.html"
-grep -q "v135-install.js?v=231" "$PUB/transparencia.html"
+grep -q "v2.2.2-secure-fast-operation" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=232" "$PUB/index.html"
+grep -q "v135-install.js?v=232" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -246,4 +247,13 @@ grep -q "CE231_RUNOFF_META" "$APP/server.mjs"
 grep -q "p === '/api/admin/persistence'" "$APP/server.mjs"
 grep -q '"pg"' "$APP/package.json"
 
-echo "V2.2.1 FINAL PREFLIGHT PASSED: chave administrativa única, 29 seções e persistência remota pronta para DATABASE_URL."
+grep -q "/v232-operational-gate.js" "$PUB/operacao.html"
+grep -q "/v232-public-access.js" "$PUB/index.html"
+grep -q "CE232_LIGHT_ADMIN_SECTIONS" "$PUB/v230-admin-only.js"
+grep -q "CE232_OPERATION_STATIC_CONTRAST" "$PUB/v202-contrast.js"
+node --check "$PUB/v232-operational-gate.js"
+node --check "$PUB/v232-public-access.js"
+node --check "$PUB/v230-admin-only.js"
+test "$(grep -c "new MutationObserver(()=>{if(adminOk)requestAnimationFrame(expand)" "$PUB/v230-admin-only.js" || true)" = "0"
+
+echo "V2.2.2 FINAL PREFLIGHT PASSED: senha administrativa, seletor das 29 seções e operação otimizada."
