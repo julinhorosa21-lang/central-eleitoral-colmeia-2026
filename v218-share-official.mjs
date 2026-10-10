@@ -48,8 +48,8 @@ const newLookup="function ce216Lookup(catalog,cargo,numero,sq=''){\n const entri
 if(!s.includes(oldLookup))throw new Error('V218 lookup anchor missing');
 s=s.replace(oldLookup,newLookup);
 
-const oldMap="if(!emptyState){const catalog=await ce216LoadCatalog();await Promise.all(top.map(async c=>{const official=ce216Lookup(catalog,cargoKey,c.numero);c.nome=String(official?.nomeUrna||c.nome||'').trim();c.partido=String(official?.partido||c.partido||'').trim();c.photoImage=await ce216Photo(official)}));}";
-const newMap="if(!emptyState){const catalog=await ce216LoadCatalog();await Promise.all(top.map(async c=>{const official=ce216Lookup(catalog,cargoKey,c.numero,c.sqCandidato);const photoSource=official||{sqCandidato:c.sqCandidato,nomeUrna:c.nome,partido:c.partido};c.nome=String(official?.nomeUrna||c.nome||'').trim();c.partido=String(official?.partido||c.partido||'').trim();c.photoImage=await ce216Photo(photoSource)}));}";
+const oldMap="if(!emptyState){const catalog=await ce216LoadCatalog();await Promise.all(top.map(async c=>{const official=ce216Lookup(catalog,cargoKey,c.numero);c.nome=String(official?.nomeUrna||c.nome||'').trim();c.partido=String(official?.partido||c.partido||'').trim();c.photoImage=await ce216Photo(official,cargoKey,c.numero)}));if(top.some(c=>!c.photoImage))throw new Error('foto_indisponivel');}";
+const newMap="if(!emptyState){const catalog=await ce216LoadCatalog();await Promise.all(top.map(async c=>{const official=ce216Lookup(catalog,cargoKey,c.numero,c.sqCandidato);const photoSource=official||{sqCandidato:c.sqCandidato,nomeUrna:c.nome,partido:c.partido};c.nome=String(official?.nomeUrna||c.nome||'').trim();c.partido=String(official?.partido||c.partido||'').trim();c.photoImage=await ce216Photo(photoSource,cargoKey,c.numero)}));if(top.some(c=>!c.photoImage))throw new Error('foto_indisponivel');}";
 if(!s.includes(oldMap))throw new Error('V218 photo-map anchor missing');
 s=s.replace(oldMap,newMap);
 s=s.replace('<span>Compartilhar resultado</span>','<span>Compartilhar resultado com fotos</span>');
@@ -66,6 +66,7 @@ const pkg='/app/package.json';if(fs.existsSync(pkg)){const j=JSON.parse(read(pkg
 
 if(!s.includes('window.__CE217_OFFICIAL__?.cargos?.[cargo]'))throw new Error('V218 official state source absent');
 if(!s.includes('sqCandidato:c.sqCandidato'))throw new Error('V218 exact photo fallback absent');
+if(!s.includes('ce216Photo(photoSource,cargoKey,c.numero)'))throw new Error('V218 stable runoff photo call absent');
 if(!s.includes('Compartilhar resultado com fotos'))throw new Error('V218 action label absent');
 if(!read(pub+'/index.html').includes('v191-share.js?v=218'))throw new Error('V218 cachebuster absent');
 if(!sw.includes('v2.0.18-unified'))throw new Error('V218 SW absent');
