@@ -37,7 +37,7 @@ function ce216PhotoSources(candidate,cargo,numero){
  const photo=String(candidate?.foto||'').trim(),sq=String(candidate?.sqCandidato||'').replace(/\D/g,'');
  const stable=(cargo&&numero)?'/candidate-photos/2t-'+String(cargo).replace(/[^a-z]/gi,'')+'-'+String(numero).replace(/\D/g,'')+'.jpg':'';
  const local=sq?'/candidate-photos/'+sq+'.jpg':'';
- const urls=[stable,photo,local].filter(Boolean);
+ const urls=[stable,local,photo].filter(Boolean);
  return [...new Set(urls.filter(v=>/^\/candidate-photos\/[a-z0-9._-]+\.jpg$/i.test(v)||/^https:\/\//i.test(v)))];
 }
 function ce216Image(url){
@@ -93,7 +93,7 @@ if(!source.includes(anchor))throw new Error('V216 buildCanvas absent');
 source=source.replace(anchor,helpers+'\n'+anchor);
 once(
   "function buildCanvas(){\n  const cargo=cargoLabel(activeCargo()),done=cargoDone(),status=statusInfo(done),updated=updatedText(),top=getRows(),test=isTestEnvironment(),emptyState=!top.length;",
-  "async function buildCanvas(){\n  const cargoKey=activeCargo(),cargo=cargoLabel(cargoKey),done=cargoDone(),status=statusInfo(done),updated=updatedText(),top=getRows().slice(0,3),test=isTestEnvironment(),emptyState=!top.length;\n  if(!emptyState){const catalog=await ce216LoadCatalog();await Promise.all(top.map(async c=>{const official=ce216Lookup(catalog,cargoKey,c.numero);c.nome=String(official?.nomeUrna||c.nome||'').trim();c.partido=String(official?.partido||c.partido||'').trim();c.photoImage=await ce216Photo(official,cargoKey,c.numero)}));}",
+  "async function buildCanvas(){\n  const cargoKey=activeCargo(),cargo=cargoLabel(cargoKey),done=cargoDone(),status=statusInfo(done),updated=updatedText(),top=getRows().slice(0,3),test=isTestEnvironment(),emptyState=!top.length;\n  if(!emptyState){const catalog=await ce216LoadCatalog();await Promise.all(top.map(async c=>{const official=ce216Lookup(catalog,cargoKey,c.numero);c.nome=String(official?.nomeUrna||c.nome||'').trim();c.partido=String(official?.partido||c.partido||'').trim();c.photoImage=await ce216Photo(official,cargoKey,c.numero)}));if(top.some(c=>!c.photoImage))throw new Error('foto_indisponivel');}",
   'async card and source candidates'
 );
 const beginning="  }else{\n    ctx.font='800 25px Arial, sans-serif';ctx.fillStyle='#123D60';ctx.fillText('MAIS VOTADOS NESTE MOMENTO',72,448);";
