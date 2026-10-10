@@ -19,9 +19,9 @@ RUN python3 -m venv /opt/ce184-venv \
 ENV CE184_PYTHON=/opt/ce184-venv/bin/python
 
 COPY . /src
-RUN chmod +x /src/v182-build.sh \
+RUN npm install --prefix /app --omit=dev --no-audit --no-fund pg@8.13.1 leaflet@1.9.4 \
+ && chmod +x /src/v182-build.sh \
  && /src/v182-build.sh \
- && npm install --prefix /app --omit=dev --no-audit --no-fund pg@8.13.1 \
  && rm -rf /src
 
 FROM node:22-slim AS runtime
@@ -39,6 +39,6 @@ ENV NODE_ENV=production \
 
 RUN mkdir -p /app/runtime /data
 LABEL org.opencontainers.image.title="Central Eleitoral Colmeia 2026" \
-      org.opencontainers.image.version="2.2.9"
+      org.opencontainers.image.version="2.3.0"
 EXPOSE 8787
 CMD ["node","server.mjs"]
