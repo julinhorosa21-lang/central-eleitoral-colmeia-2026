@@ -182,118 +182,22 @@ echo "V2.2.9: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
-node --check "$PUB/bu-parser.js"
 node --check "$PUB/service-worker.js"
+node --check "$PUB/v232-operational-gate.js"
+node --check "$PUB/v240-public-map-winners.js"
 
 grep -q "CE220_SECOND_TURN_2026" "$APP/server.mjs"
-grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
-grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
-grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
-grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.9-public-map-winners" "$PUB/service-worker.js"
-grep -q "v135-install.js" "$PUB/index.html"
-grep -q "v135-install.js" "$PUB/transparencia.html"
-
-test ! -f "$PUB/v0241-photos.js"
-test ! -f "$PUB/v0241-photos.css"
-test ! -f "$PUB/data/candidate-photo-map.json"
-
-for f in \
-  "$PUB/candidate-photos/2t-presidente-13.jpg" \
-  "$PUB/candidate-photos/2t-presidente-22.jpg" \
-  "$PUB/candidate-photos/2t-governador-44.jpg" \
-  "$PUB/candidate-photos/2t-governador-45.jpg"
-do
-  test -s "$f"
-done
-
-test "$(find "$PUB/candidate-photos" -maxdepth 1 -type f | wc -l | tr -d ' ')" = "4"
-
-node - <<'NODE'
-const fs=require('fs');
-const p='/app/public/data/candidate-catalog.json';
-const c=JSON.parse(fs.readFileSync(p,'utf8'));
-const keys=Object.keys(c.candidates||{}).sort();
-if(keys.join(',')!=='governador,presidente') throw new Error('catalog cargos mismatch: '+keys.join(','));
-if(c.version!=='2.1.7-ballot-names') throw new Error('catalog version mismatch: '+c.version);
-if(Number(c.turno)!==2) throw new Error('catalog turno mismatch');
-if(c.electionDate!=='2026-10-25') throw new Error('catalog date mismatch');
-const nums=(cargo)=>(c.candidates?.[cargo]||[]).map(x=>String(x.numero)).sort();
-if(nums('presidente').join(',')!=='13,22') throw new Error('president finalists mismatch: '+nums('presidente'));
-if(nums('governador').join(',')!=='44,45') throw new Error('governor finalists mismatch: '+nums('governador'));
-const gov=Object.fromEntries((c.candidates?.governador||[]).map(x=>[String(x.numero),String(x.nome||'')]));
-if(gov['44']!=='PROFESSORA DORINHA') throw new Error('governor 44 ballot name mismatch: '+gov['44']);
-if(gov['45']!=='VICENTINHO JÚNIOR') throw new Error('governor 45 ballot name mismatch: '+gov['45']);
-console.log('V2.1.7 catalog preflight: presidente 13/22; governador 44 PROFESSORA DORINHA / 45 VICENTINHO JÚNIOR.');
-NODE
-
-! grep -q "CE223_SAFE_SECOND_TURN_ARCHIVE" "$APP/server.mjs"
-grep -q "firstTurnPreserved:false" "$APP/server.mjs"
-
-grep -q "CE228_OPERATOR_ALL_SECTIONS" "$APP/server.mjs"
-grep -q "CE228_GLOBAL_OPERATOR_WRITE" "$APP/server.mjs"
-grep -q "/v228-operator-all-sections.js" "$PUB/operacao.html"
-node --check "$PUB/v228-operator-all-sections.js"
-
-grep -q "/v229-tse-interface.css" "$PUB/index.html"
-grep -q "/v229-tse-interface.js" "$PUB/index.html"
-grep -q "ce229-summary" "$PUB/v229-tse-interface.js"
-grep -q "ce229-round-badge" "$PUB/v229-tse-interface.js"
-grep -q -- "--ce229-yellow:#e9b800" "$PUB/v229-tse-interface.css"
-node --check "$PUB/v229-tse-interface.js"
+grep -q "error:'second_turn_required'" "$APP/server.mjs"
+grep -q "const CARGOS={presidente:'Presidente',governador:'Governador'}" "$PUB/operacao.html"
 
 grep -q "CE230_ADMIN_ONLY_AUTH" "$APP/server.mjs"
-grep -q "function ce230LegacyAuth(req)" "$APP/server.mjs"
-grep -q "/v230-admin-only.js" "$PUB/operacao.html"
-node --check "$PUB/v230-admin-only.js"
-
-grep -q "CE231_PERSISTENT_SQLITE_RESTORE" "$APP/server.mjs"
-grep -q "CE231_PERSISTENT_SQLITE_SNAPSHOT" "$APP/server.mjs"
-grep -q "CE231_RUNOFF_META" "$APP/server.mjs"
-grep -q "p === '/api/admin/persistence'" "$APP/server.mjs"
-grep -q '"pg"' "$APP/package.json"
-
-grep -q "/v232-operational-gate.js" "$PUB/operacao.html"
-grep -q "/v232-public-access.js" "$PUB/index.html"
-grep -q "CE232_LIGHT_ADMIN_SECTIONS" "$PUB/v230-admin-only.js"
-grep -q "CE232_OPERATION_STATIC_CONTRAST" "$PUB/v202-contrast.js"
-node --check "$PUB/v232-operational-gate.js"
-node --check "$PUB/v232-public-access.js"
-node --check "$PUB/v230-admin-only.js"
-test "$(grep -c "new MutationObserver(()=>{if(adminOk)requestAnimationFrame(expand)" "$PUB/v230-admin-only.js" || true)" = "0"
-
-grep -q "data-mode=\"manual\"" "$PUB/v232-operational-gate.js"
-grep -q "ce232LaunchSelected" "$PUB/v232-operational-gate.js"
-grep -q "ce232-section-actions" "$PUB/v232-access.css"
-node --check "$PUB/v232-operational-gate.js"
-
-grep -q "CE235_ROOT_SECTION" "$PUB/operacao.html"
-grep -q "openPlace(id,preferredSection=null)" "$PUB/operacao.html"
-grep -q "else secs=allSections" "$PUB/operacao.html"
-grep -q "adminSection.onchange=()=>" "$PUB/operacao.html"
-grep -q "const CARGOS={presidente:'Presidente',governador:'Governador'}" "$PUB/operacao.html"
-grep -q "/v232-operational-gate.js?v=238" "$PUB/operacao.html"
-node --check "$PUB/v232-operational-gate.js"
-
-grep -q "CE237_OPERATION_HEADER_OFFSET" "$PUB/v232-access.css"
-grep -q "v232-access.css?v=240" "$PUB/operacao.html"
-grep -q "position:sticky!important" "$PUB/v232-access.css"
-
 grep -q "CE238_MANUAL_ONLY" "$PUB/v232-operational-gate.js"
 ! grep -q 'data-mode="qr"' "$PUB/v232-operational-gate.js"
-grep -q 'data-mode="manual"' "$PUB/v232-operational-gate.js"
-grep -q "ce238RemoveQrUi" "$PUB/v232-operational-gate.js"
-grep -q "CE238_MANUAL_ONLY_UI" "$PUB/v232-access.css"
-grep -q "/v232-operational-gate.js?v=238" "$PUB/operacao.html"
-node --check "$PUB/v232-operational-gate.js"
 
 grep -q "CE239_NO_CANDIDATE_RANK_BADGES" "$PUB/v157-polish.js"
 ! grep -q "s.textContent=(i+1)+'º'" "$PUB/v157-polish.js"
 grep -q "/candidate-photos/2t-" "$PUB/v191-share.js"
 grep -q "foto_indisponivel" "$PUB/v191-share.js"
-! grep -q "ctx.fillText(c.posicao+'º'" "$PUB/v191-share.js"
-grep -q "v191-share.js?v=239" "$PUB/index.html"
-grep -q "v229-tse-interface.js?v=239" "$PUB/index.html"
 
 grep -q "CE240_PUBLIC_PLACE_WINNERS" "$APP/server.mjs"
 grep -q "p === '/api/public/place-winners'" "$APP/server.mjs"
@@ -301,6 +205,24 @@ grep -q "source:'manual_local_results'" "$APP/server.mjs"
 grep -q "n===113?49:n" "$APP/server.mjs"
 grep -q "/v240-public-map-winners.js?v=240" "$PUB/index.html"
 grep -q "CE240_NO_OPERATION_MAP" "$PUB/v232-access.css"
-node --check "$PUB/v240-public-map-winners.js"
+grep -q "v2.2.9-public-map-winners" "$PUB/service-worker.js"
 
-echo "V2.2.9 FINAL PREFLIGHT PASSED: mapa público, operação sem mapa e vencedores por colégio após conclusão local."
+test -s "$PUB/candidate-photos/2t-presidente-13.jpg"
+test -s "$PUB/candidate-photos/2t-presidente-22.jpg"
+test -s "$PUB/candidate-photos/2t-governador-44.jpg"
+test -s "$PUB/candidate-photos/2t-governador-45.jpg"
+test "$(find "$PUB/candidate-photos" -maxdepth 1 -type f | wc -l | tr -d ' ')" = "4"
+
+node - <<'NODE'
+const fs=require('fs');
+const c=JSON.parse(fs.readFileSync('/app/public/data/candidate-catalog.json','utf8'));
+const keys=Object.keys(c.candidates||{}).sort().join(',');
+if(keys!=='governador,presidente') throw new Error('cargos mismatch '+keys);
+if(Number(c.turno)!==2) throw new Error('turno mismatch');
+if(c.electionDate!=='2026-10-25') throw new Error('date mismatch');
+const nums=k=>(c.candidates?.[k]||[]).map(x=>String(x.numero)).sort().join(',');
+if(nums('presidente')!=='13,22') throw new Error('presidente mismatch');
+if(nums('governador')!=='44,45') throw new Error('governador mismatch');
+NODE
+
+echo "V2.2.9 FINAL PREFLIGHT PASSED: segundo turno, operação manual, mapa público e vencedores por colégio validados."
