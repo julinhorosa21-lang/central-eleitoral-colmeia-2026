@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.6: consolidando histórico de patches..."
+echo "V2.2.7: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -174,8 +174,9 @@ run_patch v232-secure-fast-operation.mjs
 run_patch v233-ready-sections.mjs
 run_patch v234-section-context.mjs
 run_patch v237-operation-header-offset.mjs
+run_patch v238-manual-only.mjs
 
-echo "V2.2.6: executando preflight final do segundo turno..."
+echo "V2.2.7: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -187,9 +188,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.6-operation-header-offset" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=237" "$PUB/index.html"
-grep -q "v135-install.js?v=237" "$PUB/transparencia.html"
+grep -q "v2.2.7-manual-only" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=238" "$PUB/index.html"
+grep -q "v135-install.js?v=238" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -259,7 +260,6 @@ node --check "$PUB/v232-public-access.js"
 node --check "$PUB/v230-admin-only.js"
 test "$(grep -c "new MutationObserver(()=>{if(adminOk)requestAnimationFrame(expand)" "$PUB/v230-admin-only.js" || true)" = "0"
 
-grep -q "data-mode=\"qr\"" "$PUB/v232-operational-gate.js"
 grep -q "data-mode=\"manual\"" "$PUB/v232-operational-gate.js"
 grep -q "ce232LaunchSelected" "$PUB/v232-operational-gate.js"
 grep -q "ce232-section-actions" "$PUB/v232-access.css"
@@ -277,4 +277,12 @@ grep -q "CE237_OPERATION_HEADER_OFFSET" "$PUB/v232-access.css"
 grep -q "v232-access.css?v=237" "$PUB/operacao.html"
 grep -q "position:sticky!important" "$PUB/v232-access.css"
 
-echo "V2.2.6 FINAL PREFLIGHT PASSED: abas de Presidente/Governador abaixo do cabeçalho e seletor de seção reposicionado."
+grep -q "CE238_MANUAL_ONLY" "$PUB/v232-operational-gate.js"
+! grep -q 'data-mode="qr"' "$PUB/v232-operational-gate.js"
+grep -q 'data-mode="manual"' "$PUB/v232-operational-gate.js"
+grep -q "ce238RemoveQrUi" "$PUB/v232-operational-gate.js"
+grep -q "CE238_MANUAL_ONLY_UI" "$PUB/v232-access.css"
+grep -q "/v232-operational-gate.js?v=238" "$PUB/operacao.html"
+node --check "$PUB/v232-operational-gate.js"
+
+echo "V2.2.7 FINAL PREFLIGHT PASSED: leitura QRBU removida; operação exclusivamente manual."
