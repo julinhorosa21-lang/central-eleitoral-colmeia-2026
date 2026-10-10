@@ -4,6 +4,7 @@ document.documentElement.classList.add('ce232-auth-pending');
 
 const rawFetch=window.fetch.bind(window);
 /* CE234_SCOPED_LEGACY_CONTEXT */
+/* CE238_MANUAL_ONLY */
 let token=String(sessionStorage.getItem('ce_admin_token')||sessionStorage.getItem('ce_team_token')||'').trim();
 let authUser=null;
 let placeRows=null;
@@ -143,14 +144,14 @@ async function showSectionHub(){
   const by=new Map(rows.map(x=>[Number(x.section),x]));
   const nums=sections();
   const hub=document.createElement('div');hub.id='ce232SectionHub';hub.className='ce232-section-hub';
-  hub.innerHTML='<section class="ce232-section-panel" role="dialog" aria-modal="true" aria-labelledby="ce232SectionTitle"><header><div><div class="ce232-kicker">REGISTRO DE BU</div><h2 id="ce232SectionTitle">Escolha a seção</h2><p>As 29 seções estão prontas para operação. Escolha a seção e toque em Ler BU ou Digitar resultado.</p></div><button type="button" class="ce232-exit" title="Sair">Sair</button></header><div class="ce232-section-tools"><input type="search" inputmode="numeric" placeholder="Buscar seção ou local de votação" aria-label="Buscar seção ou local"><span>'+nums.length+' seções</span></div><div class="ce232-section-grid"></div><p class="ce232-section-empty" hidden>Nenhuma seção encontrada.</p></section>';
+  hub.innerHTML='<section class="ce232-section-panel" role="dialog" aria-modal="true" aria-labelledby="ce232SectionTitle"><header><div><div class="ce232-kicker">REGISTRO MANUAL</div><h2 id="ce232SectionTitle">Escolha a seção</h2><p>Selecione uma das 29 seções para digitar manualmente o resultado do BU.</p></div><button type="button" class="ce232-exit" title="Sair">Sair</button></header><div class="ce232-section-tools"><input type="search" inputmode="numeric" placeholder="Buscar seção ou local de votação" aria-label="Buscar seção ou local"><span>'+nums.length+' seções</span></div><div class="ce232-section-grid"></div><p class="ce232-section-empty" hidden>Nenhuma seção encontrada.</p></section>';
   const grid=hub.querySelector('.ce232-section-grid');
   for(const n of nums){
     const meta=by.get(n)||{};
     const b=document.createElement('article');b.className='ce232-section-card';
     b.dataset.section=String(n);b.dataset.search=('seção '+n+' '+(meta.place||'')).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-    b.innerHTML='<div class="ce232-section-top"><span class="ce232-section-number">Seção <b>'+String(n).padStart(2,'0')+'</b></span><span class="ce232-ready">PRONTA</span></div><span class="ce232-section-place">'+esc(meta.place||'Local de votação')+'</span><div class="ce232-section-actions"><button type="button" data-mode="qr">Ler BU</button><button type="button" data-mode="manual">Digitar resultado</button></div>';
-    b.querySelectorAll('[data-mode]').forEach(btn=>btn.onclick=()=>chooseSection(n,btn.dataset.mode));
+    b.innerHTML='<div class="ce232-section-top"><span class="ce232-section-number">Seção <b>'+String(n).padStart(2,'0')+'</b></span><span class="ce232-ready">PRONTA</span></div><span class="ce232-section-place">'+esc(meta.place||'Local de votação')+'</span><div class="ce232-section-actions"><button type="button" data-mode="manual">Digitar resultado</button></div>';
+    b.querySelector('[data-mode="manual"]').onclick=()=>chooseSection(n);
     grid.appendChild(b);
   }
   const search=hub.querySelector('input[type="search"]'),empty=hub.querySelector('.ce232-section-empty');
@@ -164,22 +165,22 @@ async function showSectionHub(){
   document.body.appendChild(hub);
   requestAnimationFrame(()=>search.focus());
 }
-function chooseSection(n,mode='manual'){
+function chooseSection(n){
   sessionStorage.setItem('ce232_selected_section',String(n));
-  sessionStorage.setItem('ce232_selected_mode',String(mode||'manual'));
+  sessionStorage.setItem('ce232_selected_mode','manual');
   const u=new URL('/operacao.html',location.origin);
   u.searchParams.set('from','team');
   u.searchParams.set('ui','232');
   u.searchParams.set('selected','1');
   u.searchParams.set('section',String(n));
-  u.searchParams.set('mode',String(mode||'manual'));
+  u.searchParams.set('mode','manual');
   location.href=u.pathname+u.search;
 }
 function addSwitcher(n){
   if(document.getElementById('ce232Switcher'))return;
   const b=document.createElement('button');b.id='ce232Switcher';b.type='button';b.className='ce232-switcher';
   b.innerHTML='<span>Seção <b>'+esc(n)+'</b></span><small>Trocar seção</small>';
-  b.onclick=()=>{try{window.stopQrScanner?.()}catch{};sessionStorage.removeItem('ce232_selected_section');sessionStorage.removeItem('ce232_selected_mode');location.href='/operacao.html?from=team&ui=232'};
+  b.onclick=()=>{sessionStorage.removeItem('ce232_selected_section');sessionStorage.removeItem('ce232_selected_mode');location.href='/operacao.html?from=team&ui=232'};
   document.body.appendChild(b);
 }
 function ce232Norm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim()}
@@ -192,25 +193,17 @@ async function ce232OpenPlaceForSection(n){
   const hit=candidates.find(el=>ce232Visible(el)&&ce232Norm(el.textContent).includes(target));
   if(hit){try{hit.click()}catch{}}
 }
-function ce232ClickAction(mode){
-  const qr=mode==='qr';
-  if(qr&&typeof window.startQrScanner==='function'){try{window.startQrScanner();return true}catch{}}
-  const re=qr?/(ler.*bu|ler.*qr|qr.*code|scanner|c[aâ]mera|camera)/i:/(digitar.*resultado|resultado.*manual|digitar|preencher.*manual|lan[cç]ar.*manual)/i;
-  const els=[...document.querySelectorAll('button,[role="button"],a')].filter(el=>!el.closest('#ce232SectionHub,#ce232AuthGate,#ce232Switcher')&&ce232Visible(el));
-  const hit=els.find(el=>re.test(String(el.textContent||el.getAttribute('aria-label')||el.title||'')));
-  if(hit){try{hit.click();return true}catch{}}
-  if(!qr){
-    const panel=document.getElementById('adminPanel');
-    if(panel){
-      try{panel.scrollIntoView({block:'start'})}catch{}
-      const field=panel.querySelector('input[type="number"],input[inputmode="numeric"],textarea');
-      field?.focus?.();
-      return true;
-    }
+function ce232ClickAction(){
+  const panel=document.getElementById('adminPanel');
+  if(panel){
+    try{panel.scrollIntoView({block:'start'})}catch{}
+    const field=document.getElementById('voteLines')||panel.querySelector('input[type="number"],input[inputmode="numeric"],textarea');
+    field?.focus?.();
+    return true;
   }
   return false;
 }
-async function ce232LaunchSelected(n,mode){
+async function ce232LaunchSelected(n){
   const wanted=Number(n);
   let tries=0;
   async function tick(){
@@ -233,12 +226,9 @@ async function ce232LaunchSelected(n,mode){
         document.documentElement.classList.add('ce232-direct-section');
         const identity=document.getElementById('operatorPanelIdentity');
         if(identity)identity.innerHTML='<b>Chave administrativa · Seção '+wanted+'</b><br><span>Você pode trocar de seção a qualquer momento.</span>';
-        if(mode==='qr'){
-          const qr=document.getElementById('qrTools');if(qr)qr.style.display='';
-          const start=document.getElementById('qrStart');
-          if(start){setTimeout(()=>start.click(),120);return}
-        }else{
-          const qr=document.getElementById('qrTools');if(qr)qr.style.display='none';
+        {
+          const qr=document.getElementById('qrTools');if(qr)qr.remove();
+          const summary=document.getElementById('qrSummary');if(summary)summary.remove();
           const form=document.getElementById('adminPanel');
           form?.scrollIntoView?.({block:'start'});
           const field=document.getElementById('voteLines');
@@ -272,8 +262,7 @@ async function boot(){
       if(selectedByThisFlow()){
         const q=new URLSearchParams(location.search);
         const n=q.get('section');
-        const mode=q.get('mode')||sessionStorage.getItem('ce232_selected_mode')||'manual';
-        addSwitcher(n);applySelectedSection(n);ce232LaunchSelected(n,mode);
+        addSwitcher(n);applySelectedSection(n);ce232LaunchSelected(n);
       }else{
         stripStaleSelection();await showSectionHub();
       }
