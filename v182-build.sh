@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.8: consolidando histórico de patches..."
+echo "V2.2.9: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -176,9 +176,9 @@ run_patch v234-section-context.mjs
 run_patch v237-operation-header-offset.mjs
 run_patch v238-manual-only.mjs
 run_patch v239-share-photos-no-rank.mjs
-node /src/v240-diagnose-results.mjs
+run_patch v240-public-map-winners.mjs
 
-echo "V2.2.8: executando preflight final do segundo turno..."
+echo "V2.2.9: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -190,9 +190,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.8-share-photos-no-rank" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=239" "$PUB/index.html"
-grep -q "v135-install.js?v=239" "$PUB/transparencia.html"
+grep -q "v2.2.9-public-map-winners" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=240" "$PUB/index.html"
+grep -q "v135-install.js?v=240" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -295,4 +295,12 @@ grep -q "foto_indisponivel" "$PUB/v191-share.js"
 grep -q "v191-share.js?v=239" "$PUB/index.html"
 grep -q "v229-tse-interface.js?v=239" "$PUB/index.html"
 
-echo "V2.2.8 FINAL PREFLIGHT PASSED: sem selos de colocação e compartilhamento com fotos obrigatórias."
+grep -q "CE240_PUBLIC_PLACE_WINNERS" "$APP/server.mjs"
+grep -q "p === '/api/public/place-winners'" "$APP/server.mjs"
+grep -q "source:'manual_local_results'" "$APP/server.mjs"
+grep -q "n===113?49:n" "$APP/server.mjs"
+grep -q "/v240-public-map-winners.js?v=240" "$PUB/index.html"
+grep -q "CE240_NO_OPERATION_MAP" "$PUB/v232-access.css"
+node --check "$PUB/v240-public-map-winners.js"
+
+echo "V2.2.9 FINAL PREFLIGHT PASSED: mapa público, operação sem mapa e vencedores por colégio após conclusão local."
