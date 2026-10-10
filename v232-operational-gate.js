@@ -253,8 +253,17 @@ function applySelectedSection(n){
   };
   [0,120,420,900].forEach(ms=>setTimeout(setSelects,ms));
 }
+function ce238RemoveQrUi(){
+  document.getElementById('qrTools')?.remove();
+  document.getElementById('qrSummary')?.remove();
+  for(const el of document.querySelectorAll('button,a')){
+    const t=String(el.textContent||el.getAttribute('aria-label')||'');
+    if(/ler\s+boletim.*qr|abrir\s+c[aâ]mera|colar\s+conte[uú]do.*qr/i.test(t))el.remove();
+  }
+}
 async function boot(){
   if(!document.body)return;
+  ce238RemoveQrUi();
   if(selectedByThisFlow())document.documentElement.classList.add('ce232-direct-section');
   if(token){
     try{
