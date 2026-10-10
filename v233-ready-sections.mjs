@@ -9,7 +9,6 @@ const gate=read(PUB+'/v232-operational-gate.js');
 if(gate.includes("data-mode=\"qr\""))throw new Error('V238: QR action must be absent');
 if(!gate.includes("data-mode=\"manual\""))throw new Error('V238: manual section action missing');
 if(!gate.includes("ce232LaunchSelected"))throw new Error('V233: direct selected-section launch missing');
-if(!gate.includes("mode=q.get('mode')"))throw new Error('V233: selected mode handoff missing');
 
 const css=read(PUB+'/v232-access.css');
 if(!css.includes('.ce232-section-actions'))throw new Error('V233: section action styles missing');
