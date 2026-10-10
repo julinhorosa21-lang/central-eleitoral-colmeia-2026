@@ -13,16 +13,14 @@ const sandbox={document,location:{pathname:'/'},navigator:{},Image:Img,AbortCont
  fetch:async()=>{fetches++;throw new Error('catalog unavailable')}};
 sandbox.window=sandbox;
 sandbox.__CE217_OFFICIAL__={cargos:{presidente:{candidates:[
- {numero:'13',sqCandidato:'111',nome:'A',partido:'X',votos:100,percentual:50},
- {numero:'22',sqCandidato:'222',nome:'B',partido:'Y',votos:60,percentual:30},
- {numero:'44',sqCandidato:'333',nome:'C',partido:'Z',votos:40,percentual:20},
- {numero:'55',sqCandidato:'444',nome:'D',partido:'W',votos:5,percentual:2.5}
+ {numero:'13',sqCandidato:'111',nome:'A',partido:'X',votos:100,percentual:62.5},
+ {numero:'22',sqCandidato:'222',nome:'B',partido:'Y',votos:60,percentual:37.5}
 ]}}};
 vm.runInNewContext(harness,sandbox,{timeout:1500});
-const rows=sandbox.T.getRows();assert.equal(rows.length,4);assert.equal(rows[0].sqCandidato,'111');
-const card=await sandbox.T.buildCanvas();assert.equal(card.top.length,3);assert.equal(draw,3);
-assert.deepEqual(requested.slice(0,3),['/candidate-photos/111.jpg','/candidate-photos/222.jpg','/candidate-photos/333.jpg']);
-assert.ok(!texts.includes('D'));assert.ok(texts.includes('OS 3 MAIS VOTADOS'));
+const rows=sandbox.T.getRows();assert.equal(rows.length,2);assert.equal(rows[0].sqCandidato,'111');
+const card=await sandbox.T.buildCanvas();assert.equal(card.top.length,2);assert.equal(draw,2);
+assert.deepEqual(requested.slice(0,2),['/candidate-photos/2t-presidente-13.jpg','/candidate-photos/2t-presidente-22.jpg']);
+assert.ok(!texts.includes('1º')&&!texts.includes('2º'));assert.ok(texts.includes('RESULTADO DOS CANDIDATOS'));
 assert.ok(fetches>=1);
 assert.ok(fs.readFileSync(pub+'/index.html','utf8').includes('v191-share.js?v=218'));
-console.log('V2.0.18 integration test passed: live official top 3 rendered with exact local photos even when candidate catalog is unavailable.');
+console.log('V2.0.18 compatibility test passed: runoff portraits render from stable local files without placement badges.');
