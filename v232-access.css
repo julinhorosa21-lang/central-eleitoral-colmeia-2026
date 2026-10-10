@@ -29,9 +29,8 @@ html.ce232-auth-pending body{overflow:hidden!important}
 .ce232-section-number{font-size:11px}.ce232-section-number b{font-size:16px}
 .ce232-ready{font-size:7.5px;font-weight:900;letter-spacing:.06em;color:#176b49;background:#eaf6ef;border:1px solid #cde8d8;border-radius:999px;padding:4px 6px}
 .ce232-section-place{font-size:9px;color:#637a89;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ce232-section-actions{display:grid;grid-template-columns:.85fr 1.15fr;gap:6px;margin-top:3px}
+.ce232-section-actions{display:grid;grid-template-columns:1fr;gap:6px;margin-top:3px}
 .ce232-section-actions button{border:1px solid #cbdbe4;border-radius:9px;background:#fff;color:#24526d;padding:8px 7px;font:inherit;font-size:8.5px;font-weight:900;cursor:pointer}
-.ce232-section-actions button[data-mode="qr"]{background:#176b49;border-color:#176b49;color:#fff}
 .ce232-section-actions button:hover,.ce232-section-actions button:focus-visible{box-shadow:0 0 0 3px rgba(44,112,153,.1);outline:0}
 .ce232-section-empty{text-align:center;padding:20px}
 .ce232-switcher{position:fixed;z-index:16000;right:12px;top:12px;border:1px solid #c8d8e1;border-radius:11px;background:#fff;color:#193d56;padding:7px 10px;box-shadow:0 5px 18px rgba(11,48,72,.16);font:inherit;text-align:left}
@@ -55,3 +54,9 @@ html.ce232-direct-section #sheetWrap #sectionResult{display:none!important}
 html.ce232-direct-section #sheetWrap .sheet{padding-top:14px!important}
 html.ce232-direct-section #sheetWrap #adminPanel{margin-top:0!important}
 html.ce232-direct-section #sheetWrap #adminPanel.open{display:block!important}
+
+/* CE238_MANUAL_ONLY_UI */
+#qrTools,#qrSummary,
+button#qrStart,
+button[data-action*="qr" i],
+button[aria-label*="qr" i]{display:none!important}
