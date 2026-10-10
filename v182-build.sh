@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.7: consolidando histórico de patches..."
+echo "V2.2.8: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -175,8 +175,9 @@ run_patch v233-ready-sections.mjs
 run_patch v234-section-context.mjs
 run_patch v237-operation-header-offset.mjs
 run_patch v238-manual-only.mjs
+run_patch v239-share-photos-no-rank.mjs
 
-echo "V2.2.7: executando preflight final do segundo turno..."
+echo "V2.2.8: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -188,9 +189,9 @@ grep -q "CE220_QR_SECOND_TURN_GUARD" "$PUB/operacao.html"
 grep -q "CE225_RUNOFF_ONLY_CANDIDATES" "$PUB/v220-second-turn.js"
 grep -q "CE226_FIRST_TURN_PURGE" "$APP/server.mjs"
 grep -q "2026-10-25T17:00:00-03:00" "$PUB/v187-ui.js"
-grep -q "v2.2.7-manual-only" "$PUB/service-worker.js"
-grep -q "v135-install.js?v=238" "$PUB/index.html"
-grep -q "v135-install.js?v=238" "$PUB/transparencia.html"
+grep -q "v2.2.8-share-photos-no-rank" "$PUB/service-worker.js"
+grep -q "v135-install.js?v=239" "$PUB/index.html"
+grep -q "v135-install.js?v=239" "$PUB/transparencia.html"
 
 test ! -f "$PUB/v0241-photos.js"
 test ! -f "$PUB/v0241-photos.css"
@@ -285,4 +286,12 @@ grep -q "CE238_MANUAL_ONLY_UI" "$PUB/v232-access.css"
 grep -q "/v232-operational-gate.js?v=238" "$PUB/operacao.html"
 node --check "$PUB/v232-operational-gate.js"
 
-echo "V2.2.7 FINAL PREFLIGHT PASSED: leitura QRBU removida; operação exclusivamente manual."
+grep -q "CE239_NO_CANDIDATE_RANK_BADGES" "$PUB/v157-polish.js"
+! grep -q "s.textContent=(i+1)+'º'" "$PUB/v157-polish.js"
+grep -q "/candidate-photos/2t-" "$PUB/v191-share.js"
+grep -q "foto_indisponivel" "$PUB/v191-share.js"
+! grep -q "ctx.fillText(c.posicao+'º'" "$PUB/v191-share.js"
+grep -q "v191-share.js?v=239" "$PUB/index.html"
+grep -q "v229-tse-interface.js?v=239" "$PUB/index.html"
+
+echo "V2.2.8 FINAL PREFLIGHT PASSED: sem selos de colocação e compartilhamento com fotos obrigatórias."
