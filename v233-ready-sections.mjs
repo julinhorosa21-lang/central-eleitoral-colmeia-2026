@@ -6,7 +6,8 @@ const read=p=>fs.readFileSync(p,'utf8');
 const write=(p,s)=>fs.writeFileSync(p,s);
 
 const gate=read(PUB+'/v232-operational-gate.js');
-if(!gate.includes("data-mode=\"qr\"")||!gate.includes("data-mode=\"manual\""))throw new Error('V233: section actions missing');
+if(gate.includes("data-mode=\"qr\""))throw new Error('V238: QR action must be absent');
+if(!gate.includes("data-mode=\"manual\""))throw new Error('V238: manual section action missing');
 if(!gate.includes("ce232LaunchSelected"))throw new Error('V233: direct selected-section launch missing');
 if(!gate.includes("mode=q.get('mode')"))throw new Error('V233: selected mode handoff missing');
 
@@ -30,4 +31,4 @@ for(const rel of ['index.html','transparencia.html','operacao.html','admin/index
 const pkg=APP+'/package.json';
 if(fs.existsSync(pkg)){const j=JSON.parse(read(pkg));j.version='2.2.3';write(pkg,JSON.stringify(j,null,2)+'\n')}
 
-console.log('V2.2.3 ready-sections passed: all 29 sections expose direct QRBU/manual actions and selected mode launches without school selection.');
+console.log('V2.2.3 compatibility passed: all 29 sections expose direct manual entry without school selection.');
