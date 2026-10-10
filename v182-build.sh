@@ -19,7 +19,7 @@ run_patch() {
   rm -f "$APP/$file"
 }
 
-echo "V2.2.9: consolidando histórico de patches..."
+echo "V2.3.0: consolidando histórico de patches..."
 
 copy_file transparencia-v021.html "$PUB/transparencia.html"
 copy_file v021-main.js "$PUB/v021-main.js"
@@ -177,8 +177,9 @@ run_patch v237-operation-header-offset.mjs
 run_patch v238-manual-only.mjs
 run_patch v239-share-photos-no-rank.mjs
 run_patch v240-public-map-winners.mjs
+run_patch v241-map-fix.mjs
 
-echo "V2.2.9: executando preflight final do segundo turno..."
+echo "V2.3.0: executando preflight final do segundo turno..."
 
 node --check "$APP/server.mjs"
 node --check "$PUB/v220-second-turn.js"
@@ -203,9 +204,9 @@ grep -q "CE240_PUBLIC_PLACE_WINNERS" "$APP/server.mjs"
 grep -q "p === '/api/public/place-winners'" "$APP/server.mjs"
 grep -q "source:'manual_local_results'" "$APP/server.mjs"
 grep -q "n===113?49:n" "$APP/server.mjs"
-grep -q "/v240-public-map-winners.js?v=240" "$PUB/index.html"
+grep -q "/v240-public-map-winners.js?v=241" "$PUB/index.html"
 grep -q "CE240_NO_OPERATION_MAP" "$PUB/v232-access.css"
-grep -q "v2.2.9-public-map-winners" "$PUB/service-worker.js"
+grep -q "v2.3.0-map-fix" "$PUB/service-worker.js"
 
 test -s "$PUB/candidate-photos/2t-presidente-13.jpg"
 test -s "$PUB/candidate-photos/2t-presidente-22.jpg"
@@ -225,4 +226,10 @@ if(nums('presidente')!=='13,22') throw new Error('presidente mismatch');
 if(nums('governador')!=='44,45') throw new Error('governador mismatch');
 NODE
 
-echo "V2.2.9 FINAL PREFLIGHT PASSED: segundo turno, operação manual, mapa público e vencedores por colégio validados."
+grep -q "CE241_LOCATION_ROWS" "$APP/server.mjs"
+grep -q "/vendor/leaflet/leaflet.js?v=241" "$PUB/v240-public-map-winners.js"
+! grep -q "unpkg.com/leaflet" "$PUB/v240-public-map-winners.js"
+test -s "$PUB/vendor/leaflet/leaflet.js"
+test -s "$PUB/vendor/leaflet/leaflet.css"
+
+echo "V2.3.0 FINAL PREFLIGHT PASSED: mapa público com Leaflet local, locais normalizados e vencedores por colégio validados."
