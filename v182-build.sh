@@ -176,6 +176,7 @@ run_patch v234-section-context.mjs
 run_patch v237-operation-header-offset.mjs
 run_patch v238-manual-only.mjs
 run_patch v239-share-photos-no-rank.mjs
+node /src/v240-diagnose-results.mjs
 
 echo "V2.2.8: executando preflight final do segundo turno..."
 
