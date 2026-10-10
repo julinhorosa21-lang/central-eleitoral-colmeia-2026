@@ -86,6 +86,8 @@ function resultSection(){
   }
 
   document.querySelectorAll('#leaders .leader').forEach(row=>{
+    row.querySelectorAll('.ce161-rank,.rank-badge,.position-badge,[data-rank-badge]').forEach(x=>x.remove());
+    row.removeAttribute('data-ce161-rank');
     const who=row.querySelector('.who');
     if(!who)return;
     if(!who.querySelector('.ce229-round-badge')){
