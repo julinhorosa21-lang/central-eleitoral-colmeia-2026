@@ -270,7 +270,7 @@ grep -q "openPlace(id,preferredSection=null)" "$PUB/operacao.html"
 grep -q "else secs=allSections" "$PUB/operacao.html"
 grep -q "adminSection.onchange=()=>" "$PUB/operacao.html"
 grep -q "const CARGOS={presidente:'Presidente',governador:'Governador'}" "$PUB/operacao.html"
-grep -q "/v232-operational-gate.js?v=235" "$PUB/operacao.html"
+grep -q "/v232-operational-gate.js?v=237" "$PUB/operacao.html"
 node --check "$PUB/v232-operational-gate.js"
 
 grep -q "CE237_OPERATION_HEADER_OFFSET" "$PUB/v232-access.css"
