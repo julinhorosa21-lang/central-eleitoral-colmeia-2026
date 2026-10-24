@@ -45,8 +45,8 @@ function partyText(row){
 }
 function pctText(row,votes,total){
   const raw=String(row.querySelector('.votes small')?.textContent||'').trim();
-  if(/\d/.test(raw)&&raw.includes('%'))return raw.replace('.',',');
-  return total>0?(votes/total*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%':'0,0%';
+  // Always calculate from vote totals, preserving exactly two decimal places.
+  return total>0?(votes/total*100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%':'0,00%';
 }
 function cargoDone(){
   const t=document.getElementById('cargoProgressText')?.textContent||document.getElementById('cargoProgressLabel')?.textContent||'';
