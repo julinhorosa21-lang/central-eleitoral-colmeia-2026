@@ -71,6 +71,18 @@ function syncSummary(){
   if(progress)progress.setAttribute('aria-valuenow',String(value));
 }
 
+function formatCandidatePercentages(){
+  const rows=[...document.querySelectorAll('#leaders .leader')];
+  const votes=rows.map(row=>Number(String(row.querySelector('.votes b')?.textContent||'0').replace(/[^0-9]/g,''))||0);
+  const total=votes.reduce((sum,n)=>sum+n,0);
+  rows.forEach((row,i)=>{
+    const label=row.querySelector('.votes small');
+    if(!label)return;
+    const next=(total>0?votes[i]/total*100:0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+    if(label.textContent.trim()!==next)label.textContent=next;
+  });
+}
+
 function resultSection(){
   const ap=document.getElementById('publicApuracao');
   const cand=document.getElementById('publicCandidatos');
@@ -138,6 +150,7 @@ function apply(){
   header();
   summary();
   resultSection();
+  formatCandidatePercentages();
   actions();
   bottomNav();
   syncSummary();
